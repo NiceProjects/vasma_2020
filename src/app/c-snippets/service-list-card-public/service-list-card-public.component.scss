@@ -1,0 +1,58 @@
+.service-details-box, .price-block  {
+  background-color: rgba(0,0,0,0.85);
+}
+.service-card {
+  background-image: url('https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 0px !important;
+  padding: 0px;
+  overflow: hidden;
+  height: 100%;
+  min-height: 150px;
+  .container-fluid {
+    min-height: 100%;
+
+    .row {
+      min-height: 100%
+    }
+  }
+}
+
+.bg-red-2 {
+  background-color: #d32f2f;
+}
+
+.price-block {
+  // width: 40%;
+  // max-width: 40%;
+}
+.price-clip {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-price {
+  font-size: 2rem;
+  font-weight: 300;
+}
+.service-details-box {
+  position: relative;
+  padding-bottom: 66px;
+  .service-card-action-buttons-group {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .price-clip {
+    padding-left: 20%;
+    -webkit-clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
+  }
+}

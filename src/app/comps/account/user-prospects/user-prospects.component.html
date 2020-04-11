@@ -1,0 +1,42 @@
+<section class="prospect-navigation container-fluid">
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-5 mx-auto">
+      <div class="form-row my-3">
+        <div class="col">
+          <button mat-stroked-button class="w-100 py-2" (click)="changeList(0)" [ngClass]="viewList == 0 ? 'highlited':''">
+            Followers
+            <!-- ({{followersCount}}) -->
+          </button>
+        </div>
+        <div class="col">
+          <button mat-stroked-button class="w-100 py-2" (click)="changeList(1)" [ngClass]="viewList == 1 ? 'highlited':''">
+            Following
+            <!-- ({{followingCount}}) -->
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="prospects-cards container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-5" *ngIf="viewList == 0 && followers !== null && followers !== undefined">
+      <p class="text-muted">
+        <span *ngIf="followers.length">You are following by {{followers.length}} user(s).</span>
+        <span *ngIf="!followers.length">You are not yet followed by any users.</span>
+      </p>
+      <div class="prospect-block py-2 px-2" *ngFor="let followId of followers; let i = index" [ngClass]="i !== 0 ? 'border-top':''">
+        <app-user-prospect-card [data-userId]="followId"></app-user-prospect-card>
+      </div>
+    </div>
+    <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-5" *ngIf="viewList == 1 && following !== null && following !== undefined">
+      <p class="text-muted">
+        <span *ngIf="following.length">You are following {{following.length}} users.</span>
+        <span *ngIf="!following.length">You are not following any user.</span>
+      </p>
+      <div class="prospect-block py-2 px-2" *ngFor="let followId of following; let i = index" [ngClass]="i !== 0 ? 'border-top':''">
+        <app-user-prospect-card [data-userId]="followId"></app-user-prospect-card>
+      </div>
+    </div>
+  </div>
+</section>

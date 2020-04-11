@@ -1,0 +1,219 @@
+<section >
+  <div class="container py-3 py-md-5">
+    <div class="py-4 card bg-black-2" *ngIf="isLoading">
+      <mat-spinner class="mx-auto" [diameter]="60" [strokeWidth]="3" [mode]="'indeterminate'" color="'accent'"></mat-spinner>
+    </div>
+    <div class="py-4 card bg-black-2" *ngIf="!isLoading && hasErr">
+      <p class="my-0 text-center">
+        <span class="material-icons text-danger mr-3 va--7">error</span>
+        {{errMsg}}
+      </p>
+    </div>
+    <div class="" *ngIf="!isLoading && !hasErr">
+      <div class="service-details mb-4 card bg-black-2 px-4 py-3">
+        <div class="row">
+          <div class="col">
+            <div class="d-flex  justify-content-between">
+              <span>
+                <h5 class="my-0">
+                  <span>{{transaction.bookingData.serviceTitle}}</span>
+                  <br>
+                  <small class="text-muted">{{transaction.bookingData.reciept.charges[0].lDesc}}</small>
+                </h5>
+              </span>
+              <span>
+                <h5 class="my-0">
+                  {{transaction.bookingData.reciept.taxableAmt | currency:'USD'}}
+                </h5>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vas-stepper booking-stepper" id="booking-stepper">
+        <div class="vas-step" [ngClass]="currStepId == 0 ? 'open':''">
+          <div class="vas-step-header">
+            <div class="vas-step-icon">
+              <span>1</span>
+              <!-- <span class="material-icons">create</span> -->
+            </div>
+            <div class="vas-step-heading">
+              Choose booking duration
+            </div>
+          </div>
+          <div class="vas-step-content-box">
+            <div class="vas-step-content">
+              <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 form-group">
+                  <mat-form-field>
+                    <mat-label>No of {{transaction.bookingData.bookingUnits}}s</mat-label>
+                    <mat-select name="orderQty" [(ngModel)]="transaction.bookingData.bookingQty" #orderQty="ngModel" (valueChange)="onBookingQtyChange($event)">
+                      <mat-option *ngFor="let val of getAllowQty()" [value]="val">
+                        {{val}} {{transaction.bookingData.bookingUnits | titlecase}}<span *ngIf="val > 1">s</span>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-12 text-right">
+                  <button mat-flat-button class="px-4" color="warn" (click)="toggleStep(null, 'next')" [disabled]="orderQty.invalid">Next</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="vas-step" [ngClass]="currStepId == 1 ? 'open':''">
+          <div class="vas-step-header">
+            <div class="vas-step-icon">
+                <!-- <span class="material-icons">create</span> -->
+                <span>2</span>
+            </div>
+            <div class="vas-step-heading">
+              Select date & time
+            </div>
+          </div>
+          <div class="vas-step-content-box">
+            <div class="vas-step-content">
+              <div class="row ml-0 mb-4">
+                <div class="col" style="max-width: 250px; padding: 0px">
+                  <div class="w-100">
+                    <h5 class="fw-500 mt-0">Select comencement date</h5>
+                  </div>
+                  <app-calendar [vc-sel-date]="transaction.bookingData.bookingDates" [vc-business-hours]="so.bHours" (onDateSelect)="onBookingDateSelect($event)"
+                  [vc-disablePastDays]="true" [vc-allow-range]="[getToday().dayStTime, getDaysFromToday(30).dayEndTime]"></app-calendar>
+                </div>
+                <div class="col pl-0 pl-md-3 mt-4 mt-md-0">
+                  <h5 class="fw-500 mt-0">
+                    {{transaction.bookingData.bookingDates[0] | date:'MMM d, y'}}
+                  </h5>
+                  <div class="w-10 pb-2">
+                    <mat-divider></mat-divider>
+                  </div>
+                  <div class="w-100">
+                    <!-- <div class="card bg-black-3 p-3">
+                      <div class="business-hours-info" style="max-width: 250px">
+                        <table class="">
+                          <tr>
+                            <td>Business hours:</td>
+                            <td *ngIf="businessDay.dayOpen == true">
+                              <span>9:30am - 1:00pm</span><br>
+                              <span>2:20pm - 6:00pm</span>
+                            </td>
+                            <td *ngIf="businessDay.dayOpen == false">
+                              <b class="text-danger">(Closed)</b>
+                            </td>
+                            <td *ngIf="businessDay.dayOpen === 'na'">
+                              <b class="text-danger">(Closed)</b>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="card bg-black-3 py-0">
+                      <p class="my-4 text-center">No engagements found. You are available to book.</p>
+                    </div> -->
+
+                    <!-- code for time and date slot selection -->
+                    <div *ngIf="serviceData.pricingModel == 'HR'">
+                      <div class="row">
+                        <div class="col-12">Please select a time slot</div>
+                        <div class="col-12 col-sm-6">
+                          <div class="row">
+                            <div class="col-12 col-sm-6 form-group with-prefix-icon">
+                              <mat-icon>access_time</mat-icon>
+                              <mat-form-field>
+                                <mat-label>Start time</mat-label>
+                                <mat-select name="pModel" required [(ngModel)]="_tmpSelStartTime" (valueChange)="onSelectionHoursChange($event, 0)">
+                                  <mat-option *ngFor="let hour of businessHours" [value]="hour.key">
+                                    {{hour.type}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-12 col-sm-6 form-group with-prefix-icon">
+                              <mat-icon>access_time</mat-icon>
+                              <mat-form-field>
+                                <mat-label>End time</mat-label>
+                                <mat-select name="pModel" [disabled]="true" [(ngModel)]="_tmpSelEndTime">
+                                  <mat-option *ngFor="let hour of businessHours" [value]="hour.key">
+                                    {{hour.type}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="serviceData.pricingModel == 'DY'">
+                      <div>Selected days:</div>
+                      <span class="date-selection-list" *ngFor="let day of transaction.bookingData.bookingDates">
+                        {{day | date:'d MMM'}}
+                      </span>
+                      <div>Any business holidays will be extended to next working days.</div>
+                    </div>
+                    <div *ngIf="serviceData.pricingModel == 'SV'">
+                      <h5 class="fw-400 my-0">
+                        Please visit the "{{transaction.bookingData.serviceOwner}}" on <span class="fw-700">{{transaction.bookingData.bookingDates[0] | date:'d MMM, y'}}</span>.
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-100 text-right">
+                <button mat-flat-button class="px-4 mr-2" color="primary" (click)="toggleStep(null, 'prev')">Previous</button>
+                <button mat-flat-button class="px-4" color="warn" (click)="toggleStep(null, 'next')" [disabled]="!allowToPay">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="vas-step" [ngClass]="currStepId == 2 ? 'open':''">
+          <div class="vas-step-header" mat-ripple>
+            <div class="vas-step-icon">
+                <!-- <span class="material-icons">create</span> -->
+                <span>3</span>
+            </div>
+            <div class="vas-step-heading">
+              Complete payment
+            </div>
+          </div>
+          <div class="vas-step-content-box">
+            <div class="vas-step-content">
+              <div class="row">
+                <div class="col-12 text-right mb-4">
+                  <button mat-flat-button color="primary" class="px-3" (click)="toggleStep(null, 'prev')">
+                    Previous
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <div class="row">
+                    <div class="col-12 mb-3">
+                      Your are paying:
+                    </div>
+                    <div class="col-12">
+                      <app-payee-reciept [data-reciept]="transaction.bookingData.reciept" [data-reciept-msg]="'Total payable amount'"></app-payee-reciept>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 mt-4 mt-md-0">
+                  <div class="card bg-white text-center p-4">
+                    <p class="mb-4 mt-0 text-dark fw-400">Continue to pay {{transaction.bookingData.reciept.finalBillAmt | currency:'USD'}}</p>
+                    <div class="mx-auto d-block" style="width: 100%; max-width: 250px; min-width: 100px">
+                      <app-paypal-payment [data-amount]="transaction.bookingData.reciept.finalBillAmt" [data-purchase-desc]="transaction.purDesc" (paymentResponse)="onPaymentResponse($event)"></app-paypal-payment>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="" *ngIf="!isLoading && !hasErr">
+      <app-calendar></app-calendar>
+    </div> -->
+  </div>
+</section>
+
+<!--  mat-ripple (click)="toggleStep(0)" -->

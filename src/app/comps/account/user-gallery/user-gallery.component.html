@@ -1,0 +1,62 @@
+<section class="container py-3 py-md-5">
+  <div class="w-100">
+    <div class="card bg-black-2 gallery-upload-section p-4">
+      <div class="w-100 o-hidden mb-5" *ngIf="uploads.length >= 1">
+        <div class="w-100">
+          <h4 class="my-0 fw-300">Album name</h4>
+          <form (ngSubmit)="onSubmit()" #au="ngForm">
+            <input type="text" name="albumName" class="album-name-input w3-animate-top"
+            [pattern]="regEx.albumName" [(ngModel)]="albumName" required
+            [readonly]="uploadStatus === 'uploading'" #albName="ngModel">
+            <div class="o-hidden">
+              <p class="mt-1 text-danger error-text mb-0 w3-animate-top" *ngIf="albName.invalid && albName.touched">
+                Please enter valid album name. Must be 5 - 24 characters long.
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="w-100">
+        <div class="upload-thumb" *ngFor="let upload of uploads; let i = index;">
+          <div class="thumb" [ngStyle]="{'background-image': 'url(' + upload.blobVal +')'}">
+            <div class="upload-state-perc" *ngIf="['uploading', 'completed'].indexOf(upload.uploadStatus) >= 0">
+              <div class="perc-color" [ngStyle]="{'width': '' + upload.uploadPerc + '%'}"></div>
+              <span class="percentage-text">
+                <span *ngIf="upload.uploadStatus !== 'completed'">{{upload.uploadPerc | number:'1.0-0'}}%</span>
+                <span *ngIf="upload.uploadStatus == 'completed'">
+                  <mat-icon class="text-white">offline_pin</mat-icon>
+                </span>
+              </span>
+            </div>
+          </div>
+          <button class="remove-button" (click)="removeUploadItem(i)" *ngIf="uploadStatus == 'init'">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <div class="d-inline-block" [ngClass]="uploads.length > 0 ? 'adjustHeight': ''" *ngIf="uploads.length <= maxUploadLimit">
+          <label class="add-files-button" for="innerInput">
+              <div class="d-inline-block">
+                <div class="add-files-block" mat-ripple><mat-icon>add</mat-icon></div>
+              </div>
+              <span class="ml-3" *ngIf="uploads.length < 1">Add images to upload</span>
+            <input type="file" multiple id="innerInput" (change)="onFilesAdded($event)" accept="image/jpeg,image/png">
+          </label>
+        </div>
+      </div>
+      <div class="w-100 mt-4">
+        <div class="row">
+          <div class="col text-left">
+            <button mat-raised-button color="warn" (click)="uploadImages()">
+              <span *ngIf="uploadStatus == 'init'">Upload images</span>
+              <span *ngIf="uploadStatus == 'uploading'">Uploading...</span>
+              <span *ngIf="uploadStatus == 'completed'">Completed</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-100 mt-4">
+    <app-user-gallery-view [data-user-uid]="authUser.uid" [data-gallery-role]="'manage'"></app-user-gallery-view>
+  </div>
+</section>

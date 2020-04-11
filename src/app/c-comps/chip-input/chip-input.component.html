@@ -1,0 +1,41 @@
+<section>
+  <div class="chip-block mb-2">
+    <p class="mb-1 lh-1">{{label}}(s).</p>
+    <span *ngIf="!inputChips || inputChips.length < 1">
+      No {{label}}(s) selected.
+    </span>
+    <mat-chip-list #chipList class="vas-mat-chips-1" aria-label="Fruit selection">
+      <mat-chip *ngFor="let chip of inputChips; let i = index" [selectable]="false" [removable]="true" (removed)="removeIt(i)">
+        {{chip | titlecase}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <!-- <span class="chip" *ngFor="let chip of inputChips; let i = index">
+      <span class="chip-text">
+        {{chip}}
+      </span>
+      <span class="chip-del" (click)="removeIt(i)">
+        <mat-icon>close</mat-icon>
+      </span>
+    </span> -->
+  </div>
+  <div class="form-group pt-0 input-block">
+    <mat-form-field class="example-full-width">
+      <input matInput [placeholder]="'Enter ' + label" ngModel [(ngModel)]="tmpData" (keyup)="filterAutoComplete(tmpData)"
+        (keydown.Tab)="addIt(tmpData)" (keyup.enter)="addIt(tmpData)"
+      [matAutocomplete]="auto">
+      <button mat-button *ngIf="tmpData.length > 0" matSuffix mat-icon-button (click)="addIt(tmpData)">
+        <mat-icon>done</mat-icon>
+      </button>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addIt(tmpData)">
+        <mat-option *ngFor="let option of filteredList" [value]="option.key">
+          {{option.type}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint>
+        <span>For multiple entries separate with a comma " , "</span><br>
+        <span [innerHTML]="hint" *ngIf="hint"></span>
+      </mat-hint>
+    </mat-form-field>
+  </div>
+</section>

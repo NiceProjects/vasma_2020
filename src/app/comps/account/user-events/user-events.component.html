@@ -1,0 +1,23 @@
+<section class="container py-3 py-md-5">
+  <div class="card loading-spinner-fc bg-black-2 py-4" *ngIf="isLoading">
+    <mat-spinner class="mx-auto" [diameter]="60" [strokeWidth]="3" [mode]="'indeterminate'" [color]="'primary'"></mat-spinner>
+  </div>
+  <div class="row align-items-center pt-4 pb-4">
+    <div class="col">
+      <h5 class="my-0">List of events</h5>
+    </div>
+    <div class="col text-right">
+      <button mat-raised-button color="warn" routerLink="create_new">
+        + Create new
+      </button>
+    </div>
+  </div>
+  <div class="card bg-black-2 py-4" *ngIf="!isLoading && !eventsList">
+    <h6 class="text-center my-0">No events created yet to display</h6>
+  </div>
+  <div class="row mt-5 pb-5 pb-lg-0" *ngIf="!isLoading && eventsList.length > 0">
+    <div class="col-12 col-sm-6 col-md-5 col-lg-4 mb-3 mb-md-4" *ngFor="let event of eventsList">
+      <app-venue-event-card [data-event-id]="event.eventId"></app-venue-event-card>
+    </div>
+  </div>
+</section>

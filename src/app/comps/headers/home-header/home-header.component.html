@@ -1,0 +1,19 @@
+<div class="home-header" [ngClass]="topScroll < 150 ? 'at-zero':''">
+  <div class="container-fluid">
+    <div class="row justify-content-between align-itams-center">
+      <div class="col vasma-logo-icon">
+        <a routerLink="/"><img src="/assets/icons/icon-152x152.png" alt="vasma-icon" style="height: 40px; width: auto"></a>
+      </div>
+      <div class="col text-right">
+        <ul class="nav-link-list">
+          <li class="nav-link"><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+          <li class="nav-link"><a routerLink="/about_us" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About us</a></li>
+          <li class="nav-link"><a routerLink="/contact_us" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Contact us</a></li>
+          <li class="nav-link"><a routerLink="/my_account/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">My Account</a></li>
+          <li class="nav-link"><a routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Login</a></li>
+          <li class="nav-link"><a routerLink="/register" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Register</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

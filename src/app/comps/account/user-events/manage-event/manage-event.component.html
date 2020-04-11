@@ -1,0 +1,232 @@
+<section class="container py-3 py-md-5">
+  <div class="card loading-spinner-fc bg-black-2 py-4" *ngIf="isLoading">
+    <mat-spinner class="mx-auto" [diameter]="60" [strokeWidth]="3" [mode]="'indeterminate'" [color]="'primary'"></mat-spinner>
+  </div>
+  <div class="event-form" *ngIf="['edit', 'create_new'].indexOf(mode) >= 0 && !isLoading && workingEvent">
+    <div class="row align-items-center pt-4 mb-4">
+      <div class="col">
+        <h5 class="my-0">
+          <span *ngIf="mode == 'create_new'">Create</span>
+          <span *ngIf="mode == 'edit'">Update</span>
+          <span> Event</span>
+        </h5>
+      </div>
+      <div class="col text-right">
+        <button mat-stroked-button color="warn" class="pr-4" routerLink="/my_account/events">
+          <mat-icon class="mr-2">chevron_left</mat-icon>Cancel
+        </button>
+      </div>
+    </div>
+    <form (ngSubmit)="onFormSubmit(eventForm)" #eventForm="ngForm" (change)="onFormUpdate('Form change')">
+      <div class="row">
+        <div class="col-12 col-lg-8">
+          <div class="card bg-black-2 p-3 p-md-4 mb-4">
+            <div class="w-100 mb-4">
+              <h5>Event info</h5>
+              <mat-divider></mat-divider>
+            </div>
+            <div class="w-100 form-group">
+              <mat-form-field>
+                <input type="text" [pattern]="regEx.plainText" matInput placeholder="Event name / title" required name="eTite" #eTitle="ngModel" [(ngModel)]="workingEvent.title">
+                <mat-hint>
+                  Name or title of the event.
+                </mat-hint>
+                <mat-error>This field is required.</mat-error>
+                <button type="button" matSuffix mat-icon-button aria-label="clear" *ngIf="workingEvent.title" (click)="workingEvent.title = ''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="w-100 form-group">
+              <mat-form-field>
+                <input type="text" [pattern]="regEx.plainText" matInput placeholder="Short description" required name="eShortDesc" #sShortDesc="ngModel" [(ngModel)]="workingEvent.sDesc">
+                <mat-hint>
+                  Short description about your event.
+                </mat-hint>
+                <mat-error>This field is required.</mat-error>
+                <button type="button" matSuffix mat-icon-button aria-label="clear" *ngIf="workingEvent.sDesc" (click)="workingEvent.sDesc = ''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="w-100 form-group quill-container">
+              <p class="text-white my-2">
+                Full description <br>
+                <small class="text-muted">
+                  Here you can write here complete description about your event to explain motive, venue details & terms and conditions if any. etc,.
+                </small>
+              </p>
+              <quill-editor name="quillEditor" class="quill-editor-main" placeholder="Start write something here... Ex: Terms of service / Rules / etc.," ngModel [(ngModel)]="workingEvent.fDesc"
+              [modules]="getQuillToolbar(0)" (onBlur)="onQuillBlur($event)"></quill-editor>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-md-4 col-sm-6 mx-auto mr-lg-0 mb-4">
+          <div class="card bg-black-2 p-0 o-hidden">
+            <div class="event-banner-preview w-100">
+              <img [src]="uploadObj.blobVal || workingEvent.eventBanneImg.filePath" alt="">
+              <div class="image-upload-status-indicator" *ngIf="fileUploading">
+                <div class="upload-percent-spinner">
+                  <mat-progress-spinner strokeWidth="2" color="primary" diameter="50" mode="determinate" [value]="uploadObj.uploadPerc"></mat-progress-spinner>
+                </div>
+                <div class="upload-percentage-text" *ngIf="uploadObj.uploadStatus == 'uploading'">
+                  {{(uploadObj.uploadPerc/100) | percent}}
+                </div>
+                <!-- *ngIf="uploadObj.uploadStatus == 'uploading'" -->
+                <!-- <div class="upload-complete-tic" *ngIf="uploadObj.uploadStatus == 'completed'"> -->
+                <div class="upload-complete-tic" *ngIf="uploadObj.uploadStatus == 'completed'">
+                  <mat-icon>done</mat-icon>
+                </div>
+              </div>
+            </div>
+            <div class="p-3 p-md-4">
+              <label>Banner image*</label>
+              <input name="event_thumb" ngModel type="file" class="" id="file-selector" (change)="onFilesSelect($event)" accept="image/jpeg,image/png">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-black-2 p-3 p-md-4 mb-4">
+        <div class="w-100 mb-4">
+          <h5>Event schedule</h5>
+          <mat-divider></mat-divider>
+        </div>
+        <div class="w-100">
+          <div class="form-row">
+            <div>
+              <input type="hidden"  name="ESTS"required #ESTS="ngModel" [ngModel]="workingEvent.eventStartTS">
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group mt-0">
+                <label for="">Start date</label>
+                <app-date-time-picker [data-read-only]="dataUpdating" [data-invalid]="eventCreationErr.startTimeErr" [data-value]="workingEvent.eventStartDate" [input-mode]="'date'" (onValueSet)="setEventStartDate($event)"></app-date-time-picker>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group mt-0">
+                <label for="">Start time</label>
+                <app-date-time-picker [data-read-only]="dataUpdating" [data-invalid]="eventCreationErr.startTimeErr" [data-value]="workingEvent.eventStartTime" [input-mode]="'time'" (onValueSet)="setEventStartTime($event)"></app-date-time-picker>
+              </div>
+            </div>
+            <div class="col-12 o-hidden" *ngIf="(submitTriggered && ESTS.invalid) || eventCreationErr.startTimeErr == true">
+              <p class="w3-animate-top text-danger">
+                <span class="d-block lh-12" *ngIf="ESTS.invalid">Event start date and time are required</span>
+                <span class="d-block lh-12" *ngIf="ESTS.valid">Event start time must be atleast 2 hours from now.</span>
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <input type="hidden" name="EETS" required #EETS="ngModel" [ngModel]="workingEvent.eventEndTS">
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group mt-0">
+                <label for="">End date</label>
+                <app-date-time-picker [data-read-only]="dataUpdating" [data-invalid]="eventCreationErr.endTimeErr" [data-value]="workingEvent.eventEndDate" [input-mode]="'date'" (onValueSet)="setEventEndDate($event)"></app-date-time-picker>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group mt-0">
+                <label for="">End time</label>
+                <app-date-time-picker [data-read-only]="dataUpdating" [data-invalid]="eventCreationErr.endTimeErr" [data-value]="workingEvent.eventEndTime" [input-mode]="'time'" (onValueSet)="setEventEndTime($event)"></app-date-time-picker>
+              </div>
+            </div>
+            <div class="col-12 o-hidden" *ngIf="(submitTriggered && EETS.invalid) || eventCreationErr.endTimeErr == true">
+              <p class="w3-animate-top text-danger">
+                <span class="d-block lh-12" *ngIf="EETS.invalid">Event end date and time are required</span>
+                <span class="d-block lh-12" *ngIf="EETS.valid">Event must be atleast 1 hour long</span>
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <input type="hidden" name="ERBTS" required #ERBTS="ngModel" [ngModel]="workingEvent.regBufferTS">
+            </div>
+            <div class="col-12 mt-5">
+              <h6 class="my-0">Stop allowing registrations from</h6>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group mt-0">
+                <label for="">Date</label>
+                <app-date-time-picker [data-read-only]="dataUpdating" [data-invalid]="eventCreationErr.bufferTimeErr" [data-value]="workingEvent.regBufferDate" [input-mode]="'date'" (onValueSet)="setregBufferDate($event)"></app-date-time-picker>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group mt-0">
+                <label for="">Time</label>
+                <app-date-time-picker [data-read-only]="dataUpdating" [data-invalid]="eventCreationErr.bufferTimeErr" [data-value]="workingEvent.regBufferTime" [input-mode]="'time'" (onValueSet)="setregBufferTime($event)"></app-date-time-picker>
+              </div>
+            </div>
+            <div class="col-12 o-hidden" *ngIf="(submitTriggered && ERBTS.invalid) || eventCreationErr.bufferTimeErr == true">
+              <p class="w3-animate-top text-danger">
+                <span class="d-block lh-12" *ngIf="ERBTS.invalid">Registrations closing date and time are required</span>
+                <span class="d-block lh-12" *ngIf="ERBTS.valid">Must be atleast 1 hour before event start</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-black-2 p-3 p-md-4 mb-4">
+        <div class="w-100 mb-4">
+          <h5>Event type</h5>
+          <mat-divider></mat-divider>
+        </div>
+        <mat-radio-group class="event-payment-type-selection" aria-label="Event type" name="eventType" [(ngModel)]="workingEvent.eventType">
+          <mat-radio-button class="mb-3 mb-sm-0" value="openmic">
+            Open mic event
+            <mat-icon class="text-white w3-animate-opacity">done</mat-icon>
+          </mat-radio-button>
+          <mat-radio-button value="paid">
+            Paid event
+            <mat-icon class="text-white w3-animate-opacity">done</mat-icon>
+          </mat-radio-button>
+        </mat-radio-group>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="form-row">
+              <div class="col-12 col-md-6 form-group mt-0">
+                <label class="mb-0" for="">Entry fee</label>
+                <mat-form-field>
+                  <span matPrefix>USD ($) &nbsp;</span>
+                  <input min="0" step="0.5" matInput type="number" placeholder="" required name="eventRegFee" #eventRegFee="ngModel" [(ngModel)]="workingEvent.entryFee">
+                  <mat-hint>Please enter the registration fee.</mat-hint>
+                  <mat-error *ngIf="eventRegFee.invalid && (submitTriggered || eventRegFee.touched)">
+                    This field is required.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-6 form-group">
+                <label class="mb-0">Max registrations allowed</label>
+                <mat-form-field>
+                  <input min="0" step="1" matInput type="number" placeholder="" required name="avlSlots" #avlSlots="ngModel" [(ngModel)]="workingEvent.avlSlots">
+                  <mat-hint>Please enter zero for no limit.</mat-hint>
+                  <mat-error *ngIf="avlSlots.invalid && (submitTriggered || avlSlots.touched)">
+                    This field is required.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-black-2 p-3 p-md-4">
+        <div class="row mt-2">
+          <div class="col-12 mb-3">
+            <button mat-raised-button color="primary" class="mr-3" type="submit" (click)="justSaveToDB(eventForm)">Save</button>
+            <button mat-raised-button color="warn" class="" type="submit" (click)="pushToPublic(eventForm)">Save & publish</button>
+          </div>
+          <div class="col-12 text-muted">
+            <p class="mb-1">
+              <small>By clicking " <span class="text-white">Save</span> ", your event details will be saved in your events list, but not appear in public events list. You don't recieve any registrations.</small>
+            </p>
+            <p class="mb-1">
+              <small>By clicking " <span class="text-white">Save & publish</span> ", your event details will be in your events list, and published to public events list. You will recieve registrations.</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+<section class="loading-overlay" *ngIf="dataUpdating || fileUploading"></section>
+

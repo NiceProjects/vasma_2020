@@ -1,0 +1,41 @@
+<div class="gallery-bg" *ngIf="finalGalleryItems.length > 0">
+  <div class="img-prev-block">
+    <!-- Thumb image will be displayed before original image loaded -->
+    <img class="pre-load-img" (dblclick)="loadLargeImage()"
+    [ngClass]="!showLargeImage ? 'show-img':'hide-img'"
+    src="{{finalGalleryItems[showItem]._smPath | galleryImg}}"
+    [alt]="finalGalleryItems[showItem].fileName">
+<!--
+    <img class="small-size-img pre-load-img" (dblclick)="loadLargeImage()"
+    [ngClass]="!showLargeImage ? 'show-img':'hide-img'"
+    src="{{finalGalleryItems[showItem]._smPath | galleryImg}}"
+    [alt]="finalGalleryItems[showItem].fileName"> -->
+
+<!-- [ngStyle]="oiw && oih ? {'width': 'auto', 'height': '' + oih + 'px', 'max-width': '90vw !important', 'max-height': '90vh !important'}:''" -->
+
+    <!-- Original image will be displayed on load completed -->
+    <img class="large-size-img" [ngClass]="showLargeImage ? 'show-img':'hide-img'" (load)="onLargeImageLoaded()"
+    src="{{(finalGalleryItems[showItem]._xlPath || finalGalleryItems[showItem].filePath) | galleryImg}}"
+    [alt]="finalGalleryItems[showItem].fileName"
+    (swipeleft)="swipe($event.type, $event)" (swiperight)="swipe($event.type, $event)">
+    <img class="medium-size-img" [ngClass]="showLargeImage ? 'show-img':'hide-img'" (load)="onLargeImageLoaded()"
+    src="{{(finalGalleryItems[showItem]._lgPath || finalGalleryItems[showItem].filePath) | galleryImg}}"
+    [alt]="finalGalleryItems[showItem].fileName"
+    (swipeleft)="swipe($event.type, $event)" (swiperight)="swipe($event.type, $event)">
+    <img class="small-size-img" [ngClass]="showLargeImage ? 'show-img':'hide-img'" (load)="onLargeImageLoaded()"
+    src="{{(finalGalleryItems[showItem]._mdPath || finalGalleryItems[showItem]._lgPath || finalGalleryItems[showItem].filePath) | galleryImg}}"
+    [alt]="finalGalleryItems[showItem].fileName"
+    (swipeleft)="swipe($event.type, $event)" (swiperight)="swipe($event.type, $event)">
+  </div>
+  <!-- <img class="medium-img" src="{{(finalGalleryItems[showItem]._lgPath || finalGalleryItems[showItem].filePath) | galleryImg}}" [alt]="finalGalleryItems[showItem].fileName"> -->
+  <button mat-icon-button class="gallery-close-button" (click)="closeGallery()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <button mat-mini-fab color="primary" class="scroll-left-button" (click)="onPrev()" *ngIf="finalGalleryItems.length > 1">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button mat-mini-fab color="primary" class="scroll-right-button" (click)="onNext()" *ngIf="finalGalleryItems.length > 1">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</div>
+<!-- (panright)="swipe($event.type, $event)" -->

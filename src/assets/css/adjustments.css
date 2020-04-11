@@ -1,0 +1,41 @@
+.lh-1 {
+  line-height: 1;
+}
+
+body {
+  padding-top: 60px;
+}
+
+.for-navigation {
+  position: fixed;
+  top: 0px;
+  z-index: 1000;
+  display: block;
+  width: 100vw;
+}
+
+.for-main-content, .for-user-unset, .for-user-set {
+  min-height: Calc(100vh - 60px);
+}
+
+.auth-container {
+  display: flex;
+  width: 100%;
+  min-height: Calc(100vh - 60px);
+  align-items: top;
+  justify-content: center;
+  padding: 1rem;
+}
+
+
+a.navi-link:hover .mat-button-focus-overlay{
+  display: none !important;
+}
+
+
+.form-group.with-prefix-icon mat-form-field {
+  display: inline-block;
+  max-width: Calc(100% - 30px);
+  min-width: Calc(100% - 30px);
+  margin-left: 10px;
+}

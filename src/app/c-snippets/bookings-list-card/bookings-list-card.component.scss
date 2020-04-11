@@ -1,0 +1,67 @@
+.badge {
+  font-size: 100% !important;
+  user-select: none;
+  -webkit-user-select: none;
+
+  &.badge-md {
+    font-size: 85% !important;
+  }
+
+  .material-icons {
+    font-size: 18px;
+  }
+}
+
+.bookings-seemore-button {
+  padding: 0.25rem 0.75rem;
+  border-radius: 25px;
+  background-color: #555;
+  color: #FFF;
+  border: 0px !important;
+}
+
+.dropdown.booking-actions {
+  width: 130px;
+}
+
+
+.booking-timeline {
+  padding-left: 1rem;
+  border-left: 2px solid #F00;
+
+  li {
+    margin-bottom: 1rem;
+    &:last-child {
+      margin-bottom: 0px;
+    }
+
+    .log-message-text, .log-message-time {
+      display: block;
+    }
+
+    .log-message-time {
+      color: #999999;
+      position: relative;
+      font-size: 75%;
+
+      &::before {
+        content: '';
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        position: absolute;
+        left: -23px;
+        top: 3px;
+        border: 2px solid #F00;
+        background: #242424;
+      }
+    }
+  }
+}
+
+
+@media screen and (min-width: 576px) {
+  .dropdown.booking-actions {
+    width: 180px
+  }
+}

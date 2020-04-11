@@ -1,0 +1,43 @@
+<section class="pb-5 pb-xl-0 mb-4 mb-xl-0">
+  <section class="inner-nav-bar-tab main-content">
+    <nav mat-tab-nav-bar class="cust-mat-nav">
+      <a mat-tab-link routerLink="dashboard" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+        <mat-icon class="">dashboard</mat-icon> <span class="ml-2">Dashboard</span>
+      </a>
+      <!-- <a mat-tab-link routerLink="events" routerLinkActive #rla3="routerLinkActive" [active]="rla3.isActive" *ngIf="authUser.userType == 'venue'">
+        <mat-icon class="">event_note</mat-icon> <span class="ml-2">Events</span>
+      </a> -->
+      <a mat-tab-link routerLink="bookings" routerLinkActive #rla7="routerLinkActive" [active]="rla7.isActive">
+        <mat-icon class="">receipt</mat-icon> <span class="ml-2">Bookings</span>
+      </a>
+      <a mat-tab-link routerLink="services" routerLinkActive #rla5="routerLinkActive" [active]="rla5.isActive" *ngIf="['venue', 'studio'].indexOf(authUser.userType) >= 0">
+        <mat-icon class="">collections_bookmark</mat-icon> <span class="ml-2">Services</span>
+      </a>
+      <!-- <a mat-tab-link routerLink="feed" routerLinkActive #rla5="routerLinkActive" [active]="rla5.isActive">
+        <mat-icon class="">local_activity</mat-icon> <span class="ml-2">Feed</span>
+      </a> -->
+      <a mat-tab-link routerLink="prospects" routerLinkActive #rla0="routerLinkActive" [active]="rla0.isActive">
+        <mat-icon class="">people</mat-icon> <span class="ml-2 p-relative">Prospects<span *ngIf="pdt"><span class="new-feed-tick" *ngIf="pdt.npt"></span></span></span>
+      </a>
+      <!-- <a mat-tab-link routerLink="activities" routerLinkActive #rla1="routerLinkActive" [active]="rla1.isActive">
+        <mat-icon class="">playlist_add_check</mat-icon> <span class="ml-2">Activities</span>
+      </a> -->
+      <a mat-tab-link routerLink="gallery" routerLinkActive #rla2="routerLinkActive" [active]="rla2.isActive">
+        <mat-icon class="">image</mat-icon> <span class="ml-2">Gallery</span>
+      </a>
+      <a mat-tab-link routerLink="notifications" routerLinkActive #rla4="routerLinkActive" [active]="rla4.isActive">
+        <mat-icon class="">notifications</mat-icon> <span class="ml-2 p-relative">
+          Notifications<span *ngIf="pdt"><span class="new-feed-tick" *ngIf="pdt.unc"></span></span>
+        </span>
+      </a>
+      <a mat-tab-link routerLink="profile_edit" routerLinkActive #rla6="routerLinkActive" [active]="rla6.isActive">
+        <mat-icon class="">person</mat-icon> <span class="ml-2">Manage profile</span>
+      </a>
+      <a mat-tab-link routerLink="/user/{{authUser.uniqueKey}}/feed" routerLinkActive #rla8="routerLinkActive" [active]="rla8.isActive">
+        <mat-icon class="">person</mat-icon> <span class="ml-2">View profile</span>
+      </a>
+    </nav>
+  </section>
+  <router-outlet></router-outlet>
+  <!-- <div style="min-height: 1500px"></div> -->
+</section>

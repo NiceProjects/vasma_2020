@@ -1,0 +1,28 @@
+.dash-line-divider {
+  height: 1px;
+  border-top: 1px dashed #999999;
+  margin: 8px 0px;
+}
+
+.business-hours-info {
+  max-width: 250px;
+
+  table {
+    width: 100%;
+    td {
+      color: #fff;
+      vertical-align: top;
+      min-width: 50%;
+    }
+  }
+}
+
+.date-selection-list {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #555;
+  color: #FFF;
+  border-radius: 4px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}

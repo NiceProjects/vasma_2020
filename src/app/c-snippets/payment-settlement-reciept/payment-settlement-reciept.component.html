@@ -1,0 +1,33 @@
+<div class="w-100">
+  <div class="d-flex justify-content-between">
+    <div class="d-inline-block">Sub total</div>
+    <div class="d-inline-block">{{reciept.billAmtValue | currency:'USD'}}</div>
+  </div>
+  <div class="d-flex justify-content-between" *ngIf="reciept.taxableAmt - reciept.billAmtValue > 0">
+    <div class="d-inline-block">Additional charges</div>
+    <div class="d-inline-block">{{reciept.taxableAmt - reciept.billAmtValue | currency:'USD'}}</div>
+  </div>
+  <div class="d-flex justify-content-between" *ngIf="reciept.commTaxAmt">
+    <div class="d-inline-block">Commercial tax @ {{(reciept.commTaxPerc * 100) | number}}%</div>
+    <div class="d-inline-block">{{reciept.commTaxAmt | currency:'USD'}}</div>
+  </div>
+  <div class="d-flex justify-content-between">
+    <div class="d-inline-block">Vasma commission @ 10%</div>
+    <div class="d-inline-block">– {{getVasmaCommission() | currency:'USD'}}</div>
+  </div>
+  <!-- <div class="d-flex justify-content-between" *ngFor="let charge of reciept.charges">
+    <div class="d-inline-block">{{charge.sDesc}}</div>
+    <div class="d-inline-block">{{charge.amount | currency:'USD'}}</div>
+  </div> -->
+  <!-- <div class="d-flex justify-content-between">
+    <div class="d-inline-block">Payment gateway charges @ 6%</div>
+    <div class="d-inline-block">{{reciept.paymentGtwCharges | currency:'USD'}}</div>
+  </div> -->
+  <div class="dash-line-divider"></div>
+  <div class="d-flex justify-content-between" style="font-size: 110%;">
+    <div class="d-inline-block">
+      Final settlement amount
+    </div>
+    <div class="d-inline-block">{{getFinalSettlementAmount() | currency:'USD'}}</div>
+  </div>
+</div>

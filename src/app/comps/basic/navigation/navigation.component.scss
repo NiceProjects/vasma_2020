@@ -1,0 +1,109 @@
+@import 'src/assets/css/theme.scss';
+
+
+$nav-height: 60px;
+
+.navi-bar {
+  height: $nav-height;
+  background: #242424;
+  box-shadow: 0px 1px 3px rgba(0,0,0, 0.5);
+}
+.brand {
+  max-width: 162px;
+}
+.home-link {
+  height: $nav-height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 132px;
+  img.brand-logo {
+    height: Calc($nav-height - 12px);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  button.menu-button {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 767.98px) {
+  ul.top-nav {
+    display: none;
+  }
+  button.menu-button {
+    display: unset;
+  }
+}
+
+ul.top-nav {
+  // text-align: right;
+  li.top-nav-item {
+    display: inline-block;
+
+    a.navi-link {
+      border-radius: 0px;
+      font-size: 16px;
+      font-weight: 400;
+      text-decoration: none;
+      height: $nav-height;
+      line-height: $nav-height;
+      padding: 0px 1.5rem;
+      color: color(white-3);
+
+      mat-icon {
+        width: 22px;
+        height: 22px;
+        font-size: 22px;
+      }
+    }
+
+    a.navi-link:hover {
+      background: transparent !important;
+
+      .mat-button-focus-overlay {
+        display: none !important;
+      }
+    }
+    a.navi-link.active {
+      color: color(white-0);
+      // background: rgba(255, 255, 255, 0.035);
+    }
+
+    a.navi-link.active::after {
+      content: '';
+      display: block;
+      width: 100%;
+      position: absolute;
+      bottom: 20%;
+      left: 0;
+      height: 3px;
+      background-image: radial-gradient(red, transparent 40%);
+      animation: animatezoom 0.3s;
+    }
+    a.navi-link:not(.active):hover::after {
+      // content: '';
+      // display: block;
+      // width: 100%;
+      // position: absolute;
+      // bottom: 10%;
+      // left: 0;
+      // height: 7px;
+      // background-image: radial-gradient(white, transparent 50%);
+      // animation: animatezoom 0.3s;
+    }
+  }
+}
+
+@media screen and (max-width: 767.98px) {
+  a.navi-link mat-icon {
+    margin-right: 0px;
+  }
+}
+@media screen and (min-width: 768px) {
+  a.navi-link mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+

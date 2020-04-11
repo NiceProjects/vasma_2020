@@ -1,0 +1,615 @@
+<section class="container pt-md-5 pb-md-5 pt-1 px-0 px-md-3" *ngIf="authUser">
+  <div class="vas-accordion">
+    <div class="vas-accordion-panel" [ngClass]="selAccordionId == 0 ? 'open':''" id="pannelForBasicInfo"
+      *ngIf="isArtist">
+      <div class="vas-accordion-header" (click)="toggleAccor(0)" [ngClass]="selAccordionId == 0 ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span>Basic info</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+          <form (ngSubmit)="submitBasicInfo(nF.valid)" #nF="ngForm">
+            <div class="form-row">
+              <div class="form-group col-12 col-sm-6 col-md-4">
+                <mat-form-field>
+                  <input required matInput placeholder="First name" name="fName" [(ngModel)]="authUser.name.fName" #fName="ngModel">
+                  <button type="button" *ngIf="authUser.name.fName" matSuffix mat-icon-button aria-label="Clear" (click)="authUser.name.fName=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="fName.invalid && fName.touched">First name is <b>required</b>.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-12 col-sm-6 col-md-4">
+                <mat-form-field>
+                  <input required matInput placeholder="Last name" name="lName" [(ngModel)]="authUser.name.lName" #lName="ngModel">
+                  <button mat-button type="button" *ngIf="authUser.name.lName" matSuffix mat-icon-button aria-label="Clear" (click)="authUser.name.lName=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="lName.invalid && lName.touched">Last name is <b>required</b>.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-12 col-sm-6 col-md-4">
+                <mat-form-field>
+                  <input type="text" [pattern]="regExp.userName" matInput required
+                  placeholder="Display name" name="uName" [(ngModel)]="authUser.name.userName" #uName="ngModel">
+                  <!-- <mat-icon matSuffix class="text-success">done</mat-icon> -->
+                  <button mat-button type="button" *ngIf="authUser.name.userName" matSuffix mat-icon-button aria-label="Clear" (click)="authUser.name.userName=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-hint>Your username to show to public.</mat-hint>
+                  <mat-error *ngIf="uName.invalid && uName.touched">Username is <b>required</b>.</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group mb-0">
+              <button mat-raised-button type="submit" color="primary" class="py-1 px-5">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="vas-accordion-panel" [ngClass]="selAccordionId == '0A' ? 'open':''" id="pannelForBasicInfo"
+      *ngIf="isVenue || isStudio">
+      <div class="vas-accordion-header" (click)="toggleAccor('0A')" [ngClass]="selAccordionId == '0A' ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span>Basic info</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+          <form (ngSubmit)="updateStudioVenueName(nF2.valid, nF2.pristine)" #nF2="ngForm">
+            <div class="form-row">
+              <div class="form-group col-12 col-md-8">
+                <mat-form-field>
+                  <input [pattern]="regExp.businessName" required matInput placeholder="Business name / Public name of your business" name="bName" [(ngModel)]="authUser.businessName" #bName="ngModel">
+                  <button mat-button type="button" *ngIf="authUser.businessName" matSuffix mat-icon-button aria-label="Clear" (click)="authUser.businessName=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-hint>
+                    <p class="mb-0">
+                      Please enter the name which will be your official business name / Venue name / Studio name / etc.,
+                      <br> Ex: The Granada Theater / Big House Sound Inc / etc.,
+                    </p>
+                  </mat-hint>
+                  <mat-error *ngIf="bName.invalid && bName.touched">Business name is <b>required</b>.</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group mb-0">
+              <button mat-raised-button type="submit" color="primary" class="py-1 px-5">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="vas-accordion-panel" [ngClass]="selAccordionId == '0A1' ? 'open':''" id="pannelForBasicInfo">
+      <div class="vas-accordion-header" (click)="toggleAccor('0A1')" [ngClass]="selAccordionId == '0A1' ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span>Username</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+          <form (ngSubmit)="updateUniquePrifileId(upiF.valid, upiF.pristine)" #upiF="ngForm">
+            <div class="form-row">
+              <div class="form-group col-12 col-md-8">
+                <mat-form-field id="unique-id-field">
+                  <input class="text-lowercase" [pattern]="regExp.uniqProfId" required matInput
+                  (keyup)="onUniqueIdUpdated(authUser.uniqueKey, upiF.valid)"
+                  placeholder="Username" name="upi" [(ngModel)]="authUser.uniqueKey" #upi="ngModel">
+                  <mat-icon matSuffix class="text-danger" *ngIf="uniqueIdTaken || (upi.invalid && upi.touched)">close</mat-icon>
+                  <mat-icon matSuffix class="text-success" *ngIf="uniqueIdAvailable && upi.valid">done</mat-icon>
+                  <mat-hint>
+                    <p class="mb-0" *ngIf="!uniqueIdTaken">
+                      This will be your unique key to find your account. Ex: JohnDoe/John_Doe/john_doe55/etc.,
+                    </p>
+                    <p class="text-danger" *ngIf="uniqueIdTaken">
+                      This username is already taken. Please try another username.
+                    </p>
+                  </mat-hint>
+                  <mat-error class="error-list">
+                    <ul class="">
+                      <li>Invalid username. Must be at least 5 characters long and cannot exceed 20 characters.</li>
+                      <li>Can only contain alphanumeric characters (A–Z, 0–9) and underscore "_".</li>
+                    </ul>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group mb-0">
+              <button mat-raised-button type="submit" color="primary" class="py-1 px-5">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="vas-accordion-panel" [ngClass]="selAccordionId == 1 ? 'open':''" id="pannelForBio">
+      <div class="vas-accordion-header" (click)="toggleAccor(1)" [ngClass]="selAccordionId == 1 ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span>About</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+          <form (ngSubmit)="submitUserBio(bF.valid, bF.pristine)" #bF="ngForm">
+            <div class="form-row">
+              <div class="col-12 col-md-8 form-group">
+                <mat-form-field>
+                  <textarea matInput required name="bio" placeholder="your story" rows="5" #bio="ngModel" [(ngModel)]="this.authUser.userBio.bio"></textarea>
+                  <mat-hint>Please write your story in less than 2000 characters in length.</mat-hint>
+                  <mat-error *ngIf="bio.invalid && bio.touched">
+                    This field is required. Please write your story in less than 2000 characters in length.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-12 col-sm-6 col-md-4 form-group">
+                <mat-form-field>
+                  <input required matInput placeholder="Originated from" name="Origin" [(ngModel)]="authUser.userBio.origin" #Origin="ngModel">
+                  <button mat-button type="button" *ngIf="authUser.userBio.origin" matSuffix mat-icon-button aria-label="Clear" (click)="authUser.userBio.origin=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-error *ngIf="Origin.invalid && Origin.touched">This field is <b>required</b>.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 form-group">
+                <mat-form-field>
+                  <input required matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Year of establishment / Year started"
+                  name="estDt" #estDt="ngModel" [(ngModel)]="tmpEstDate" (dateChange)="onBioDateChange(tmpEstDate)">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-hint>
+                    <span>Year must be between 1900 - {{getCurYear}}.</span>
+                  </mat-hint>
+                  <mat-error *ngIf="estDt.invalid && estDt.touched">Year must be between 1900 - {{getCurYear}}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group mb-0">
+              <button mat-raised-button type="submit" color="primary" class="py-1 px-5">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="vas-accordion-panel" [ngClass]="selAccordionId == 2 ? 'open':''" id="pannelForAddress">
+      <div class="vas-accordion-header" (click)="toggleAccor(2)" [ngClass]="selAccordionId == 2 ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span *ngIf="isArtist">Communication address</span>
+            <span *ngIf="isStudio">Studio address</span>
+            <span *ngIf="isVenue">Venue address</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+          <form (ngSubmit)="submitAdd1(aF.valid, aF.pristine)" #aF="ngForm">
+            <div class="row">
+              <div class="form-group col-12 col-md-6">
+                <mat-form-field>
+                  <input type="text" matInput placeholder="Line 1" required name="line1" [(ngModel)]="authUser.add1.line1" #line1="ngModel">
+                  <mat-hint>Building name, Apartment number, etc,.</mat-hint>
+                  <mat-error>This field is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-12 col-md-6">
+                <mat-form-field>
+                  <input type="text" matInput placeholder="Line 2" required name="line2" [(ngModel)]="authUser.add1.line2" #line1="ngModel">
+                  <mat-hint>Building name, Apartment number, etc,.</mat-hint>
+                  <mat-error>This field is required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-12 col-sm-6 col-md-4 form-group">
+                <mat-form-field>
+                  <input type="text" [pattern]="regExp.usZipCode" matInput name="zipCode1" placeholder="Zipcode" [(ngModel)]="authUser.add1.zip" #zipCode1="ngModel" required>
+                  <mat-hint>5 digit zipcode.</mat-hint>
+                  <mat-error>Zipcode is required.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col col-12 col-sm-6 col-md-4 form-group">
+                <mat-form-field>
+                  <input type="text" matInput name="city" class="text-capitalize" placeholder="City" [(ngModel)]="authUser.add1.city" #city="ngModel" required>
+                  <mat-hint>City name.</mat-hint>
+                  <mat-error>City name is required.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col col-12 col-sm-6 col-md-4 form-group">
+                <mat-form-field>
+                  <mat-label>State</mat-label>
+                  <mat-select name="state" required [(ngModel)]="authUser.add1.state" #state="ngModel">
+                    <mat-option *ngFor="let state of defStates" [value]="state.abbr">
+                      {{state.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group mb-0">
+              <button mat-raised-button type="submit" color="primary" class="py-1 px-5">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="vas-accordion-panel" [ngClass]="selAccordionId == 3 ? 'open':''">
+      <div class="vas-accordion-header" (click)="toggleAccor(3)" [ngClass]="selAccordionId == 3 ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span>Contact details</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+          <div class="w-100" *ngIf="pud.contact.length < 1">
+            <p>No contacts added yet.</p>
+          </div>
+          <form (ngSubmit)="submitContact(contForm.valid, contForm.pristine)" #contForm="ngForm">
+            <div class="form-row contact-row" *ngFor="let cont of pud.contact; let i = index">
+              <div class="form-group col-10 col-sm-6 col-md-4 contactNumIp pt-0">
+                <span>
+                  {{i == 0 ? 'Primary':'Alternate'}} mobile number:
+                </span>
+                <mat-form-field class="example-full-width">
+                  <span matPrefix>+1 &nbsp;</span>
+                  <input type="tel" [pattern]="regExp.mobileNum" required matInput placeholder="" name="num{{i}}" [(ngModel)]="pud.contact[i].num" ngModel>
+                  <mat-error>This field is required. Ex: 9999999999</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-2 action-items">
+                <button class="contact-remove-button" mat-icon-button color="warn" type="button" (click)="removeContact(i)"><mat-icon>close</mat-icon></button>
+              </div>
+            </div>
+            <div class="w-100 mt-3">
+              <button mat-stroked-button color="primary" class="px-4 px-sm-5 py-1 mr-3"
+              type="button" (click)="addNewContact()" *ngIf="pud.contact.length < 2">+ Add more</button>
+              <button mat-raised-button color="primary" class="px-5 px-sm-5 py-1">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="vas-accordion-panel" [ngClass]="selAccordionId == 4 ? 'open':''" *ngIf="isArtist">
+      <div class="vas-accordion-header" (click)="toggleAccor(4)" [ngClass]="selAccordionId == 4 ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span>Artist Info</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+          <form (ngSubmit)="submitArtistInfo(aif.valid, aif.pristine)" #aif="ngForm">
+            <div class="row">
+              <div class="col-12 col-sm-5 col-md-3 form-group">
+                <mat-form-field>
+                  <mat-label>Artist type</mat-label>
+                  <mat-select multiple name="aType" [ngModel]="authUser.artistInfo.type" (valueChange)="onArtistTypeChange($event)" required>
+                    <mat-option value="" disabled>Select</mat-option>
+                    <mat-option [value]="artistType.key" *ngFor="let artistType of userTypes.defArtistTypes">{{artistType.type | titlecase}}</mat-option>
+                  </mat-select>
+                  <mat-error>This field is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-sm-5 col-md-3 form-group">
+                <mat-form-field>
+                  <mat-label>Styles</mat-label>
+                  <mat-select required multiple name="aStyles" [ngModel]="authUser.artistInfo.styles" (valueChange)="onArtistStyleChange($event)">
+                    <mat-option value="" disabled>Select</mat-option>
+                    <mat-option [value]="genre.key" *ngFor="let genre of userTypes.defStyles">{{genre.type | titlecase}}</mat-option>
+                  </mat-select>
+                  <mat-error>This field is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-sm-10 col-md-6 form-group">
+                <div class="form-row">
+                  <div class="col">
+                    <mat-form-field>
+                      <input type="text" name="soundCloudId" [pattern]="regExp.plainText" matInput placeholder="Soundcloud id" [(ngModel)]="authUser.artistInfo.soundCloudId" ngModel>
+                    </mat-form-field>
+                  </div>
+                  <div class="col sound-cloud-icon">
+                    <img src="/assets/icons/Soundcloud-icon.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <app-chip-input [data-input]="authUser.artistInfo.interests" [data-label]="'Interests'" [data-auto-complete]="null" (data-out)="onArtistInterestsUpdate($event)"></app-chip-input>
+              </div>
+            </div>
+            <div class="form-group mb-0">
+              <button mat-raised-button type="submit" color="primary" class="py-1 px-5">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="vas-accordion-panel" [ngClass]="selAccordionId == 5 ? 'open':''" *ngIf="">
+      <div class="vas-accordion-header" (click)="toggleAccor(5)" [ngClass]="selAccordionId == 5 ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span>Sample clip</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+
+        </div>
+      </div>
+    </div> -->
+    <div class="vas-accordion-panel" [ngClass]="selAccordionId == 6 ? 'open':''" *ngIf="isVenue || isStudio">
+      <div class="vas-accordion-header" (click)="toggleAccor(6)" [ngClass]="selAccordionId == 6 ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span>Business type</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+          <form (ngSubmit)="submitBusinessInfo(uBI.valid, uBI.pristine)" #uBI="ngForm">
+            <div class="form-row">
+              <div class="col-12 col-md-8 col-xl-6 form-group" *ngIf="isVenue">
+                <mat-form-field>
+                  <mat-label>Venue establishment type</mat-label>
+                  <mat-select multiple name="businessType" [ngModel]="authUser.businessInfo.type" (valueChange)="onBusinessTypeChange($event)" required>
+                    <mat-option value="" disabled>Select</mat-option>
+                    <mat-option [value]="venueType.key" *ngFor="let venueType of userTypes.defVenueTypes">{{venueType.type | titlecase}}</mat-option>
+                  </mat-select>
+                  <mat-error>This field is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-8 col-xl-6 form-group" *ngIf="isStudio">
+                <mat-form-field>
+                  <mat-label>Studio establishment type</mat-label>
+                  <mat-select name="businessType" [ngModel]="authUser.businessInfo.type" (valueChange)="onBusinessTypeChange($event)" required>
+                    <mat-option value="" disabled>Select</mat-option>
+                    <mat-option [value]="studioType.key" *ngFor="let studioType of userTypes.defStudioTypes">{{studioType.type | titlecase}}</mat-option>
+                  </mat-select>
+                  <mat-error>This field is required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-12 col-md-8 col-xl-6">
+                <app-chip-input [data-input]="authUser.businessInfo.prelGenres" [data-label]="'preliminary genre'" [data-auto-complete]="userTypes.defStyles" (data-out)="onPrelGenresUpdated($event)"></app-chip-input>
+              </div>
+            </div>
+            <div class="form-group mb-0">
+              <button mat-raised-button type="submit" color="primary" class="py-1 px-5">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="vas-accordion-panel" [ngClass]="selAccordionId == 7 ? 'open':''" *ngIf="isVenue || isStudio">
+      <div class="vas-accordion-header" (click)="toggleAccor(7)" [ngClass]="selAccordionId == 7 ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span>Business owners</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-4" *ngFor="let owner of pud.businessOwners; let i = index">
+              <button mat-button class="business-owner" [ngClass]="selBOid == i ? 'selected-bo':''" (click)="selectBO(i)"
+              ngx-scroll-to [ngx-scroll-to-offset]="200">
+                {{owner.name.fName + ' ' + owner.name.lName}}
+              </button>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4" *ngIf="pud.businessOwners.length < appDefs.businessOwnersLimit">
+              <button mat-button class="business-owner business-owner-add" (click)="addNewBO()">
+                + Add new business owner
+              </button>
+            </div>
+          </div>
+          <div class="row mt-4" *ngIf="selBO" id="custom-container">
+            <img class="image-load-trigger" src="{{appDefs.userAvatar}}" alt="" (load)="consoleItOnload('child-container', 100)">
+            <!-- <img class="image-load-trigger" src="{{appDefs.userAvatar}}" alt=""> -->
+            <div class="col-12" id="child-container">
+              <h5 class="my-0">Business owner form</h5>
+              <form (ngSubmit)="submitBO(BOF.valid, BOF.pristine)" #BOF="ngForm">
+                <div class="form-row">
+                  <div class="col-12">
+                    <span>Business owner name</span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 form-group">
+                    <mat-form-field>
+                      <input type="text" matInput name="BO-FName" [pattern]="regExp.name" placeholder="First name"
+                       [(ngModel)]="selBO.name.fName" #bofname="ngModel" required>
+                      <mat-hint>Please enter First name</mat-hint>
+                      <mat-error>First name is required.</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 form-group">
+                    <mat-form-field>
+                      <input type="text" matInput name="BO-LName" [pattern]="regExp.name" placeholder="Last name"
+                       [(ngModel)]="selBO.name.lName" #bolname="ngModel" required>
+                      <mat-hint>Please enter Last name</mat-hint>
+                      <mat-error>Last name is required.</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-12">
+                    Contact details
+                  </div>
+                  <div class="col-12 mt-2 text-muted" *ngIf="selBO.contact && selBO.contact.length < 1">
+                    No contact added. Please add contact by clicking on "Add contact" button.
+                    <br>
+                  </div>
+                </div>
+                <div class="form-row contact-row" *ngFor="let cont of selBO.contact; let i = index">
+                  <div class="form-group col-10 col-sm-6 col-md-4 contactNumIp pt-0">
+                    <span>
+                      {{i == 0 ? 'Primary':'Alternate'}} mobile number:
+                    </span>
+                    <mat-form-field class="example-full-width">
+                      <span matPrefix>+1 &nbsp;</span>
+                      <input type="text" [pattern]="regExp.mobileNum" required matInput placeholder="" name="boConNum{{i}}" [(ngModel)]="selBO.contact[i].num" ngModel>
+                      <mat-error>This field is required. Ex: 9999999999</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group col-2 action-items">
+                    <button class="contact-remove-button" mat-icon-button color="warn" type="button" (click)="removeBOcontact(i)"><mat-icon>close</mat-icon></button>
+                  </div>
+                </div>
+                <div class="form-row mb-4">
+                  <div class="col">
+                    <button mat-stroked-button (click)="addNewBOcontact()" *ngIf="selBO.contact.length < 2" type="button">+ Add contact</button>
+                  </div>
+                </div>
+                <div class="w-100 mt-3">
+                  <button mat-raised-button color="primary" class="px-5 px-sm-5 py-1 mr-2 mb-2">Save</button>
+                  <button mat-raised-button color="warn" class="px-5 py-1 mr-2 mb-2" type="button" (click)="removeBO(selBOid)" *ngIf="selBOid !== null && selBOid !== undefined">Delete</button>
+                  <button mat-stroked-button color="warn" class="px-5 px-sm-5 py-1 mb-2" type="button" (click)="unselectBO()">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="vas-accordion-panel" [ngClass]="selAccordionId == 8 ? 'open':''" *ngIf="isVenue || isStudio">
+      <div class="vas-accordion-header" (click)="toggleAccor(8)" [ngClass]="selAccordionId == 8 ? 'open':''">
+        <div class="row">
+          <div class="col panel-header-text clip-data">
+            <span>Hours</span>
+          </div>
+          <div class="col panel-header-icon"><button mat-icon-button><mat-icon>expand_more</mat-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="vas-accordion-content">
+        <div class="vas-accordion-content-box">
+          <form (ngSubmit)="onBHSubmit(BHform.valid, BHform.value)" #BHform="ngForm">
+            <div class="row justify-content-end" id="for-sunday" *ngFor="let week of weekDays; let in = index">
+              <div class="col-12 my-3" *ngIf="in > 0">
+                <mat-divider></mat-divider>
+              </div>
+              <div class="col-12 col-sm-8 col-md-6 form-group">
+                <div class="form-row">
+                  <div class="col">{{week | titlecase}}</div>
+                  <div class="col">
+                    <mat-slide-toggle [checked]="authUser.bHours[week].OP" (change)="onBusinessDayClose(week, $event.checked)">
+                     {{authUser.bHours[week].OP ? 'Open':'Closed'}}
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 form-group">
+                <mat-slide-toggle [checked]="authUser.bHours[week].FD" (change)="setTo24Hours(week, $event.checked)"  *ngIf="authUser.bHours[week].OP">
+                  24 hours open
+                 </mat-slide-toggle>
+              </div>
+              <div class="col-12 col-md-6 mt-4" *ngIf="authUser.bHours[week].OP && !authUser.bHours[week].FD">
+                <div class="row">
+                  <div class="col-12" *ngFor="let adHours of authUser.bHours[week].OH; let i = index">
+                    <div class="form-row">
+                      <div class="col">
+                        <div class="form-row form-group pt-0">
+                          <div class="col-6">
+                            <mat-form-field>
+                              <mat-label>Opens at</mat-label>
+                              <mat-select required name="{{week +'-' + i + '-open'}}" [(ngModel)]="authUser.bHours[week].OH[i].sT">
+                                <mat-option *ngFor="let hour of businessHours" [value]="hour.key">
+                                  {{hour.type}}
+                                </mat-option>
+                              </mat-select>
+                              <mat-error>This field is required</mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-6" *ngIf="authUser.bHours[week].OH[i].sT !== null">
+                            <mat-form-field>
+                              <mat-label>Closes at</mat-label>
+                              <mat-select required name="{{week +'-' + i + '-close'}}" [(ngModel)]="authUser.bHours[week].OH[i].eT">
+                                <mat-option *ngFor="let hour of businessHours" [value]="hour.key">
+                                  {{hour.type}}
+                                </mat-option>
+                              </mat-select>
+                              <mat-error>This field is required</mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col" style="max-width: 48px;">
+                        <button type="button" mat-icon-button (click)="removeSlot(week, i)" *ngIf="authUser.bHours[week].OH.length > 0">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12" *ngIf="!authUser.bHours[week].FD">
+                    <button type="button" mat-stroked-button (click)="addSlot(week)">Add hours</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-0">
+              <button mat-raised-button type="submit" color="primary" class="py-1 px-5">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--
+<div class="vas-accordion-panel" [ngClass]="selAccordionId == 2 ? 'open':''">
+  <div class="vas-accordion-header" (click)="toggleAccor(2)" [ngClass]="selAccordionId == 2 ? 'open':''">
+    <div class="row">
+      <div class="col panel-header-text clip-data">
+        <span>Communication address</span>
+      </div>
+      <div class="col panel-header-icon">
+        <button mat-icon-button>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="vas-accordion-content">
+    <div class="vas-accordion-content-box">
+    </div>
+  </div>
+</div>
+-->

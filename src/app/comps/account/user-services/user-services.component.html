@@ -1,0 +1,325 @@
+<section class="container py-3 py-md-5">
+  <div class="card loading-spinner-fc bg-black-2 py-4" *ngIf="isLoading">
+    <mat-spinner class="mx-auto" [diameter]="60" [strokeWidth]="3" [mode]="'indeterminate'" [color]="'primary'"></mat-spinner>
+  </div>
+  <div class="for-services-list " *ngIf="!isLoading && mode === 'list'">
+    <div class="row align-items-center pt-4 pb-4">
+      <div class="col">
+        <h5 class="my-0">List of services</h5>
+      </div>
+      <div class="col text-right">
+        <button mat-raised-button color="warn" routerLink="create_new">
+          + Create new
+        </button>
+      </div>
+    </div>
+    <div class="col-12 card bg-black-2 py-4" *ngIf="!services || services == []">
+      <p class="text-center mb-0">
+        No services created yet. Please create a service.
+        <button mat-raised-button color="warn" class="ml-3" routerLink="create_new">
+          + Create one
+        </button>
+      </p>
+    </div>
+    <div class="w-100" *ngIf="services && services !== []">
+      <div class="" *ngFor="let service of services; let i = index">
+        <app-service-card-wide [data-object]="service" [data-index]="i"></app-service-card-wide>
+      </div>
+    </div>
+    <!-- <mat-divider></mat-divider> -->
+  </div>
+  <div class="for-service-found-error" *ngIf="!isLoading && mode == 'update' && !selService">
+    <div class="col-12 card bg-black-2 py-4">
+      <p class="text-center mb-0">
+        Unable to find the service.
+        <button mat-raised-button color="warn" class="ml-3" routerLink="/my_account/services">
+          Go to back services list
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="service-form" *ngIf="['update', 'create_new'].indexOf(mode) >= 0 && !isLoading && selService">
+    <div class="row align-items-center pt-4">
+      <div class="col">
+        <h5 class="my-0">
+          <span *ngIf="mode == 'create_new'">Create</span>
+          <span *ngIf="mode == 'update'">Update</span>
+          <span> Service</span>
+        </h5>
+      </div>
+      <div class="col text-right">
+        <button mat-stroked-button color="warn" class="pr-4" routerLink="/my_account/services">
+          <mat-icon class="mr-2">chevron_left</mat-icon>Cancel
+        </button>
+      </div>
+    </div>
+    <div class="row py-3">
+      <!-- <div class="col-12 pb-3">
+        <mat-divider></mat-divider>
+      </div> -->
+      <div class="col-12">
+        <form (ngSubmit)="dummySubmit()" #sF="ngForm">
+          <div class="w-100 card bg-black-2 p-3 p-md-4 mb-4">
+            <div class="w-100 mb-4">
+              <h5>Service details</h5>
+              <mat-divider></mat-divider>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-8 form-group">
+                <mat-form-field>
+                  <input type="text" [pattern]="regEx.plainText" matInput placeholder="Service name / title" required name="sTitle" [(ngModel)]="selService.title">
+                  <mat-hint>
+                    Name or title of service you will provide.
+                  </mat-hint>
+                  <mat-error>This field is required.</mat-error>
+                  <button type="button" matSuffix mat-icon-button aria-label="Clear" *ngIf="selService.title" (click)="selService.title = ''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-4 form-group">
+                <mat-form-field>
+                  <input type="text" [pattern]="regEx.shortServCode" matInput placeholder="Short reference name / code (optional)" name="sCode" [(ngModel)]="selService.shortCode">
+                  <mat-hint>
+                    Short reference code. Ex: SV5501E
+                  </mat-hint>
+                  <mat-error>This field is required.</mat-error>
+                  <button type="button" matSuffix mat-icon-button aria-label="Clear" *ngIf="selService.shortCode" (click)="selService.shortCode = ''">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="w-100 card bg-black-2 p-3 p-md-4 mb-4">
+            <div class="w-100 mb-4">
+              <h5>Pricing</h5>
+              <mat-divider></mat-divider>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-12 col-sm-6 col-md-4">
+                <mat-form-field>
+                  <mat-label>Charging method</mat-label>
+                  <mat-select name="pModel" required [(ngModel)]="selService.pricingModel" (valueChange)="onPricingModelChange($event)">
+                    <mat-option *ngFor="let pm of pricingModels" [value]="pm.key">
+                      {{pm.type}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-12 col-sm-6 col-md-4">
+                <mat-form-field>
+                  <mat-label>Base pricing unit</mat-label>
+                  <input type="text" [pattern]="regEx.pricingUnit" matInput required name="pUnit" [(ngModel)]="selService.unit">
+                  <mat-hint>Ex: hour/day/week/month/Service etc.,</mat-hint>
+                  <mat-error>This field is required. Must be 3-10 characters long.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-12 col-sm-6 col-md-4">
+                <mat-form-field>
+                  <mat-label>
+                    Base price per
+                    <span *ngIf="selService.unit">{{selService.unit}}</span>
+                    <span *ngIf="!selService.unit">unit duration</span>
+                  </mat-label>
+                  <span matPrefix>$ &nbsp;</span>
+                  <input type="number" min="1.00" step="0.01" [pattern]="regEx.price" matInput required name="sPrice"
+                  [(ngModel)]="selService.price" (change)="onPriceChange($event)">
+                  <mat-hint>
+                    <span *ngIf="!selService.price">Ex: $ 100.00</span>
+                    <span *ngIf="selService.price" class="text-warning">
+                      Note: Your settlement amount will be <b>{{selService.price | currency:'USD'}}</b> - vasma service charges. It may be equal to approximately <b>{{(selService.price - (selService.price * 0.1)) | currency:'USD'}}</b>
+                    </span>
+                  </mat-hint>
+                  <mat-error>This field is required.</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row my-4">
+              <div class="col-12 mb-4">
+                <mat-checkbox name="cAC" [(ngModel)]="collAddCharges" [labelPosition]="'before'"
+                [disabled]="selService.addCharges.length > 0">
+                  {{collAddCharges ? 'Collecting':'Collect'}} additional charges
+                </mat-checkbox>
+              </div>
+              <div class="col-12">
+                <div class="row" *ngFor="let charge of selService.addCharges; let i = index">
+                  <div class="col-12 py-3 d-md-0" *ngIf="i > 0">
+                    <mat-divider></mat-divider>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-4 form-group">
+                    <mat-form-field>
+                      <input type="text" matInput required [pattern]="regEx.plainText" placeholder="Charge description / name" name="acName{{i}}" [(ngModel)]="selService.addCharges[i].chargeTitle">
+                      <mat-hint>Ex: Additional booking fee @ 5% /Etc.,</mat-hint>
+                      <mat-error>This field is required.</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-8">
+                    <div class="row">
+                      <div class="col-12 col-sm-4 col-md-6 form-group">
+                        <mat-form-field>
+                          <span matPrefix>$ &nbsp;</span>
+                          <input type="number" matInput required placeholder="Amount" min="0.01" step="0.01"
+                          [pattern]="regEx.price" name="acp{{i}}" [(ngModel)]="selService.addCharges[i].amount">
+                          <mat-hint>Chargable amount in USD. Ex: 5.50</mat-hint>
+                          <mat-error>This field is required.</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-9 col-sm-5 col-md-3 pt-3">
+                        <div class="form-group mt-0">
+                          <mat-checkbox name="fc{{i}}" [(ngModel)]="selService.addCharges[i].fixedCharge" [labelPosition]="'after'">
+                            Fixed charge
+                          </mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="col-3 col-sm-3 col-md-3 form-group pt-2">
+                        <div class="form-group mt-0">
+                          <button type="button" mat-flat-button color="warn" (click)="removeCharge(i)">
+                            <mat-icon class="">delete_forever</mat-icon>
+                            <span class="d-none d-md-inline">Remove</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-100 o-hidden mt-3" *ngIf="collAddCharges">
+                <div class="col-12 w3-animate-top">
+                  <button type="button" mat-flat-button color="primary" class="" (click)="addCharges()">+ Add charges</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-100 card bg-black-2 p-3 p-md-4 mb-4">
+            <div class="w-100 mb-4">
+              <h5>Availability</h5>
+              <mat-divider></mat-divider>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-4 form-group">
+                <mat-form-field>
+                  <mat-label>Slots available</mat-label>
+                  <mat-select name="availableSlots" required [(ngModel)]="selService.slotsAvl">
+                    <mat-option *ngFor="let count of getSlotsArray(1, 5)" [value]="count">
+                      {{count}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>
+                    Maximum number of customers can be served at the same time
+                  </mat-hint>
+                  <mat-error>This field is required.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-sm-4 form-group">
+                <mat-form-field>
+                  <mat-label>Minimum booking {{selService.unit || 'duration'}}</mat-label>
+                  <mat-select name="minBookingDuration" required [(ngModel)]="selService.minBookValue" (valueChange)="onMinMaxUpdate()">
+                    <mat-option *ngFor="let count of minBookingLimArr" [value]="count">
+                      {{count}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>
+                    Minimum booking {{selService.unit || 'duration'}} limit.
+                  </mat-hint>
+                  <mat-error>This field is required.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-sm-4 form-group">
+                <mat-form-field>
+                  <mat-label>Maximum booking {{selService.unit || 'duration'}}</mat-label>
+                  <mat-select name="maxBookingDuration" required [(ngModel)]="selService.maxBookValue" (valueChange)="onMinMaxUpdate()">
+                    <mat-option *ngFor="let count of maxBookingLimArr" [value]="count">
+                      {{count}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>
+                    Maximum booking {{selService.unit || 'duration'}} limit.
+                  </mat-hint>
+                  <mat-error>This field is required.</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row" *ngIf="selService.pricingModel">
+              <div class="col-12">
+                <p class="mt-5"><b>Buffer time:</b> Buffer time is the minimum time required before booking start.</p>
+              </div>
+              <div class="col-12 col-sm-4 form-group">
+                <mat-form-field>
+                  <mat-label>Buffer type</mat-label>
+                  <mat-select name="bufferType" required [(ngModel)]="selService.BType" (valueChange)="onBufferTypeSelect()">
+                    <mat-option value="hours" *ngIf="selService.pricingModel == 'HR'">Hours earlier</mat-option>
+                    <mat-option value="days">Days earlier</mat-option>
+                    <mat-option value="beforeday">Before day</mat-option>
+                  </mat-select>
+                  <mat-hint>
+                    Please choose the type of buffer required.
+                  </mat-hint>
+                  <mat-error>This field is required. Please choose the type of buffer required.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-sm-4 form-group" *ngIf="selService.BType == 'hours'">
+                <mat-form-field>
+                  <mat-label>Minimum buffer time required for booking</mat-label>
+                  <mat-select name="bufferTime" required [(ngModel)]="selService.BBFT" *ngIf="selService.BType == 'hours'">
+                    <mat-option *ngFor="let buffer of getBufferArray()" [value]="buffer * 3600000">
+                      Atleast {{buffer}} {{buffer !== 1 ?  'hour':'hours'}} earlier
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>
+                    Please select the time duration required before booking time starts.
+                  </mat-hint>
+                  <mat-error>This field is required. Please select the time duration required before booking time starts.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-sm-4 form-group" *ngIf="selService.BType == 'days'">
+                <mat-form-field>
+                  <mat-label>Minimum buffer time required for booking</mat-label>
+                  <mat-select name="bufferTime" required [(ngModel)]="selService.BBFT" *ngIf="selService.BType == 'days'">
+                    <mat-option *ngFor="let buffer of getBufferArray()" [value]="buffer * 86400000">
+                      Atleast {{buffer !== 1 ? buffer:''}} {{buffer !== 1 ?  'days earlier':'before day'}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>
+                    Please select the time duration required before booking time starts.
+                  </mat-hint>
+                  <mat-error>This field is required. Please select the time duration required before booking time starts.</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12"></div>
+              <div class="col-12 form-group quill-container">
+                <p class="text-white my-2">
+                  Service description <br>
+                  <small class="text-muted">
+                    Here you can write complete description about your service to attract your customers.
+                    <br>
+                    You can utilise this space for promoting your business or to display terms of service / instructions for better business deal etc.,
+                  </small>
+                </p>
+                <quill-editor name="quillEditor" class="quill-editor-main" placeholder="Start write something here... Ex: Terms of service / Rules / etc.," ngModel [(ngModel)]="selService.desc"
+                [modules]="getQuillToolbar(0)" (onContentChanged)="descUpdated = true" (onSelectionChanged)="descUpdated = true"></quill-editor>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12 mb-3">
+                <button mat-raised-button color="primary" class="mr-3" type="submit" (click)="justSaveToDB(sF.valid, sF.pristine)">Save</button>
+                <button mat-raised-button color="warn" class="" type="submit" (click)="pushToPublic(sF.valid, sF.pristine)">Save & publish</button>
+              </div>
+              <div class="col-12 text-muted">
+                <p class="mb-1">
+                  <small>By clicking " <span class="text-white">Save</span> ", your service details will be saved in your services list, but not appear in public service list. You don't recieve any orders.</small>
+                </p>
+                <p class="mb-1">
+                  <small>By clicking " <span class="text-white">Save & publish</span> ", your service details will be in your services list, and published to public service list. You will recieve orders on booking.</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

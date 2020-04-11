@@ -1,0 +1,19 @@
+<div class="dash-board-header-block" [ngClass]="scrollOffset >= 50 ? 'solid-bg':''">
+  <div class="row align-items-center mx-0">
+    <div class="col back-button">
+      <button mat-icon-button (click)="goBack()">
+        <mat-icon>keyboard_backspace</mat-icon>
+      </button>
+    </div>
+    <div class="col page-title px-0" style="max-width: Calc(100% - 60px)">
+      <div class="clip-data">
+        <span class="my-0"><strong>{{docTitle}}</strong></span>
+      </div>
+    </div>
+    <!-- <div class="col menu-box">
+      <button mat-icon-button (click)="toggleSideblock()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div> -->
+  </div>
+</div>

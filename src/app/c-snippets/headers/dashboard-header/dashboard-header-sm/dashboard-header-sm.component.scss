@@ -1,0 +1,38 @@
+.dash-board-header-block {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 999;
+  height: 60px;
+  display: block;
+  background-color: transparent;
+
+  // &.solid-bg {
+    background-color: #242424;
+    box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
+  // }
+
+  .row {
+    height: 60px;
+    .col {
+      padding: 10px;
+    }
+
+    .col.menu-box, .col.back-button {
+      max-width: 60px;
+    }
+
+    .page-title {
+      font-size: 18px;
+      line-height: 1;
+      div {
+        display: block;
+        max-width: 100%;
+        // overflow:hidden;
+        // text-overflow:ellipsis;
+      }
+    }
+  }
+
+}

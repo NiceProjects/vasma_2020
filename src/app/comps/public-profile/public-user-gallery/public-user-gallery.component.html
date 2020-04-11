@@ -1,0 +1,8 @@
+<section class="container px-0">
+  <div class="w-100 mb-4">
+    <h2 class="fw-900">Gallery</h2>
+  </div>
+  <div class="w-100" *ngIf="userId">
+    <app-user-gallery-view [data-user-uid]="userId" [data-gallery-role]="'presentation'"></app-user-gallery-view>
+  </div>
+</section>

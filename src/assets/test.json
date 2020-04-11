@@ -1,0 +1,28 @@
+{
+  "resp": "https://www.w3schools.com/html/mov_bbb.mp4",
+  "headers": {
+    "host": "us-central1-vasma-production.cloudfunctions.net",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36",
+    "accept": "*/*",
+    "accept-encoding": "gzip, deflate, br",
+    "accept-language": "en-US,en;q=0.9,te;q=0.8,la;q=0.7",
+    "forwarded": "for=\"103.224.153.11\";proto=https",
+    "function-execution-id": "zuvi4if8f5wa",
+    "origin": "https://www.w3schools.com",
+    "referer": "https://www.w3schools.com/xml/tryit.asp?filename=tryxml_httprequest",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "cross-site",
+    "x-appengine-city": "hyderabad",
+    "x-appengine-citylatlong": "17.385044,78.486671",
+    "x-appengine-country": "IN",
+    "x-appengine-default-version-hostname": "r4a084174532f237e-tp.appspot.com",
+    "x-appengine-https": "on",
+    "x-appengine-region": "tg",
+    "x-appengine-request-log-id": "5d4ef88c00ff0665ca83e23c480001737e72346130383431373435333266323337652d7470000138343235616132626430353839306266626138666332363665336363313462343a320001011b",
+    "x-appengine-user-ip": "103.224.153.11",
+    "x-cloud-trace-context": "541a1992684e03371c540e8bde8cc841/8926082289960651213;o=1",
+    "x-forwarded-for": "103.224.153.11",
+    "x-forwarded-proto": "https",
+    "connection": "close"
+  }
+}

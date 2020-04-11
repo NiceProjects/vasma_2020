@@ -1,0 +1,42 @@
+span.chip {
+  background-color: #777;
+  padding: 0px;
+  display: inline-block;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  border-radius: 25px;
+  color: #fff;
+}
+
+span.chip-del {
+  margin-left: 4px;
+}
+
+span.chip-text {
+  line-height: 25px;
+  padding-left: 8px;
+}
+
+span.chip-del mat-icon {
+  font-size: 100%;
+  line-height: 25px;
+  text-align: center;
+  vertical-align: -4px;
+  height: 25px;
+  width: 25px;
+}
+span.chip-del mat-icon:hover {
+  background-color: #333;
+  color: #ffffff;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.chip-block {
+  display: block;
+  border-radius: 4px;
+  padding: 0.5rem;
+  min-height: 56px;
+  background-color: #ffffff;
+  color: #333;
+}

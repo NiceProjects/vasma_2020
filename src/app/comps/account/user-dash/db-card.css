@@ -1,0 +1,4 @@
+.db-card-body {
+  min-height: Calc(100% - 53px);
+  padding: 20px !important;
+}

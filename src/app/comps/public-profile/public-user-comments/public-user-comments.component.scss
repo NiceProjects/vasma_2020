@@ -1,0 +1,43 @@
+.col.commentorAvatar {
+  width: 75px;
+  max-width: 75px;
+  min-width: 75px;
+  height: 45px;
+
+  img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+  }
+
+}
+
+.border-bottom {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.comment-box {
+  background-color: #242424;
+  height: 64px;
+  border-radius: 40px;
+  overflow: hidden;
+  padding-top: 4px;
+  padding-bottom: 4px;
+
+  .comment-text-box {
+    input {
+      height: 56px;
+      line-height: 56px;
+      width: 100%;
+      background-color: transparent;
+      border: 0px;
+      color: #fff;
+    }
+  }
+  .comment-send-box {
+    max-width: 75px;
+    min-width: 75px;
+    width: 75px;
+    padding-right: 4px;
+  }
+}

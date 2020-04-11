@@ -1,0 +1,36 @@
+.quick-links {
+  position: relative;
+  list-style: none;
+
+  li {
+    display: block;
+    padding: 8px 0px;
+    line-height: 1.35;
+
+    a {
+      color: #999;
+      text-decoration: none;
+
+      &:hover {
+        color: #FFF;
+      }
+
+      &.active {
+        color: #F00;
+      }
+    }
+  }
+}
+
+* {
+  font-family: 'Verdana';
+}
+
+.footer-copy-text {
+  background-color: #121212;
+  color: #999;
+}
+
+.footer-main-block {
+  background-color: #1a1a1a;
+}

@@ -1,0 +1,37 @@
+.chat-header-block {
+  color: #fff;
+  background: #f31f1f;
+  padding: 5px;
+}
+
+.back-icon {
+  button {
+    // transform: rotate(-135deg);
+  }
+}
+
+.chat-action-button {
+  width: 40px;
+  max-width: 40px;
+  height: 40px;
+  overflow: hidden;
+  padding: 0px;
+  .material-icons {
+    font-size: 20px;
+  }
+}
+
+div.col {
+  &.back-icon, &.chat-close, &.chat-minimise, &.chat-notification {
+    padding: 0px;
+  }
+}
+
+@media screen and (max-width: 761.98px) {
+  .chat-header-block {
+    color: #fff;
+    background: #f31f1f;
+    padding: 10px 5px;
+  }
+}
+

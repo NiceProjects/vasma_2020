@@ -1,0 +1,110 @@
+.chat-box-block {
+  display: block;
+  width: 350px;
+  height: 450px;
+  position: fixed;
+  right: 50px;
+  bottom: 0px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  overflow: hidden;
+  color: #999;
+  background-color: #242424;
+  border: 1px solid #363636;
+  border-bottom: 0px;
+  transition: bottom  0.3s cubic-bezier(.25, .8, .25, 1);
+  padding-top: 50px;
+  z-index: 10001;
+  &.minimize {
+    bottom: -400px;
+  }
+
+  .chat-header-div {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    display: block;
+    width: 100%;
+  }
+}
+
+.large-screen-toggler {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 0px;
+  min-width: 200px;
+  right: 50px;
+  height: 50px;
+  padding: 12px 20px;
+  background-color: #ff0000;
+  color: #fff;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  overflow: hidden;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  .material-icons {
+    vertical-align: -7px;
+  }
+}
+
+.small-screen-toggler {
+  display: none;
+}
+
+@media screen and (min-width: 762px) and (max-width: 1519.98px) {
+  .chat-box-block {
+    width: 320px;
+  }
+}
+
+@media screen and (max-width: 761.98px) {
+  .chat-box-block {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    padding-top: 60px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border: 0px solid #363636;
+    &.minimize {
+      bottom: -100vh;
+    }
+  }
+  .large-screen-toggler {
+    display: none;
+  }
+  .small-screen-toggler {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: 23px;
+    bottom: 23px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 10000;
+    background-color: #d32f2f;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    box-shadow: 0px 3px 6px #000;
+    span.d-inline-block {
+      line-height: 1;
+      height: 24px;
+      width: 24px;
+
+      span.material-icons {
+        vertical-align: -6px;
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+<div class="card loading-spinner-fc bg-black-2 py-4" *ngIf="isLoading">
+  <mat-spinner class="mx-auto" [diameter]="60" [strokeWidth]="3" [mode]="'indeterminate'" [color]="'primary'"></mat-spinner>
+</div>
+<div class="w-100" *ngIf="!isLoading && galleryItems">
+  <mat-tab-group>
+    <mat-tab label="Uploads">
+      <div class="w-100 pt-4" style="box-sizing: border-box">
+        <div class="row mx-0">
+          <div class="col-4 col-sm-3 col-md-3 col-lg-2 px-0" [ngClass]="upload.filePath ? '':'d-none'" *ngFor="let upload of galleryItems; let i = index">
+            <div class="gallery-thumb" mat-ripple (click)="setGallery(galleryItems, i)" [ngStyle]="{'background-image': 'url(' + (upload._smPath || upload._mdPath || upload._lgPath || upload._xlPath || upload.filePath) + ')'}" [attr.data-uid]="upload.uid"></div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Albums">
+      <div class="w-100">
+        <div class="row mx-0">
+          <div class="col-12" *ngIf="albums.length < 1">
+            <div class="card bg-black-2 py-4 text-center">
+              No albums available at this moment.
+            </div>
+            <!-- <div class="card bg-black-2 py-4 text-center" *ngIf="albums.length >= 1">
+
+            </div> -->
+          </div>
+          <div class="col-12" *ngIf="albums.length >= 1">
+            <div class="row">
+              <div class="col-12 col-sm-4 col-lg-3" *ngFor="let album of albums">
+                <p>
+                  Name: {{album.albumTitle}} <br>
+                  Last updated: {{album.lastUpdateTime | date:'medium'}} <br>
+                  Image(s) count: {{album.items.length}}
+                </p>
+                <div class="w-100 thumb-group">
+                  <img src="{{item._smPath || item._mdPath || item._lgPath || item._xlPath || item.filePath}}" alt="" *ngFor="let item of album.items">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+<div class="card loading-spinner-fc bg-black-2 py-4" *ngIf="!isLoading && !galleryItems">
+  <p class="my-0 text-center">
+    No gallery items uploaded yet.
+  </p>
+</div>
+<div class="w-100 p-relative">
+  <app-gallery-scroller (onClose)="onGalleryClose()" [data-gallery-items]="selectedGalleryList" [data-show-item]="selectedGalleryItem"></app-gallery-scroller>
+</div>

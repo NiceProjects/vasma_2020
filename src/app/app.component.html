@@ -1,0 +1,15 @@
+<section class="for-navigation">
+  <!-- <app-navigation></app-navigation> -->
+  <!-- <app-home-header></app-home-header> -->
+</section>
+<app-orientation-snippet></app-orientation-snippet>
+<section class="for-main-content">
+  <router-outlet></router-outlet>
+</section>
+<section class="for-chat-box" *ngIf="authUser && authUser.uid">
+  <app-chat-box></app-chat-box>
+</section>
+<!-- <section class="for-footer"></section> -->
+<!-- <button mat-button>This is button</button> -->
+<!-- data-mc-options="{'touchAction': 'pan-y'}" -->
+<!-- {{ message | async | json }} -->

@@ -1,0 +1,40 @@
+<section class="">
+  <div class="w-100 mb-4">
+    <h2 class="fw-900">Comments</h2>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="row align-items-center mr-0">
+        <div class="col commentorAvatar">
+          <img src="{{ null | avatarImg}}" alt="" *ngIf="!authUser">
+          <img src="{{authUser.photoURL | avatarImg}}" [alt]="authUser.name.userName" *ngIf="authUser">
+        </div>
+        <div class="col comment-box pr-0">
+           <div class="row mr-0">
+              <div class="col comment-text-box pl-4">
+                <input type="text" [(ngModel)]="commentInput" class="comment-input" (keyup.enter)="submitComment()" placeholder="Write your comment here">
+              </div>
+              <div class="col comment-send-box">
+                <button mat-fab color="warn" class="" (click)="submitComment()"><mat-icon class="r--15">send</mat-icon></button>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12" *ngIf="!commentsLoaded">
+      <p>Loading comments. Please wait a moment.</p>
+    </div>
+    <div class="col-12" *ngIf="commentsLoaded && !userComments">
+      <p>There are no comments yet. Be the first to write a comment!</p>
+    </div>
+    <div class="col-12" *ngIf="commentsLoaded && userComments">
+      <div class="comment-block" *ngFor="let comment of userComments; let i = index">
+        <app-comment-snippet [data-comment]="comment"></app-comment-snippet>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- [ngClass]="i !== (userComments.length - 1) ? 'border-bottom':''"  -->

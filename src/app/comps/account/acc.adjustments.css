@@ -1,0 +1,147 @@
+.split-section {
+  display: block;
+  width: 100vw;
+  position: relative;
+}
+
+.side-block-pull {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 10000;
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+}
+
+.side-block-pull.open {
+  transform: rotate(45deg);
+}
+
+.main-block, .side-block {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  height: Calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.side-nav-content {
+  width: 280px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: -280px;
+  background-color: #242424;
+  /* background-image: url('/assets/img/sidenavbg.png'); */
+  background-size: contain;
+  background-position: center 0px;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease-in-out;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.side-block-overlap {
+  background-color: rgba(0, 0, 0, 0.85);
+  transition: all 0.3s ease-in-out;
+  width: 100vw;
+  height: 100%;
+}
+
+.main-block { right: 0;}
+.side-block { left: 0}
+
+.dummy-content { min-height: 1500px;}
+
+/* Up to large screen */
+@media screen and (max-width: 1199.98px) {
+  .side-block {
+    z-index: 9999;
+    width: 100vw;
+  }
+  .side-block:not(.open) {
+    display: none;
+  }
+
+  .side-nav-content {
+    left: -280px;
+    padding-bottom: 76px;
+    border-right: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  .side-block.open .side-nav-content {
+    left: 0;
+  }
+  .main-block {
+    width: 100%;
+  }
+}
+
+/* Up to large screen */
+@media screen and (min-width: 1200px) {
+  .side-block-pull {
+    display: none
+  }
+  .side-block {
+    width: 250px;
+    left: 0;
+  }
+  .side-nav-content {
+    width: 250px;
+  }
+  .side-block-overlap {display: none}
+  .side-nav-content {
+    left: 0;
+  }
+  .main-block {
+    width: Calc(100vw - 250px)
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .side-block {
+    width: 280px;
+    left: 0;
+  }
+  .side-nav-content {
+    width: 280px;
+  }
+  .main-block {
+    width: Calc(100vw - 280px)
+  }
+}
+
+
+/* Custom scrollbar style */
+
+.cust-scroll::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent;
+ }
+
+.cust-scroll::-webkit-scrollbar {
+  width: 5px;
+  background-color: transparent;
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+ }
+
+.cust-scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: transparent;
+ }
+.cust-scroll:hover::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+@media screen and (max-width: 971.98px) {
+  .cust-scroll::-webkit-scrollbar {
+    width: 0px !important;
+  }
+  .side-block {
+    display: inline-block;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+}

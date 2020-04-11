@@ -1,0 +1,95 @@
+<div class="wrap" *ngIf="authUser">
+  <section class="for-user-unset py-3 py-md-5" *ngIf="authUser.userType === 'unset'">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-7 col-lg-4 mb-3 mb-md-0 options-card">
+          <div class="option-card-body bg-black-2">
+            <div class="w-100 option-card-img">
+              <img class="usertype-thumb" src="/assets/img/user-types/thumb_music_bg.jpg" alt="">
+            </div>
+            <div class="w-100 option-card-content">
+              <h5 class="fw-300 usertype-heading">I'm a Venue</h5>
+              <p class="usertype-description line-1 font-Handlee">Owners and promoters, welcome.</p>
+              <p class="usertype-description">Create a profile where you can promote your space for up and coming events.</p>
+              <p class="usertype-description">Create gig postings that musical talented artists can audition for.</p>
+              <p class="usertype-description">Speak to Studios and access to all artist history using VASMA</p>
+            </div>
+            <div class="w-100 option-card-footer">
+              <button mat-button class="w-100 usertype-continue-button py-2" (click)="setUserType('venue')">
+                Continue as Venue
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-7 col-lg-4 mb-3 mb-md-0 options-card">
+          <div class="option-card-body bg-black-2">
+            <div class="w-100 option-card-img">
+              <img class="usertype-thumb" src="/assets/img/user-types/thumb_artist.jpg" alt="">
+            </div>
+            <div class="w-100 option-card-content">
+              <h5 class="fw-300 usertype-heading">I'm an Artist</h5>
+              <p class="usertype-description line-1 font-Handlee">Underground artists, welcome.</p>
+              <p class="usertype-description">Create a profile where you can book studio time, packages and gigs for venues in your area.</p>
+              <p class="usertype-description">
+                <b>Be your own manager:</b>
+                Apply for auditions and book studio time with the click of a button. Link your calendar to synchronize your auditions, bookings and everything in between.
+              </p>
+              <p class="usertype-description">Choose from multiple services VASMA provides like beats, packages, rehearsal space and MORE!</p>
+            </div>
+            <div class="w-100 option-card-footer">
+              <button mat-button class="w-100 usertype-continue-button py-2" (click)="setUserType('artist')">
+                Continue as Artist
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-7 col-lg-4 mb-3 mb-md-0 options-card">
+          <div class="option-card-body bg-black-2">
+            <div class="w-100 option-card-img">
+              <img class="usertype-thumb" src="/assets/img/user-types/thumb_studio.jpg" alt="">
+            </div>
+            <div class="w-100 option-card-content">
+              <h5 class="fw-300 usertype-heading">I'm a Studio</h5>
+              <p class="usertype-description line-1 font-Handlee">Audio engineers, welcome.</p>
+              <p class="usertype-description">Create a profile where you can accept bookings from artists in search of your expertise.</p>
+              <p class="usertype-description">
+                <b>Automatic booking maintenance:</b>
+                Link your calendar to synchronize your bookings
+              </p>
+              <p class="usertype-description">Be multifaceted with a variety of booking options </p>
+            </div>
+            <div class="w-100 option-card-footer">
+              <button mat-button class="w-100 usertype-continue-button py-2" (click)="setUserType('studio')">
+                Continue as Studio
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="for-user-set" *ngIf="authUser.userType === 'artist' || authUser.userType === 'studio' || authUser.userType === 'venue'">
+    <!-- <button class="side-block-pull" mat-fab color="warn" (click)="toggleSideblock()" [ngClass]="sideblkOpen ? 'open':''">
+      <mat-icon *ngIf="sideblkOpen">add</mat-icon>
+      <mat-icon *ngIf="!sideblkOpen">keyboard_arrow_right</mat-icon>
+    </button> -->
+    <div class="split-section" style="box-sizing: border-box">
+      <div class="side-block" [ngClass]="sideblkOpen ? 'open':''">
+        <div class="side-block-overlap" (click)="toggleSideblock()" mat-ripple></div>
+        <!-- <div class="side-nav-content cust-scroll" [ngStyle]="{'background-image': 'url(' + getBg() + ')'}">
+          <app-sideblock (onClose)="toggleSideblock()"></app-sideblock>
+        </div> -->
+        <div class="side-nav-content cust-scroll">
+          <app-sideblock (onClose)="toggleSideblock()"></app-sideblock>
+        </div>
+      </div>
+      <div class="main-block cust-scroll" (scroll)="onBoxScroll($event)" id="account-main-block">
+        <app-mainblock></app-mainblock>
+        <!-- <div class="dummy-content"></div> -->
+      </div>
+      <div class="for-device dev-sm dev-md">
+        <app-bottom-nav></app-bottom-nav>
+      </div>
+    </div>
+  </section>
+</div>

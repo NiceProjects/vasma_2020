@@ -1,0 +1,58 @@
+.profile-avatar {
+  max-width: 165px;
+  min-width: 165px;
+  width: 165px;
+  height: 165px;
+  // border-radius: 50%;
+  // background-color: #444;
+  padding-right: 0px;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+
+  }
+}
+
+.public-user-navigation-section {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.mat-tab-nav-bar, .mat-tab-header {
+  border-bottom: 0px;
+}
+
+.mat-tab-link {
+  min-width: unset;
+}
+
+// mobile devices
+@media screen and (max-width: 768px) {
+  .profile-avatar {
+    padding: 0px;
+    margin: 2rem auto;
+  }
+  .user-details, .user-stats {
+    max-width: 100%;
+    min-width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .user-details {
+    text-align: center;
+
+    h3 {
+      // font-weight: 600;
+    }
+  }
+
+}
+
+.followers-count-box {
+  max-width: 180px;
+}
+

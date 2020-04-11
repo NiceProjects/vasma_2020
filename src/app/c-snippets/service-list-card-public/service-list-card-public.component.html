@@ -1,0 +1,30 @@
+<section class="service-card card py-0 px-0" [ngClass]="dtMode ? 'br-0':''">
+  <div class="container-fluid">
+    <div class="row justify-content-between">
+      <div class="col-12 col-sm-6 col-md-7 service-details-box pt-3">
+        <h5 class="">{{service.title}}</h5>
+        <div class="w-100 service-card-action-buttons-group">
+          <button mat-flat-button color="primary" class=" mr-3" (click)="selThisService(service)" *ngIf="!dtMode">
+            Know more
+          </button>
+          <button mat-raised-button color="warn" class="" routerLink="/order/{{service.sProvId || 'undefined'}}/{{service.uid || 'undefined'}}"
+           [ngClass]="dtMode ? 'px-3 px-md-5 py-md-1':'s'">
+            Book now
+          </button>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-md-5 price-block px-0 pt-3">
+        <div class="w-100 price-clip bg-red-2">
+          <div class="py-1 py-md-3 pr-3 text-white">
+            <p class="service-price text-left lh-1 my-2 mt-0">
+              <span class="fw-700">${{service.price}}</span><span class="fw-300" style="font-size: 50%">/{{service.unit}}</span>
+            </p>
+            <p class="my-0 text-left lh-1">
+              <small class="text-white">+ additional charges</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

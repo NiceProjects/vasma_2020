@@ -1,0 +1,31 @@
+<div class="venue-card card p-0 bg-black-2" *ngIf="venueEvent">
+  <div class="banner-image-block" [ngStyle]="{'background-image': 'url(' + venueEvent.eventBanneImg.filePath + ')'}">
+    <div class="event-schedule-time">
+      <p class="mb-0">
+        <span class="material-icons mr-2">today</span>{{venueEvent.eventStartTS | date:'M/d/yyyy, h:mm a'}}
+      </p>
+    </div>
+    <div class="event-edit-block">
+      <button class="event-edit-button" mat-ripple routerLink="/my_account/events/edit/{{eventId}}">
+        <span class="material-icons">create</span>
+      </button>
+    </div>
+  </div>
+  <div class="px-3 px-md-4">
+    <div class="row align-items-center">
+      <div class="col clip-data pb-2 pt-3">
+        <h6 class="my-0">{{venueEvent.title}}</h6>
+      </div>
+      <div class="col-12 pb-3">
+        <div class="row align-items-center">
+          <div class="col">
+            {{venueEvent.publish ? 'Published':'Publish'}}
+          </div>
+          <div class="col text-right">
+            <mat-slide-toggle [(ngModel)]="venueEvent.publish" (change)="updatePublishState($event)" [disableRipple]="true"></mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

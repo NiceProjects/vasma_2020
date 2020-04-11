@@ -1,0 +1,149 @@
+.home-header {
+  height: 60px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  background-color: #181818;
+  z-index: 1000;
+  padding: 5px 0px;
+  transition: all 0.3s ease-in-out;
+  &.at-zero {
+    height: 80px;
+    padding: 15px 0px;
+    background-color: transparent;
+  }
+}
+
+.col.vasma-logo-icon {
+  max-width: 70px;
+  height: 50px;
+
+  a {
+    display: inline-block;
+    padding: 5px 0px;
+  }
+}
+
+.header-nav-and-search>* {
+  display: inline-block;
+}
+
+.search-bar-block {
+  padding: 0px;
+  position: relative;
+  .search-bar-lg {
+    display: block;
+    min-width: 250px;
+    max-width: 280px;
+    width: 280px;
+    padding: 5px 0px;
+    margin: 0px 16px;
+    position: relative;
+    .search-input {
+      position: relative;
+      width: 100%;
+      background-color: #242424;
+      border-radius: 0px;
+      padding: 8px 46px 8px 12px;
+      height: 40px;
+      line-height: 24px;
+      font-size: 16px;
+      color: #FFF;
+      border: 0px solid transparent;
+      transition: all 0.3s ease-in-out;
+    }
+    .search-bar-icon {
+      position: absolute;
+      right: 0px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 0px;
+      // z-index: 1000;
+    }
+  }
+}
+
+.home-header.at-zero {
+  input.search-input {
+    background-color: transparent !important;
+    padding: 8px 46px 8px 0px !important;
+  }
+  .search-bar-lg::after {
+    content: '';
+    display: block;
+    width: 100%;
+    position: absolute;
+    bottom: 11px;
+    left: 0px;
+    height: 1px;
+    border-top: 1px solid #999999;
+  }
+}
+
+@media screen and (min-width: 1520px) {
+  .home-header {
+    height: 70px;
+    padding: 10px 0px;
+
+    &.at-zero {
+      padding: 30px 0px;
+      background-color: transparent;
+      height: 120px;
+    }
+  }
+}
+
+
+
+
+.nav-link-list {
+  display: inline-block;
+  padding: 0px;
+  margin-bottom: 0px;
+  list-style: none;
+  li {
+    display: inline-block;
+    padding: 0px 16px;
+
+    a {
+      display: inline-block;
+      height: 50px;
+      line-height: 50px;
+      color: #FFF;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 16px;
+      font-weight: 500;
+      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+      // padding: 0px 8px;
+      transition: all 0.3s ease-in-out;
+      position: relative;
+
+      &.active {
+        color: #F00;
+        font-weight: 500;
+        &::after {
+          content: '';
+          width: 100%;
+          display: block;
+          height: 1.5px;
+          position: absolute;
+          bottom: 13px;
+          background-color: #F00;
+        }
+      }
+      &:hover {
+        &::after {
+          content: '';
+          width: 100%;
+          display: block;
+          height: 1.5px;
+          position: absolute;
+          bottom: 13px;
+          background-color: #FFF;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<div class="home-header" [ngClass]="topScroll < 150 ? 'at-zero':''">
+  <div class="container-fluid">
+    <div class="row justify-content-between align-itams-center">
+      <div class="col vasma-logo-icon">
+        <a routerLink="/"><img src="/assets/icons/icon-152x152.png" alt="vasma-icon" style="height: 40px; width: auto"></a>
+      </div>
+      <div class="col text-right header-nav-and-search">
+        <div class="search-bar-block">
+          <div class="search-bar-lg">
+            <div class="search-bar-input">
+              <input type="text" class="search-input" placeholder="Search...">
+              <button mat-icon-button class="search-bar-icon">
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ul class="nav-link-list">
+          <li class="nav-link"><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+          <li class="nav-link"><a routerLink="/about_us" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About us</a></li>
+          <li class="nav-link"><a routerLink="/contact_us" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Contact us</a></li>
+          <li class="nav-link"><a routerLink="/my_account/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">My Account</a></li>
+          <li class="nav-link" *ngIf="!authState"><a routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Login</a></li>
+          <li class="nav-link" *ngIf="!authState"><a routerLink="/register" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Register</a></li>
+          <li class="nav-link" *ngIf="authState"><a href="javascript: void(0)" (click)="logout()">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

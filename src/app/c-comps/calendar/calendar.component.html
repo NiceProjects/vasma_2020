@@ -1,0 +1,48 @@
+<div class="calendar-box">
+  <div class="w-100 month-year-box mt-2 mb-3">
+    <div class="prev-month">
+      <button mat-icon-button (click)="selPrevMonth()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+    </div>
+    <div class="year-month lh-1">
+      <button mat-button color="primary" class="mr-2" style="width: 60px; text-align: left"  [matMenuTriggerFor]="yearsMenu">
+        {{selYear}}
+      </button>
+      <button mat-button color="primary" class="" style="width: 60px; text-align: left" [matMenuTriggerFor]="monthsMenu">
+        {{monthsArr[selMonth].mmm | titlecase}}
+      </button>
+    </div>
+    <div class="next-month">
+      <button mat-icon-button (click)="selNextMonth()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="calendar-body">
+    <div class="w-100 week-heading">
+      <div class="week-day-box" *ngFor="let day of dayArr">
+        <div class="week-day-title">{{day.a | uppercase}}</div>
+      </div>
+    </div>
+    <div class="w-100 days-array">
+      <div class="date-box" *ngFor="let date of selMonthDtArr">
+        <div class="date">
+          <button mat-ripple class="date-pick-button w3-animate-opacity" [ngClass]="getDateButtonClass(date)" (click)="onDateSelect(date)" [disabled]="getDisableSt(date)">{{getDate(date)}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-menu #monthsMenu="matMenu" [class]="'unfollow-menu mini-menu'">
+  <button mat-menu-item class="unfollow-button" *ngFor="let month of monthsArr; let i = index" (click)="onMonthSelect(i)">
+    {{month.mmmm | titlecase}}
+  </button>
+</mat-menu>
+
+<mat-menu #yearsMenu="matMenu" [class]="'unfollow-menu mini-menu'">
+  <button mat-menu-item class="unfollow-button" *ngFor="let year of yearsArr; let i = index" (click)="onYearSelect(year)">
+    {{year}}
+  </button>
+</mat-menu>

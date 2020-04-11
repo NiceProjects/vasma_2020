@@ -1,0 +1,22 @@
+<div class="testimonial-card card">
+  <div class="compliment">
+    <p class="testimonial-compliment mt-3">
+      <span class="compliment-tick">❝</span><span class="compliment-part">{{testimonial.compliment | slice:0:165}}</span><span *ngIf="testimonial.compliment.length > 165">...</span>
+    </p>
+  </div>
+  <div class="complimentor-data">
+    <div class="form-row align-items-center">
+      <div class="col commentor-avatar">
+        <div class="" [ngStyle]="{'background-image': 'url(' + testimonial.cDp + ')'}"></div>
+      </div>
+      <div class="col complimentor-data">
+        <p class="complimentor-name m-0">
+          {{testimonial.cFname}} {{testimonial.cLanme}}
+        </p>
+        <p class="complimentor-designation m-0">
+          <small>{{testimonial.cDesign}}</small>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

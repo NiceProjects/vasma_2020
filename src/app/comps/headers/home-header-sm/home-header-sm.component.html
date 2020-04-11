@@ -1,0 +1,42 @@
+<div class="w-100 home-screen-header-small" [ngClass]="scrollOffset >= 100 ? 'solid-bg':''">
+  <div class="row align-items-center">
+      <div class="col vasma-logo-icon">
+        <a routerLink="/"><img src="/assets/icons/icon-152x152.png" alt="vasma-icon" style="height: 40px; width: auto"></a>
+      </div>
+    <div class="col text-right">
+      <ul class="menu-nav-link">
+        <li>
+          <!-- <button mat-ripple>
+            <i class="flaticon-search-1"></i>
+          </button> -->
+          <button mat-icon-button>
+            <mat-icon>search</mat-icon>
+          </button>
+        </li>
+        <!-- <li>
+          <button mat-icon-button>
+            <mat-icon>person</mat-icon>
+          </button>
+        </li> -->
+        <!-- <li> -->
+          <!-- <button mat-ripple  [matMenuTriggerFor]="mainMenu">
+            <i class="flaticon-menu-2"></i>
+          </button> -->
+          <!-- <button mat-icon-button  [matMenuTriggerFor]="mainMenu">
+            <mat-icon>menu</mat-icon>
+          </button> -->
+          <!-- <mat-menu #mainMenu="matMenu" [overlapTrigger]="false" [class]="'navigation-bar-menu'">
+            <button mat-menu-item routerLink="/my_account">
+              <mat-icon>person_outline</mat-icon>
+              <span>My account</span>
+            </button>
+            <button mat-menu-item *ngIf="isAuthenticated" (click)="logout()">
+              <mat-icon>power_settings_new</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu> -->
+        <!-- </li> -->
+      </ul>
+    </div>
+  </div>
+</div>

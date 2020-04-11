@@ -1,0 +1,228 @@
+<section class="container-fluid" (swipe)="swipeToClose($event)">
+  <div class="auth-user-data row align-items-center">
+    <div class="col user-avatar">
+      <div class="avatar-bg" *ngIf="!authUser" [ngStyle]="{'background-image': 'url(' + getAvatarBg(null) + ')'}"></div>
+      <div class="avatar-bg" *ngIf="authUser" [ngStyle]="{'background-image': 'url(' + getAvatarBg(authUser.photoURL) + ')'}"></div>
+    </div>
+    <div class="col user-details">
+      <div class="clip-data mb-1 lh-1">
+        <p class="mb-0 lh-1" *ngIf="authUser">{{authUser.name.userName | titlecase}}</p>
+        <p class="mb-0 lh-1" *ngIf="!authUser">{{'Hello Guest...!' | titlecase}}</p>
+      </div>
+      <div class="clip-data lh-1">
+        <span class="text-muted lh-1">
+          <small *ngIf="authUser">{{authUser.email}}</small>
+          <small *ngIf="!authUser">{{'Please login/Register'}}</small>
+        </span>
+      </div>
+    </div>
+    <div class="col-12 mt-3" *ngIf="authUser">
+      <div class="form-row">
+        <div class="col-4 user-rating-block">
+          <p class="my-0 lh-1">{{authUser.ratingData.rating}} <mat-icon class="text-gold">grade</mat-icon></p>
+          <small class="text-muted">{{authUser.ratingData.count | shortNumber}} ratings</small>
+        </div>
+        <div class="col-4 user-follow-count">
+          <p class="my-0 lh-1">{{followerCount}}</p>
+          <small class="text-muted">Followers</small>
+        </div>
+        <div class="col-4 user-follow-count">
+          <p class="my-0 lh-1">{{followingCount}}</p>
+          <small class="text-muted">Following</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 my-3" *ngIf="!authUser">
+      <div class="form-row">
+        <div class="col-4 user-rating-block">
+          <p class="my-0 lh-1">{{'n/a'}} <mat-icon class="text-gold">grade</mat-icon></p>
+          <small class="text-muted">{{0 | shortNumber}} ratings</small>
+        </div>
+        <div class="col-4 user-follow-count">
+          <p class="my-0 lh-1">{{'n/a'}}</p>
+          <small class="text-muted">Followers</small>
+        </div>
+        <div class="col-4 user-follow-count">
+          <p class="my-0 lh-1">{{'n/a'}}</p>
+          <small class="text-muted">Following</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 my-3" *ngIf="authUser && ['venue', 'studio'].indexOf(authUser.userType) >= 0 && authUser.businessName">
+      <div class="form-row">
+        <div class="col icon-block mr-3 pr-0" style="max-width: 24px">
+          <mat-icon class="vl-5">business</mat-icon>
+        </div>
+        <div class="col descrip" style="max-width: Calc(100% - 40px)">
+          <div class="clip-data mb-1 lh-15"><span>{{authUser.businessName | titlecase }}</span></div>
+          <div class="clip-data lh-1" *ngIf="authUser.add1">
+            <p class="text-muted"><small>{{authUser.add1.city | titlecase }}, {{authUser.add1.zip}}, {{authUser.add1.state | uppercase}}</small></p>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-row align-items-center my-2" *ngIf="authUser.add1">
+        <div class="col icon-block mr-3 pr-0" style="max-width: 24px">
+          <mat-icon class="vl-5">place</mat-icon>
+        </div>
+        <div class="col descrip" style="max-width: Calc(100% - 40px)">
+          <div class="clip-data">
+            <p class="text-muted"><small>{{authUser.add1.city | titlecase }}, {{authUser.add1.zip}}, {{authUser.add1.state | uppercase}}</small></p>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="row user-notifications-block">
+    <ul class="side-nav-list">
+      <li class="side-nav-list-item">
+        <a routerLink="/my_account/dashboard" routerLinkActive="active" mat-ripple (click)="closeSideNav()">
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>dashboard</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              Dashboard
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="side-nav-list-item">
+        <a routerLink="/my_account/bookings" routerLinkActive="active" mat-ripple (click)="closeSideNav()">
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>receipt</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              Bookings
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="side-nav-list-item" *ngIf="!authUser || (authUser && ['studio', 'venue'].indexOf(authUser.userType) >= 0)">
+        <a routerLink="/my_account/services" routerLinkActive="active" mat-ripple (click)="closeSideNav()">
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>collections_bookmark</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              Services
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="side-nav-list-item" *ngIf="!authUser || (authUser && authUser.userType == 'venue')">
+        <a routerLink="/my_account/events" routerLinkActive="active" mat-ripple (click)="closeSideNav()">
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>event_note</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              Events
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="side-nav-list-item">
+        <a routerLink="/my_account/prospects" routerLinkActive="active" mat-ripple (click)="closeSideNav()">
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>people</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              Prospects
+            </div>
+            <div class="col side-nav-notification">
+              <span class="material-icons">fiber_manual_record</span>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="side-nav-list-item">
+        <a routerLink="/my_account/gallery" routerLinkActive="active" mat-ripple (click)="closeSideNav()">
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>image</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              Gallery
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="side-nav-list-item">
+        <a routerLink="/my_account/notifications" routerLinkActive="active" mat-ripple (click)="closeSideNav()">
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>notifications</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              Notifications
+            </div>
+            <div class="col side-nav-notification">
+              <span class="material-icons">fiber_manual_record</span>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="side-nav-list-item">
+        <a routerLink="/my_account/profile_edit" routerLinkActive="active" mat-ripple (click)="closeSideNav()">
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>create</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              Manage profile
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="side-nav-list-item" *ngIf="authUser">
+        <a routerLink="/user/{{authUser.uniqueKey}}/feed" routerLinkActive="active" mat-ripple>
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>remove_red_eye</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              View my profile
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="side-nav-list-item" *ngIf="authUser">
+        <a href="javascript: void(0)" (click)="logout()" mat-ripple>
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>power_settings_new</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              Logout
+            </div>
+          </div>
+        </a>
+      </li>
+      <li class="side-nav-list-item" *ngIf="!authUser">
+        <a  routerLink="/login" mat-ripple>
+          <div class="row align-items-center">
+            <div class="col side-nav-icon">
+              <mat-icon>person</mat-icon>
+            </div>
+            <div class="col side-nav-text text-truncate">
+              Login / Register
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+    <!-- <div class="col-12">
+      <h5 class="my-2">Notifications</h5>
+    </div>
+    <div class="col-12 notifications-wrapper fancy-scrollbar">
+      <div class="row">
+        <div class="col-12 notification-box" *ngFor="let notify of notifications | slice:0:5">
+          <app-notification-prev-link [data-notify]="notify"></app-notification-prev-link>
+        </div>
+      </div>
+    </div>
+    <a mat-ripple class="notification-box" routerLink="/my_account/notifications" (click)="closeSideNav()">View all</a> -->
+  </div>
+</section>

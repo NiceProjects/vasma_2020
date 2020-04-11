@@ -1,0 +1,4 @@
+<section class="for-orientation-detect" (window:orientationchange)="setWindowOrientation()" (window:resize)="setWindowOrientation($event)">
+  <div class="screen-warning-box orientation-change-box-1" *ngIf="screenOrientation == 'landscape' && viewportWitdth < 1024"></div>
+  <div class="screen-warning-box extra-small-screen-box" *ngIf="viewportWitdth < 320"></div>
+</section>

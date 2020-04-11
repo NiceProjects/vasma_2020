@@ -1,0 +1,11 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 px-0">
+      <app-service-list-card-public [data-service]="service" [data-detailMode]="true"></app-service-list-card-public>
+    </div>
+    <div class="col-12 bg-white p-4 quill-outlet" [innerHTML]="service.desc | safeHtml" *ngIf="service.desc"></div>
+    <div class="col-12 bg-white p-4 quill-outlet" *ngIf="!service.desc">
+      Description not available
+    </div>
+  </div>
+</div>

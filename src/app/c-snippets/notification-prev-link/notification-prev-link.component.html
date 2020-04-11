@@ -1,0 +1,19 @@
+<div class="w-100 py-2">
+  <div class="form-row align-items-center" *ngIf="commentor.userName">
+    <div class="col notification-icon">
+      <div>
+        <mat-icon *ngIf="isComment">comment</mat-icon>
+        <mat-icon *ngIf="isProspect">group_add</mat-icon>
+      </div>
+    </div>
+    <div class="col notification-text">
+      <p class="mb-0" *ngIf="isComment">
+        <span class="text-white">{{(commentor.businessName || commentor.userName) | titlecase}}</span> <span class="text-muted"> commented on your profile. <small class="d-inline-block">{{notify.nTime | fromNow}}</small></span>
+      </p>
+      <p class="mb-0" *ngIf="isProspect">
+        <span class="text-white">{{(commentor.businessName || commentor.userName) | titlecase}}</span> <span class="text-muted"> is now following you. <small class="d-inline-block">{{notify.nTime | fromNow}}</small></span>
+      </p>
+    </div>
+  </div>
+</div>
+

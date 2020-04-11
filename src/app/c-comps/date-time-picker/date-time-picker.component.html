@@ -1,0 +1,41 @@
+<div class="date-picker-element" *ngIf="mode == 'date'">
+  <!-- For large screens -->
+  <div class="w-100" *ngIf="smallScreenMode; then touchInput else nonTouchInput"></div>
+  <ng-template #nonTouchInput>
+    <mat-form-field class="d-hidden">
+      <input matInput [matDatepicker]="picker" name="eventDate"
+      [(ngModel)]="inputDateValue" (ngModelChange)="onDateChange($event)" #dp="ngModel">
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button class="event-date-selctor 1" (click)="picker.open()" type="button" [disabled]="readOnly">
+      <ng-container *ngTemplateOutlet="buttonData"></ng-container>
+    </button>
+  </ng-template>
+  <ng-template #touchInput>
+    <mat-form-field class="d-hidden">
+      <input matInput [matDatepicker]="picker2" name="eventDate"
+      [(ngModel)]="inputDateValue" (ngModelChange)="onDateChange($event)" #dp="ngModel">
+      <mat-datepicker #picker2 touchUi></mat-datepicker>
+    </mat-form-field>
+    <button class="event-date-selctor 2" (click)="picker2.open()" type="button" [disabled]="readOnly">
+      <ng-container *ngTemplateOutlet="buttonData"></ng-container>
+    </button>
+  </ng-template>
+  <ng-template #buttonData>
+    <span class="material-icons">event</span>
+    <span class="event-date" *ngIf="inputDateValue">{{inputDateValue | date:'M/d/y'}}</span>
+    <span class="no-event-date" *ngIf="!inputDateValue">Select</span>
+    <span class="material-icons valid-icon text-danger" *ngIf="invalidInput == true">info</span>
+    <span class="material-icons valid-icon text-success" *ngIf="invalidInput == false">done</span>
+    <span class="material-icons valid-icon text-muted" *ngIf="invalidInput == null">info</span>
+  </ng-template>
+</div>
+<div class="time-picker-element" *ngIf="mode == 'time'">
+  <input type="text" class="time-picker-input" placeholder="Select time" name="timePicker" [readonly]="readOnly"
+  [ngxTimepicker]="timePicker" (ngModelChange)="onTimeChange($event)" ngModel [(ngModel)]="inputTimeValue" (timeSet)="onTimeChange($event)">
+  <span class="material-icons">access_time</span>
+  <ngx-material-timepicker #timePicker [minutesGap]="5" [ngxMaterialTimepickerTheme]="darkTheme" [disableAnimation]="true"></ngx-material-timepicker>
+  <span class="material-icons valid-icon text-danger" *ngIf="invalidInput == true">info</span>
+  <span class="material-icons valid-icon text-success" *ngIf="invalidInput == false">done</span>
+  <span class="material-icons valid-icon text-muted" *ngIf="invalidInput == null">info</span>
+</div>

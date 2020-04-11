@@ -1,0 +1,7 @@
+.timepicker {
+  min-width: 300px;
+  width: 350px;
+}
+.clock-face__number > span {
+  cursor: pointer;
+}

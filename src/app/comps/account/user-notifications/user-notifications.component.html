@@ -1,0 +1,69 @@
+<section class="notifications py-3 py-md-5">
+  <div class="container">
+    <div class="row notifications-header justify-content-between align-items-center">
+      <div class="col">
+        <h5 class="my-0">
+          Notifications
+        </h5>
+      </div>
+      <div class="col">
+        <div class="dropdown ml-auto" style="width: 200px">
+          <button mat-flat-button color="primary" class="w-100 py-1"
+           type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="form-row my-0 align-items-center">
+              <div class="col p-0 text-dark text-left">
+                {{filterKey | filterKeys:'titlecase'}}
+              </div>
+              <div class="col p-0 text-right lh-1">
+                <mat-icon>expand_more</mat-icon>
+              </div>
+            </div>
+          </button>
+          <div class="dropdown-menu mini-menu">
+            <button mat-ripple class="mat-menu-item" *ngFor="let key of filterKeys" (click)="selectFilterKey(key)">{{key | filterKeys:'titlecase'}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-12 mt-4">
+        <p *ngIf="filterKey == 'all'">Showing all notifications.</p>
+        <p *ngIf="filterKey !== 'all'">Showing notifications filtered by '{{filterKey | filterKeys:'titlecase'}}'.</p>
+      </div>
+      <div class="col-12">
+        <div class="w-100 notifications-placeholder">
+          <div class="row">
+            <div class="col-12 px-2 px-md-3" *ngIf="allNotifications && filteredNotifications">
+                <div [ngClass]="i < (filteredNotifications.length - 1) ? 'border-bottom':''" *ngFor="let notification of filteredNotifications; let i = index">
+                  <app-notification-card [data-object]="notification"></app-notification-card>
+                </div>
+              </div>
+              <div class="col-12 py-5" *ngIf="allNotifications && filteredNotifications.length == 0">
+                <p class="text-center my-0">
+                  No results to show.
+                </p>
+              </div>
+              <div class="col-12 py-5" *ngIf="notificationsLoaded && !allNotifications">
+                <p class="text-center my-0">
+                  You have not recieved any notifications yet.
+                </p>
+              </div>
+              <div class="col-12 text-center py-5" *ngIf="!notificationsLoaded && !allNotifications">
+                <mat-spinner class="mx-auto" [diameter]="45" [strokeWidth]="2" [color]="'primary'"></mat-spinner>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <ng-template #commentCard>
+  <div class="row">
+    <div class="col user-avatar-div">
+      <img src="" alt="">
+    </div>
+    <div class="col"></div>
+  </div>
+</ng-template> -->
+

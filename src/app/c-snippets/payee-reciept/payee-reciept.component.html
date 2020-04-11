@@ -1,0 +1,17 @@
+<div class="w-100">
+  <div class="d-flex justify-content-between" *ngFor="let charge of reciept.charges">
+    <div class="d-inline-block">{{charge.sDesc}}</div>
+    <div class="d-inline-block">{{charge.amount | currency:'USD'}}</div>
+  </div>
+  <div class="d-flex justify-content-between">
+    <div class="d-inline-block">Payment gateway charges @ 6%</div>
+    <div class="d-inline-block">{{reciept.paymentGtwCharges | currency:'USD'}}</div>
+  </div>
+  <div class="dash-line-divider"></div>
+  <div class="d-flex justify-content-between" style="font-size: 110%;">
+    <div class="d-inline-block">
+      {{recieptMsg}}
+    </div>
+    <div class="d-inline-block">{{reciept.finalBillAmt | currency:'USD'}}</div>
+  </div>
+</div>

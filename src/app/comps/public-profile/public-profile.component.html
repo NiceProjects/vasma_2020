@@ -1,0 +1,105 @@
+<app-responsive-home-header></app-responsive-home-header>
+<section class="" >
+  <div class="container py-3 py-md-5">
+    <div class="row justify-content-center">
+      <div class="col profile-avatar mr-lg-4" id="">
+        <img src="{{ null | avatarImg}}" alt="" *ngIf="!userData">
+        <img src="{{userData.photoURL | avatarImg}}" alt="{{userData.name.userName}}" *ngIf="userData">
+      </div>
+      <div class="col user-details">
+        <div class="w-100" *ngIf="userData">
+          <div class="username-data" >
+            <h2 class="fw-700 text-white mt-0 mb-1">{{(userData.businessName || userData.name.userName) | titlecase}}</h2>
+            <p class="text-muted mb-2" *ngIf="userData.uniqueKey.length <= 24">@{{userData.uniqueKey}}</p>
+          </div>
+          <div class="w-100">
+            <p class="mb-0">
+              <span class="fw-500">{{userData.userType | titlecase}}</span>
+              <span *ngIf="userData.add1">
+                <span *ngIf="isArtist"> from </span>
+                <span *ngIf="!isArtist"> in </span>
+                <span>{{userData.add1.city | titlecase}}, {{userData.add1.state | uppercase}}</span>
+              </span>
+            </p>
+          </div>
+          <div class="w-100 mt-3">
+            <span *ngIf="authUser && authUser.uid !== userId">
+              <button class="follow-button" *ngIf="isFollowing; then unFollowButton else followButton">
+                button will render here
+              </button>
+            </span>
+            <button mat-stroked-button color="primary" routerLink="./comments">
+              <mat-icon class="follow-button-icon">comment</mat-icon> Comment
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col user-stats">
+        <div class="followers-count-box mx-auto mr-lg-0 pt-4 pt-lg-0" *ngIf="followersCount >= 0 && followingCount >= 0">
+          <div class="row text-center">
+            <div class="col">
+              <h4 class="fw-700 text-white">{{followersCount | shortNumber}}</h4>
+              <p class="text-muted">Followers</p>
+            </div>
+            <div class="col">
+              <h4 class="fw-700 text-white">{{followingCount | shortNumber}}</h4>
+              <p class="text-muted">Following</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-100 public-user-navigation-section">
+    <div class="container">
+      <section class=" main-content">
+        <nav mat-tab-nav-bar class="cust-mat-nav">
+          <a class="no-style" mat-tab-link routerLink="feed" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+            <!-- <mat-icon class="">dashboard</mat-icon>  -->
+            <span class="">Feed</span>
+          </a>
+          <a class="no-style" mat-tab-link routerLink="about" routerLinkActive #rla4="routerLinkActive" [active]="rla4.isActive">
+            <!-- <mat-icon class="">notifications</mat-icon>  -->
+            <span class="">About</span>
+          </a>
+          <a class="no-style" mat-tab-link routerLink="services" routerLinkActive #rla3="routerLinkActive" [active]="rla3.isActive" *ngIf="isVenue || isStudio">
+            <!-- <mat-icon class="">event_note</mat-icon>  -->
+            <span class="">Services</span>
+          </a>
+          <a class="no-style" mat-tab-link routerLink="events" routerLinkActive #rla0="routerLinkActive" [active]="rla0.isActive" *ngIf="isVenue || isStudio">
+            <!-- <mat-icon class="">people</mat-icon>  -->
+            <span class="">Events</span>
+          </a>
+          <a class="no-style" mat-tab-link routerLink="gallery" routerLinkActive #rla2="routerLinkActive" [active]="rla2.isActive">
+            <!-- <mat-icon class="">image</mat-icon>  -->
+            <span class="">Gallery</span>
+          </a>
+          <a class="no-style" mat-tab-link routerLink="comments" routerLinkActive #rla6="routerLinkActive" [active]="rla6.isActive">
+            <!-- <mat-icon class="">person</mat-icon>  -->
+            <span class="">Comments</span>
+          </a>
+        </nav>
+      </section>
+    </div>
+  </div>
+  <div class="container py-4 py-md-5" style="min-height: 250px;">
+    <router-outlet></router-outlet>
+  </div>
+</section>
+
+
+<ng-template #followButton>
+  <button mat-raised-button color="warn" class="mr-3" (click)="follow()">
+    <mat-icon class="follow-button-icon">person_add</mat-icon> Follow
+  </button>
+</ng-template>
+<ng-template #unFollowButton>
+  <button mat-raised-button color="warn" class="mr-3" [matMenuTriggerFor]="unFollowMenu">
+    <mat-icon class="follow-button-icon">how_to_reg</mat-icon> Following
+  </button>
+</ng-template>
+<mat-menu #unFollowMenu="matMenu" [class]="'unfollow-menu mini-menu'">
+  <button mat-menu-item class="unfollow-button" color="warn" (click)="unFollow()">
+    <mat-icon>person_add_disabled</mat-icon>Unfollow
+  </button>
+</mat-menu>

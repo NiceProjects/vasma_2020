@@ -1,0 +1,171 @@
+* {
+  font-family: Verdana, sans-serif;
+}
+
+.home-landing-block-sm {
+  width: 100vw;
+  height: 100vh;
+  // background-color: #fff;.
+  margin-top: -60px;
+  background-image: url('/assets/img/backgrounds/home/young_boy_singing.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.dark-overlay {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0, 0.5);
+}
+
+.menu-back-overlay-2 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100px;
+  background: linear-gradient(black 50%,  transparent);
+}
+
+.inner-box {
+  position: absolute;
+  // bottom: Calc(5vw + 60px);
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: block;
+  width: 95%;
+  padding: 15px;
+}
+
+.header-text-1, .header-text-2 {
+  font-size: 18px;
+  line-height: 27px;
+  color: #999999;
+
+  strong {
+    color: #FF0000;
+    display: inline-block;
+  }
+}
+
+button.register-for-free, button.know-more {
+  padding: 0px 20px;
+  height: 50px;
+  border-radius: 0px;
+  font-size: 15px;
+  line-height: 50px;
+  font-weight: 600;
+}
+
+button.register-for-free {
+  background-color: #FF0000;
+  color: #FFF;
+  border: 1.5px solid #F00;
+  margin-right: 12px;
+  margin-bottom: 12px;
+}
+
+button.know-more {
+  background-color: transparent;
+  color: #FF0000;
+  border: 1.5px solid #FF0000;
+
+  &:hover {
+    background-color: #FF0000;
+    color: #FFFFFF;
+    border: 1.5px solid #FF0000;
+  }
+}
+
+
+.choose-account-section {
+  background-color: #000;
+  .choose-heading {
+    font-size: 24px;
+    line-height: 29px;
+    color: #FF0000;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .choose-sub-heading {
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFF;
+    text-align: center;
+  }
+}
+
+
+#app-stats-counter {
+  background-image: url('/assets/img/backgrounds/home/stats-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+
+  .stats-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+
+  .col-6 {
+    text-align: center;
+  }
+
+  .stats {
+    display: inline-block;
+    padding: 36px 0px;
+    min-width: 100px;
+    text-align: left;
+
+    &.bbr {
+      border-bottom: 1px solid #FF0000;
+    }
+
+    span {
+      display: block;
+      font-size: 18px;
+      line-height: 22px;
+      color: #FF0000;
+
+      &.stats-count {
+        font-size: 24px;
+        line-height: 29px;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.testimonials-sm {
+  background-color: #000;
+  padding-left: 24px;
+  padding-right: 24px;
+
+  .testimonials-heading {
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFF;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .testimonials-sub-heading {
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFF;
+    text-align: center;
+  }
+}

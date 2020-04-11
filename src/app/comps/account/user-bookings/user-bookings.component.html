@@ -1,0 +1,39 @@
+<div class="container py-3 py-md-5">
+  <div class="row notifications-header justify-content-between align-items-center mb-4">
+    <div class="col-12">
+      <h5 class="my-0">
+        Bookings
+      </h5>
+    </div>
+    <div class="col">
+      <div class="dropdown ml-auto" style="width: 200px">
+        <!-- <button mat-flat-button color="primary" class="w-100 py-1"
+          type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="form-row my-0 align-items-center">
+            <div class="col p-0 text-dark text-left">
+              {{filterKey | filterKeys:'titlecase'}}
+            </div>
+            <div class="col p-0 text-right lh-1">
+              <mat-icon>expand_more</mat-icon>
+            </div>
+          </div>
+        </button> -->
+        <!-- <div class="dropdown-menu mini-menu">
+          <button mat-ripple class="mat-menu-item" *ngFor="let key of filterKeys" (click)="selectFilterKey(key)">{{key | filterKeys:'titlecase'}}</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card bg-black-2 p-3" *ngIf="!transactions">
+        <p class="my-0 text-center">No bookings found</p>
+      </div>
+    </div>
+    <div class="col-12" *ngIf="transactions">
+      <div class="mb-2" *ngFor="let tran of transactions">
+        <app-bookings-list-card [data-trId]="tran.trid"></app-bookings-list-card>
+      </div>
+    </div>
+  </div>
+</div>

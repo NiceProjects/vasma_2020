@@ -1,0 +1,185 @@
+<section class="container-fluid dashboard-section" id="notifications-row">
+</section>
+<section class="container-fluid dashboard-cards-section">
+  <div class="form-row">
+    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 for-db-card" *ngIf="authUser.uid">
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-text">
+            <div>
+              <span>Rating</span>
+            </div>
+          </div>
+          <div class="db-card-header-icon"><mat-icon>grade</mat-icon></div>
+        </div>
+        <div class="db-card-body">
+          <h3 class="mb-0">{{authUser.ratingData.rating}}/5 <span class="material-icons text-gold">grade</span></h3>
+          <p class="mb-0 text-muted">
+            from {{authUser.ratingData.count | shortNumber}} ratings
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 for-db-card" *ngIf="authUser">
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-text">
+            <div>
+              <span>Payments</span>
+            </div>
+          </div>
+          <div class="db-card-header-icon"><mat-icon>attach_money</mat-icon></div>
+        </div>
+        <div class="db-card-body">
+          <h3 class="mb-0"><span class="material-icons">attach_money</span> 0.<small>00</small></h3>
+          <p class="mb-0 text-muted">No payments pending</p>
+          <!-- <button mat-raised-button color="primary">View transactions</button> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 for-db-card" *ngIf="authUser">
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-text">
+            <div>
+              <span>Spotlight campain</span>
+            </div>
+          </div>
+          <div class="db-card-header-icon"><mat-icon>control_camera</mat-icon></div>
+        </div>
+        <div class="db-card-body">
+          <h3 class="">12 <span class="d-inline-block"><small>times appeared</small></span></h3>
+          <button mat-flat-button color="warn">Get into spotlight</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 for-db-card" *ngIf="authUser">
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-text">
+            <div>
+              <span>Profile strength</span>
+            </div>
+          </div>
+          <div class="db-card-header-icon"><mat-icon>assignment_ind</mat-icon></div>
+        </div>
+        <div class="db-card-body">
+          <div class="">
+            <div class="row align-items-center">
+              <div class="col" style="min-height: 60px; width: 90px; max-width: 90px">
+                <div class="d-inline" style="min-height: 60px; min-width: 60px">
+                  <app-mat-spinner [data-config]="profStrConfig"></app-mat-spinner>
+                </div>
+              </div>
+              <div class="col">
+                <p class="mb-2 lh-1">Complete your profile</p>
+                <button mat-flat-button color="primary" routerLink="/my_account/profile_edit">Manage profile</button>
+              </div>
+            </div>
+          </div>
+          <!-- <div>
+            <p class="my-0 text-muted text-center">
+              <span>Complete your profile</span>
+            </p>
+          </div> -->
+          <!-- <div class="">
+            <div class="col">
+              <h3 class="my-0">60<span class="d-inline-block"><small>%</small></span></h3>
+            </div>
+            <div class="col">
+              <mat-progress-spinner color="warn" mode="determinate" value="60" diameter="70" strokeWidth="4"></mat-progress-spinner>
+            </div>
+          </div> -->
+          <!-- <h3 class="mb-3">60<span class="d-inline-block"><small>%</small></span></h3>
+          <mat-progress-bar mode="determinate" value="60"></mat-progress-bar> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 for-db-card" *ngIf="authUser">
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-text">
+            <div>
+              <span>Transactions</span>
+            </div>
+          </div>
+          <div class="db-card-header-icon"><mat-icon>receipt</mat-icon></div>
+        </div>
+        <div class="db-card-body">
+          <h3 class="mb-0">0</h3>
+          <p class="mb-0 text-muted">No transactions found</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 for-db-card" *ngIf="authUser">
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-text">
+            <div>
+              <span>New prospects</span>
+            </div>
+          </div>
+          <div class="db-card-header-icon"><mat-icon>how_to_reg</mat-icon></div>
+        </div>
+        <div class="db-card-body">
+          <h3 class="mb-0">0</h3>
+          <p class="mb-0 text-muted">No new followers in last 7 days.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 for-db-card" *ngIf="authUser">
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-text">
+            <div>
+              <span>New comments</span>
+            </div>
+          </div>
+          <div class="db-card-header-icon"><mat-icon>comment</mat-icon></div>
+        </div>
+        <div class="db-card-body">
+          <h3 class="mb-0">0</h3>
+          <p class="mb-0 text-muted">No new comments in last 7 days.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 for-db-card" *ngIf="authUser">
+      <div class="db-card">
+        <div class="db-card-header">
+          <div class="db-card-header-text">
+            <div>
+              <span>Profile visits</span>
+            </div>
+          </div>
+          <div class="db-card-header-icon"><mat-icon>streetview</mat-icon></div>
+        </div>
+        <div class="db-card-body">
+          <h3 class="mb-0">15</h3>
+          <p class="mb-0 text-muted">15 new profile visits in last 7 days.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="container-fluid dashboard-actions-section">
+
+</section>
+
+<!--
+  <div class="db-card">
+    <div class="db-card-header">
+      <div class="db-card-header-text">
+        <div>
+          <span>Rating uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu</span>
+        </div>
+      </div>
+      <div class="db-card-header-icon"><mat-icon>grade</mat-icon></div>
+    </div>
+    <div class="db-card-body">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, distinctio nemo, suscipit iusto rem ipsum ipsam alias qui autem tenetur reiciendis explicabo nobis officiis quis sit harum, laudantium unde incidunt.</p>
+    </div>
+    <div class="db-card-footer">
+      <button mat-raised-button>Click me</button>
+    </div>
+  </div>
+-->

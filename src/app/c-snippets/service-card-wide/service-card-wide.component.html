@@ -1,0 +1,62 @@
+<div class="col-12 card bg-black-2 px-3 py-3 mb-2 service-list-wide text-muted" *ngIf="i == 0">
+  <div class="form-row justify-content-between">
+    <div class="col index-num" *ngIf="i >= 0">
+      S.No
+    </div>
+    <div class="col service-title">
+      <div class="text-truncate">Title</div>
+    </div>
+    <div class="col service-created">
+      Creation time
+    </div>
+    <div class="col last-modified">
+      Last modified
+    </div>
+    <div class="col service-published">
+      Published
+    </div>
+    <div class="col service-actions">
+      Actions
+    </div>
+  </div>
+</div>
+<div class="col-12 card bg-black-2 px-3 py-3 mb-2 service-list-wide text-white">
+  <div class="form-row justify-content-between align-items-center">
+    <div class="col index-num" *ngIf="i >= 0">
+      {{i + 1}}
+    </div>
+    <div class="col service-title">
+      <div class="text-truncate d-none d-lg-block">{{service.title}}</div>
+      <div class="d-block d-lg-none">{{service.title}}</div>
+    </div>
+    <div class="col service-created text-truncate">
+      {{service.createdAt | date:'short'}}
+    </div>
+    <div class="col last-modified">
+      <span *ngIf="service.modified">{{service.modified[service.modified.length - 1].time | date:'short'}}</span>
+      <span *ngIf="!service.modified">n/a</span>
+    </div>
+    <div class="col service-published">
+      <mat-slide-toggle (change)="updateServicePublish()" style="margin-left: 10px;" [color]="service.publish ? 'warn':'primary'" [checked]="service.publish"></mat-slide-toggle>
+    </div>
+    <div class="col service-actions">
+      <span class="action-button-group">
+        <span class="material-icons" routerLink="/my_account/services/update/{{service.uid}}">create</span>
+        <span class="material-icons" (click)="deleteThisService(service.uid)">delete_forever</span>
+      </span>
+      <span class="action-menu d-lg-none">
+        <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #actionMenu="matMenu" [class]="'unfollow-menu mini-menu'">
+          <button mat-menu-item  routerLink="/my_account/services/update/{{service.uid}}">
+            <mat-icon>create</mat-icon>Edit
+          </button>
+          <button mat-menu-item (click)="deleteThisService(service.uid)">
+            <mat-icon>delete_forever</mat-icon>Delete
+          </button>
+        </mat-menu>
+      </span>
+    </div>
+  </div>
+</div>

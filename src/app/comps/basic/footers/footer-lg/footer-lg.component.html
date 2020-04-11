@@ -1,0 +1,39 @@
+<div class="w-100 footer-main-block">
+  <div class="container">
+    <div class="py-5">
+      <div class="row">
+        <div class="col-3">
+          <h5 class="mb-3">Quick links</h5>
+          <ul class="quick-links">
+            <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+            <li><a routerLink="/about_us" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About</a></li>
+            <li><a routerLink="/features" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Features</a></li>
+            <li><a routerLink="/search" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Search</a></li>
+            <li><a routerLink="/my_account/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Account</a></li>
+          </ul>
+        </div>
+        <div class="col-4">
+          <h5 class="mb-3">Support</h5>
+          <ul class="quick-links">
+            <li><a routerLink="/help" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Help</a></li>
+            <li><a routerLink="/contact_us" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Contact</a></li>
+            <li><a routerLink="/faq" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">FAQ</a></li>
+            <li><a routerLink="/tos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Terms of service</a></li>
+            <li><a routerLink="/privacy" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Privacy policy</a></li>
+          </ul>
+        </div>
+        <div class="col-5">
+          <h5 class="mb-3">Write to us</h5>
+            <app-write-to-us></app-write-to-us>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="w-100 footer-copy-text py-4">
+  <div class="container">
+    <p class="my-0">
+      <b>VASMA</b> &#xa9;{{year}}, All rights reserved.
+    </p>
+  </div>
+</div>

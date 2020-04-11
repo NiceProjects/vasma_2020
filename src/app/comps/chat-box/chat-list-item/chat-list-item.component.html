@@ -1,0 +1,33 @@
+<p class="my-0" *ngIf="!chatItem">
+  Fetching, Please wait...
+</p>
+<div class="w-100">
+  <div class="row mx-0 align-items-center" *ngIf="chatItem">
+    <div class="col chat-user-dp" *ngIf="participants.length == 1">
+      <img src="{{allParticipants[participants[0]].dp | avatarImg}}" [alt]="participants[0]">
+    </div>
+    <div class="col chat-description">
+      <div class="row mx-0">
+        <div class="col clip-data pl-0 lh-1">
+          <p class="my-0 lh-1" [ngClass]="hasUnreadMessages ? 'text-white':''">
+            <b>{{chatItem.subj}}</b>
+          </p>
+        </div>
+        <div class="col ml-auto pr-0 message-time lh-1">
+          <p class="my-0 lh-1 text-muted">
+            <small>{{lastMessageTime | date:'h:mm a, MMM d'}}</small>
+          </p>
+        </div>
+      </div>
+      <div class="w-100" *ngIf="allParticipants">
+        <div class="clip-data">
+          <span class="lh-1" *ngIf="allParticipants[participants[0]].bName">{{allParticipants[participants[0]].bName | titlecase}}</span>
+          <span class="lh-1" *ngIf="!allParticipants[participants[0]].bName">{{allParticipants[participants[0]].uName | titlecase}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col chat-unread-count" *ngIf="hasUnreadMessages">
+      <span class="red-notification-dot"></span>
+    </div>
+  </div>
+</div>

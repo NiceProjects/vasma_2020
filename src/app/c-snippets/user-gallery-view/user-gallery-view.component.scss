@@ -1,0 +1,20 @@
+.gallery-thumb {
+  width: 100%;
+  padding-top: 100%;
+  display: block;
+  cursor: pointer;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.p-relative {
+  position: relative;
+}
+
+.thumb-group {
+  img {
+    width: 50px;
+    height: auto;
+  }
+}

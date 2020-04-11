@@ -1,0 +1,58 @@
+<p class="mb-0 mt-3 text-center text-muted" *ngIf="!ChatItem">
+  Loading conversation
+</p>
+<p class="mb-0 mt-3 text-center text-muted" *ngIf="ChatItem === 'noChat' || (ChatItem && ChatItem.subj && messages.length <= 0)">
+  Start converstaion
+</p>
+<p class="mb-0 mt-3 text-center text-muted" *ngIf="ChatItem === 'err'">
+  Something went wrong. Unable to load conversation
+</p>
+<div class="w-100 chat-pannel-box" *ngIf="ChatItem && ChatItem.subj">
+  <div class="messages-display-block py-3" id="messages-display-block"  (swipe)="swipe($event)">
+    <div class="message-row px-3 pb-3" *ngFor="let message of messages">
+      <div class="row mx-0" [ngClass]="message.sId == authUser.uid ? 'justify-content-end':''">
+        <div class="col message-sender-avatar" *ngIf="!participants">
+          <img src="{{undefined | avatarImg}}" [alt]="message.sId" *ngIf="!message.sId || !participants">
+        </div>
+        <div class="col message-sender-avatar" *ngIf="participants && participants[message.sId]" [ngClass]="message.sId == authUser.uid ? 'order-2':''">
+          <img src="{{participants[message.sId].dp | avatarImg}}" [alt]="" *ngIf="participants && message.sId != authUser.uid">
+          <img src="{{authUser.photoURL | avatarImg}}" [alt]="" *ngIf="participants && message.sId == authUser.uid">
+        </div>
+        <div class="col message-sender-avatar" *ngIf="participants && !participants[message.sId]" [ngClass]="message.sId == authUser.uid ? 'order-2':''">
+          <img src="{{undefined | avatarImg}}" [alt]="message.sId" *ngIf="!message.sId || !participants">
+        </div>
+        <div class="col message-text-block" [ngClass]="message.sId == authUser.uid ? 'order-1 text-right self-msg':''">
+          <div class="d-inline-block message-chip text-left">
+            {{message.msg}}
+          </div>
+          <div class="message-time-chip px-1">
+            <small class="text-muted">{{message.time | fancyTime}}</small>
+            <small *ngIf="message.sId == authUser.uid && mainParticipantLastSeen >= message.time">
+              &nbsp;•&nbsp;<span class="text-white">✓</span>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="message-reply-block">
+    <div class="row mx-0">
+      <!-- <div class="col chat-reply-avatar">
+        <img src="{{authUser.photoURL | avatarImg}}" alt="">
+      </div> -->
+      <div class="col-12 chat-reply-holder">
+        <div class="row align-items-center">
+          <div class="col chat-reply-box">
+            <input type="text" placeholder="Write your message here..." class="chat-reply-input" [(ngModel)]="replyMsg"
+            (keyup.enter)="sendMessage()">
+          </div>
+          <div class="col chat-reply-send">
+            <button mat-icon-button class="chat-send-button" (click)="sendMessage()">
+              <mat-icon>send</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

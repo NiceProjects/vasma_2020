@@ -1,0 +1,462 @@
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const spawn = require('child-process-promise').spawn;
+const path = require('path');
+const {Storage} = require('@google-cloud/storage');
+// const firebase = require('firebase/storage');
+// const fStorage = require('firebase/storage');
+const storage = new Storage();
+const os = require('os');
+const fs = require('fs');
+// const storageFunc = require('./storage_functions');
+// const nodemailer = require('nodemailer');
+const cors = require('cors')({origin: true});
+admin.initializeApp(functions.config().firebase);
+// // Create and Deploy Your First Cloud Functions
+// // https://firebase.google.com/docs/functions/write-firebase-functions
+
+// exports.updateLastLogin = functions.https.onCall((data, context) => {
+//   console.log(data);
+// });
+
+// exports.onUserCreated = functions.database.ref(`/accounts/public/{userId}`).onCreate((snapshot, context) => {
+//   // const snap = snapshot.val()
+//   // let uniqueKey = snap.name.userName
+//   // let ukIsValid = false
+//   return
+// })
+
+exports.onFileChange = functions.storage.object().onFinalize(async object => {
+  const fileBucket = object.bucket;                   // The Storage bucket that contains the file.
+  const filePath = object.name;                       // File path in the bucket.
+  const contentType = object.contentType;             // File content type.
+  const fileName = path.basename(filePath);           // Get the file name.
+  const pA = filePath.split('/');                     // path params
+  // Exit if this is triggered on a file that is not an image.
+  if (!contentType.startsWith('image/')) {
+    return console.log('This is not an image.');
+  }
+
+  // Exit if the image is already a thumbnail.
+  if (fileName.startsWith('_thumb_')) {
+    console.log('already a thumbnail', object);
+    // const bucket = storage.bucket(fileBucket);
+    // return firebase.storage().ref(`${path.dirname(filePath)}`).child(`${fileName}`).getDownloadURL().then(url => {
+    //   return console.log(url)
+    // });
+    // return bucket.file(path.normalize(object.name)).getSignedUrl({
+    //   action: 'read',
+    //   expires: '01-01-2100'
+    // }, (err, url) => {
+    //   if (err) {
+    //     return console.log(err);
+    //   } else {
+    //     return console.log(url);
+    //   }
+    // });
+    return console.log('already a thumbnail', object);
+  }
+
+  // Check if gallery item or not
+  // console.log(pA);
+  if (pA[0] === 'userAssets' && pA[2] === 'galleryItems' && pA.length === 5)  {
+    console.log('Gallery image');
+    const bucket = admin.storage().bucket(fileBucket);
+    const tmpFilePath = path.join(os.tmpdir(), path.basename(filePath));
+    const metadata = {contentType: contentType};
+    const sizes = [['150x150', 'sm'], ['400x400', 'md']];
+    await bucket.file(filePath).download({destination: tmpFilePath})
+    console.log('Image downloaded locally to', tmpFilePath);
+    sizes.forEach(size => {
+      // const sizeToChange = `${size}x${size}`;
+      console.log(size[0], size[1]);
+      const thumbName = `_thumb_${size[1]}_` + path.basename(filePath);
+      const tmpThumbPath = path.join(os.tmpdir(), thumbName);
+      const thumbPath = path.join(path.dirname(filePath), thumbName);
+      console.log('Temperory file path', tmpFilePath);
+      return spawn('convert', [tmpFilePath, '-resize', size[0], tmpThumbPath]).then(() => {
+        return storage.bucket(fileBucket).upload(tmpThumbPath, {
+          gzip: true,
+          destination: thumbPath,
+          metadata: metadata
+        }).then(() => {
+          return bucket.file(path.normalize(thumbName)).getSignedUrl({
+              action: 'read',
+              expires: '01-01-2100'
+            }).then(url => {
+              console.log('Thumbnail url created', url[0]);
+              return updateThumbNailUrl(
+                url[0], size[1], {userId: pA[1], objectKey: pA[3]}
+              );
+            });
+        })
+      });
+    })
+  } else console.log('Notgallery image');
+
+  return console.log(`Need to create a thumbnail for ${filePath}`);
+});
+
+
+// On gallery item deleted
+exports.onGalleryItemDeleted = functions.database.ref('/publicList/userGallery/{userId}/{galleryItemId}').onDelete((snapshot, context) => {
+  const params = context.params;
+  const snap = snapshot.val();
+  const fileBucket = 'vasma-production.appspot.com';
+  const bucket = storage.bucket(fileBucket);
+  return bucket.deleteFiles({force: true, prefix: `userAssets/${params.userId}/galleryItems/${params.galleryItemId}`}).then(() => {
+    return console.log(`All files in directory "${params.userId}/${params.galleryItemId}" has deleted.`);
+  }).catch(err => console.log(err));
+})
+
+// Function to update thumbnail
+function updateThumbNailUrl(url, size, objectRef) {
+  console.log('Updating thumb nail url', url);
+  return admin.database().ref(`/publicList/userGallery/${objectRef.userId}/${objectRef.objectKey}/_${size}Path`).set(url);
+}
+
+
+exports.onNewCommentRecieved = functions.database.ref(`/publicList/comments/{userId}/{commentId}`).onCreate((snapshot, context) => {
+  var comment = snapshot.val();
+  comment.cid = context.params.commentId;
+  console.log(comment);
+  if (context.params.commentId === context.params.userId) return null;
+  return createNotificationAndProceed(comment, 'comment');
+});
+
+exports.onNewProspectAdded = functions.database.ref(`/followersData/followers/{followerId}/{followedBy}`).onCreate((snap, context) => {
+  const dataObj = snap.val();
+  createNotificationAndProceed([context.params.followerId, context.params.followedBy], 'prospect');
+  return admin.database().ref(`/accounts/private/${context.params.followerId}/npt`).transaction(e => (e || 0) + 1);
+});
+
+exports.onNewServiceCreated = functions.database.ref(`/publicList/services/{userId}/{serviceId}`).onCreate((snap, context) => {
+  return snap.ref.child('uid').set(context.params.serviceId);
+});
+
+// Database trigger for temporary transaction object created
+
+// exports.onTmpTransactionCreated = functions.database.ref(`transactions/_tmp/{tmpTrId}`).onCreate((snap, context) => {
+//   return assignTmpTrId(context.params.tmpTrId);
+// });
+
+
+// Database trigger for transaction completion detection.
+// Triggered on temporary transaction  object on realtime database "trStatus" key value changed to "completed".
+
+exports.onTmpTransactionCompleted = functions.database.ref(`transactions/_tmp/{tmpTrId}`).onUpdate((change, context) => {
+  // console.log(change.after.val(), change.before.val());
+  const after = change.after.val();
+  const before = change.before.val();
+  console.log(after.trStatus, before.trStatus);
+  if (after.trStatus === 'completed' && before.trStatus === 'init') {
+    proceedWithTransactionSuccess(after);
+  }
+  return null;
+});
+
+// Database trigger for transaction finalization
+exports.OnFinalTransactionCreated = functions.database.ref(`/transactions/final/{trId}`).onCreate((snapshot, context) => {
+  transaction = snapshot.val();
+  return assignTrId(context.params.trId, transaction);
+});
+
+// exports.onTransactionMade = functions.database.ref(`accounts/private/{userId}/transactions`).onCreate((snapshot, context) => {
+//   return createNotificationAndProceed(snapshot.val(), 'booking');
+// });
+
+// Http function trigger to handle booking request by service provider
+// Sample data object
+// data = {
+//   action: 'accept',
+//   trId: 'hsdjfbjhbhdfbvhdfbhdfbh'
+// }
+
+exports.handleBookingRequest = functions.https.onCall((data, context) => {
+  console.log(data);
+  if (data.action && data.trId) {
+    const action = data.action;
+    if (action === 'accept') {
+      acceptBookingRequest(data.trId, context.auth.uid)
+    }
+    if (action === 'cancel') {
+      cancelBookingRequest(data.trId, context.auth.uid);
+    }
+    if (action === 'acceptCancellation') {
+      acceptCancellationRequest(data.trId, context.auth.uid);
+    }
+    if (action === 'completeBooking') {
+      completeBookingRequest(data.trId, context.auth.uid);
+    }
+  }
+  return null;
+});
+
+// Trigger on chat list participants created
+exports.onChatParticipantAdded = functions.database.ref(`/privateList/chatList/{chatId}/pt/{participantId}`).onCreate((snapshot, context) => {
+  const cParams = context.params;
+  console.log('Creating chat list item in user chat list');
+  return admin.database().ref(`/accounts/private/${cParams.participantId}/chatList/${cParams.chatId}`).set({
+    clUid: cParams.chatId, lu: new Date().getTime()
+  })
+});
+
+// Trigger to handle last update of conversation object
+exports.onNewMessageInConversation = functions.database.ref(`/privateList/chatList/{chatId}/msgs/{msgId}`).onCreate((snapShot, context) => {
+  const cP = context.params;        // Context params
+  // console.log('new Message created', snapShot.val());
+  return admin.database().ref(`/privateList/chatList/${cP.chatId}/pt`).once('value').then(snap => {
+    // console.log(snap);
+    const pt = Object.keys(snap.val());
+    // console.log(pt);
+    pt.forEach(e => {
+      admin.database().ref(`/accounts/private/${e}/chatList/${cP.chatId}/lu`).set(new Date().getTime());
+    })
+    return null;
+  }).catch(err => console.log(err));
+});
+
+// Function to Complete the booking request
+function completeBookingRequest(transactionId, reqId) {
+  console.log(`Completing booking request: ${transactionId}, ${reqId}`);
+  return admin.database().ref(`/transactions/final/${transactionId}`).once('value').then(snap => {
+    const trObj = snap.val();
+    console.log(trObj.trTo, reqId);
+    if (trObj.trTo === reqId) {
+      return followCompletingBooking(transactionId);
+    }
+    return null
+  }).catch(err => console.log(err));
+}
+
+// Function to follow completing booking
+function followCompletingBooking(transactionId) {
+  admin.database().ref(`/transactions/final/${transactionId}/bookingST`).set('completed').then(() => {
+    return writeTransactionLog(transactionId, {msg: 'Booking completed by service provider', time: new Date().getTime()});
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+// Function to accept the booking request
+function acceptBookingRequest(transactionId, reqId) {
+  console.log(`Accepting booking request: ${transactionId}, ${reqId}`);
+  return admin.database().ref(`/transactions/final/${transactionId}`).once('value').then(snap => {
+    const trObj = snap.val();
+    console.log(trObj.trTo, reqId);
+    if (trObj.trTo === reqId) {
+      return followBookingAcceptance(transactionId);
+    }
+    return null
+  }).catch(err => console.log(err));
+}
+
+// Function to follow accepting booking
+function followBookingAcceptance(transactionId) {
+  admin.database().ref(`/transactions/final/${transactionId}/bookingST`).set('confirm-by-sp').then(() => {
+    return writeTransactionLog(transactionId, {msg: 'Booking confirmed by service provider', time: new Date().getTime()});
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+// Function to cancel the booking request by serviceProvider
+function cancelBookingRequest(transactionId, reqId) {
+  console.log(`Cancel requested for booking id ${transactionId}`);
+  return admin.database().ref(`/transactions/final/${transactionId}`).once('value').then(snap => {
+    const trObj = snap.val();
+    if (trObj.trTo === reqId) {
+      followBookingCancellation(transactionId, 'reject-by-sp');
+    }
+    if (trObj.trBy === reqId) {
+      followBookingCancellation(transactionId, 'cancel-by-py');
+    }
+    return null
+  }).catch(err => console.log(err));
+}
+
+// Function follow booking cancellation
+function followBookingCancellation(transactionId, cancellationCode) {
+  return admin.database().ref(`/transactions/final/${transactionId}/bookingST`).set(cancellationCode).then(snap => {
+    if (cancellationCode === 'reject-by-sp') {
+      writeTransactionLog(transactionId, {msg: 'Booking cancelled by service provider', time: new Date().getTime()});
+    }
+    if (cancellationCode === 'cancel-by-py') {
+      writeTransactionLog(transactionId, {msg: 'Booking cancellation requested by payee', time: new Date().getTime()});
+    }
+    return null;
+  }).catch(err => console.log(err));
+}
+
+// Function to accept booking cancellation
+function acceptCancellationRequest(transactionId, reqId) {
+  console.log(`Accepting booking cancellation request: ${transactionId}, ${reqId}`);
+  return admin.database().ref(`/transactions/final/${transactionId}`).once('value').then(snap => {
+    const trObj = snap.val();
+    console.log(trObj.trTo, reqId);
+    if (trObj.trTo === reqId) {
+      return followCancellationAcceptance(transactionId);
+    }
+    return null
+  }).catch(err => console.log(err));
+}
+
+// Function to follow booking cancellation request acceptance
+function followCancellationAcceptance(transactionId) {
+  admin.database().ref(`/transactions/final/${transactionId}/bookingST`).set('cancel-acpt-by-sp').then(() => {
+    return writeTransactionLog(transactionId, {msg: 'Cancellation request accepted by service provider', time: new Date().getTime()});
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+// Function to proceed with transaction object log
+function writeTransactionLog(trId, logData) {
+  return admin.database().ref(`/transactions/final/${trId}/bookingStMsg`).push(logData);
+}
+
+// Function to proceed with transaction success flow
+function proceedWithTransactionSuccess(trObj) {
+  console.log(trObj);
+  transaction = trObj;
+  transaction.bookingST = 'review-by-sp';
+  transaction.bookingStMsg = {
+    initLogMsg: {
+      msg: 'Booking placed',
+      time: new Date().getTime()
+    }
+  }
+  return admin.database().ref(`/transactions/final/${transaction.trId}`).set(transaction);
+}
+
+// Function to create notification object and proceed
+function createNotificationAndProceed(dataObj, type) {
+  var notification;
+  if (type === 'comment') {
+    notification = {
+      type: 'comment',
+      nTime: dataObj.cTime,
+      refObjId: dataObj.cid,
+      refUserId: dataObj.cBy
+    };
+    return submitNotification(notification, dataObj.cOn);
+    // return admin.database().ref(`/privateList/notifications/${dataObj.cOn}`).push(notification).then(snap => {
+    //   return admin.database().ref(`/accounts/private/${dataObj.cOn}/unc`).transaction(e => {
+    //     return (e || 0) + 1;
+    //   })
+    // });
+  }
+  if (type === 'prospect') {
+    notification = {
+      type: type,
+      nTime: new Date().getTime(),
+      refUserId: dataObj[1]
+    };
+    return submitNotification(notification, dataObj[0]);
+    // return admin.database().ref(`/privateList/notifications/${dataObj[0]}`).push(notification).then(snap => {
+    //   return admin.database().ref(`/accounts/private/${dataObj[0]}/unc`).transaction(e => {
+    //     return (e || 0) + 1;
+    //   })
+    // });
+  }
+  // if (type === 'booking') {
+  //   notification = {
+  //     type: type,
+  //     nTime: new Date().getTime(),
+  //     refUserId: dataObj[1]
+  //   };
+  //   return submitNotification(notification, dataObj[0]);
+  //   // return admin.database().ref(`/privateList/notifications/${dataObj[0]}`).push(notification).then(snap => {
+  //   //   return admin.database().ref(`/accounts/private/${dataObj[0]}/unc`).transaction(e => {
+  //   //     return (e || 0) + 1;
+  //   //   })
+  //   // });
+  // }
+  return null;
+}
+
+function submitNotification(nObj, userId) {
+  return admin.database().ref(`/privateList/notifications/${userId}`).push(nObj).then(snap => {
+    return admin.database().ref(`/accounts/private/${userId}/unc`).transaction(e => {
+      return (e || 0) + 1;
+    })
+  });
+}
+
+// Function to assign transaction ref id
+function assignTrId(trId, transaction) {
+  console.log('Final transaction is initiated: ', trId);
+  admin.database().ref(`appStats/trCount`).once('value').then(e => {
+    setTransactionNumber(e.val(), trId, transaction);
+    return e.ref.transaction(e => (e || 0) + 1);
+  }).catch(err => {
+    console.log('err', err);
+    return null;
+  });
+}
+
+function setTransactionNumber(e, trId, transaction) {
+  const dt = new Date().getFullYear();
+  const bookingId = `VAS-${dt}${adjustToFourDigit(e)}`;
+  return admin.database().ref(`transactions/final/${trId}/bId`).set(bookingId).then(x => {
+    var tr = transaction;
+    tr.bId = bookingId;
+    return assignTransactions(tr);
+  }).catch(err => console.log(err));
+}
+
+function adjustToFourDigit(num) {
+  fNumber = Number(num);
+  nm = Number(num);
+  if (nm < 10) fNumber = '000' + nm;
+  if (nm >= 10 && nm < 100) fNumber = '00' + nm;
+  if (nm >= 100 && nm < 1000) fNumber = '0' + nm;
+  return fNumber;
+}
+
+// Function to assign transaction data to both parties
+function assignTransactions(tr) {
+  console.log('Assigning transaction to users');
+  const transactionObj = {
+    trid: tr.trId,
+    trTo: tr.trTo,
+    trBy: tr.trBy,
+    bId: tr.bId,
+    reciept: tr.bookingData.reciept,
+    trTime: new Date().getTime()
+    };
+  admin.database().ref(`accounts/private/${tr.trBy}/transactions/${tr.trId}`).set(transactionObj);
+  admin.database().ref(`accounts/private/${tr.trTo}/transactions/${tr.trId}`).set(transactionObj);
+  return bookingConversationChatListCreate(transactionObj);
+}
+
+// Function to set booking related conversation
+function bookingConversationChatListCreate(transaction) {
+  console.log(`Creating conversations for booking id ${transaction.trId}`);
+  _tmpChatListItem = {
+    cType: 'booking',
+    lu: transaction.trTime,
+    subj: transaction.bId,
+    pt: {_: null},
+    msgs: {
+      0: {
+        msg: `Booking order placed with booking referrence id: ${transaction.bId}.`,
+        time: new Date().getTime()
+      },
+      1: {
+        msg: `You can communicate here for any help required.`,
+        time: new Date().getTime()
+      }
+    }
+  };
+  _tmpChatListItem.pt[transaction.trBy] = {ls: transaction.trTime};
+  _tmpChatListItem.pt[transaction.trTo] = {ls: transaction.trTime};
+  return admin.database().ref(`/privateList/chatList/bid-${transaction.trid}`).set(_tmpChatListItem);
+}
+
+// Function to whether check existance
+function isExist(data) {
+  if (data !== null && data === undefined) return true;
+  else return false;
+}
+

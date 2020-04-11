@@ -1,0 +1,19 @@
+.commentor-avatar-block {
+  max-width: 62px;
+  min-width: 62px;
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+}
+
+.comment-meta {
+  .user-name {
+    font-size: 17px;
+  }
+}
+
+.bottom-border {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}

@@ -1,0 +1,112 @@
+<app-responsive-home-header></app-responsive-home-header>
+<div class="auth-container">
+  <div class="row w-100">
+    <div class="col-12 auth-box mx-auto px-0">
+      <div class="mt-4">
+        <div class="p-3 card o-hidden mb-3 text-danger" *ngIf="loginErr">
+          <p class="my-0 lh-1 w3-animate-top">
+            {{loginErrMsg}}
+          </p>
+        </div>
+        <p class="my-0 text-center fw-300" *ngIf="mode == 'login' || mode == 'register'">Connect with</p>
+        <p class="my-0 text-center fw-300" *ngIf="mode == 'reset'">Password Reset</p>
+        <div class="social-login-button mt-4"*ngIf="mode == 'login' || mode == 'register'">
+          <div class="social-link g-plus" mat-ripple [matRippleColor]="rippleColor" (click)="loginWithSocial('google')">
+            <div class="row">
+              <div class="col social-icon">
+                <img src="/assets/icons/auth_service_google.svg" alt="">
+              </div>
+              <div class="col text-center">
+                Sign in with Google
+              </div>
+            </div>
+          </div>
+          <div class="social-link facebook" mat-ripple [matRippleColor]="rippleColor" (click)="loginWithSocial('fb')">
+            <div class="row">
+              <div class="col social-icon">
+                <img src="/assets/icons/auth_service_facebook.svg" alt="">
+              </div>
+              <div class="col text-center">
+                Sign in with Facebook
+              </div>
+            </div>
+          </div>
+          <div class="social-link twitter" mat-ripple [matRippleColor]="rippleColor" (click)="loginWithSocial('twitter')">
+            <div class="row">
+              <div class="col social-icon">
+                <img src="/assets/icons/auth_service_twitter.svg" alt="">
+              </div>
+              <div class="col text-center">
+                Sign in with Twitter
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="py-4" *ngIf="mode == 'login' || mode == 'register'">
+          <p class="text-center my-0 text-divider">
+            <span class="divider-text">or</span>
+          </p>
+        </div>
+        <div class="w-100 pt-3">
+          <form (ngSubmit)="onFormSubmit(aF.valid, aF.value)" #aF="ngForm">
+            <div class="form-group">
+              <input type="text" class="auth-input" placeholder="Email" name="email" #email="ngModel" [(ngModel)]="Email" required email>
+              <div class="error-message-block" *ngIf="email.invalid && (email.touched || authFormSubmitTriggered)">
+                <p class="error-message my-0 w3-animate-top">
+                  <span class="error-icon">
+                    <mat-icon>highlight_off</mat-icon>
+                  </span>
+                  <span class="error-text">
+                    Valid email address is required.
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="form-group" *ngIf="mode == 'login' || mode == 'register'">
+              <input type="password" class="auth-input" placeholder="Password" name="password" #password="ngModel" [(ngModel)]="Password" required minlength="6">
+              <div class="error-message-block" *ngIf="password.invalid && (password.touched || authFormSubmitTriggered)">
+                <p class="error-message my-0 w3-animate-top">
+                  <span class="error-icon">
+                    <mat-icon>highlight_off</mat-icon>
+                  </span>
+                  <span class="error-text">
+                    Password must be minimum 6-15 characters long.
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="form-group form-row auth-action-buttons" *ngIf="mode == 'login'">
+              <div class="col">
+                <button class="w-100 login" mat-raised-button color="warn" type="submit">Sign in</button>
+              </div>
+              <div class="col">
+                <button class="w-100 register" mat-stroked-button color="primary" routerLink="/register" type="button" [disabled]="authInProgress">Register</button>
+              </div>
+            </div>
+            <div class="form-group form-row auth-action-buttons" *ngIf="mode == 'register'">
+              <div class="col">
+                <button class="w-100 login" mat-raised-button color="warn" type="submit">Register</button>
+              </div>
+              <div class="col">
+                <button class="w-100 register" mat-stroked-button color="primary" routerLink="/login" type="button" [disabled]="authInProgress">Sign in</button>
+              </div>
+            </div>
+            <div class="form-group form-row auth-action-buttons" *ngIf="mode == 'reset'">
+              <div class="col">
+                <button class="w-100 login" mat-raised-button color="warn" type="submit">Reset</button>
+              </div>
+              <div class="col">
+                <button class="w-100 login" mat-stroked-button color="warn" routerLink="/login" type="button" [disabled]="authInProgress">Cancel</button>
+              </div>
+            </div>
+          </form>
+          <div class="form-group mt-5" *ngIf="mode == 'login' || mode == 'register'">
+            <p class="text-center my-0">
+              <a routerLink="/reset" mat-button color="primary" class="reset-link" (click)="setMode(1)" [disabled]="authInProgress">Forgot password ?</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

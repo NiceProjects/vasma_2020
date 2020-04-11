@@ -1,0 +1,105 @@
+.choose-card {
+  padding: 0px 15px;
+  font-family: Verdana, sans-serif;
+  // padding-bottom: 15px;
+
+  position: relative;
+  .choose-card-img {
+    width: 100%;
+    padding-top: 60%;
+    border-radius: 10px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: 1;
+    box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
+  }
+
+  .choose-card-title-block {
+    display: block;
+    padding: 0px 15px;
+
+    .row {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      background-color: #242424;
+      height: 60px;
+      overflow: hidden;
+
+      div.col.choose-card-title {
+        text-transform: uppercase;
+        font-size: 16px;
+        line-height: 19px;
+        font-weight: 700;
+      }
+      div.choose-card-title-icon {
+        max-width: 54px;
+
+        mat-icon {
+          transition: all 0.3s ease-in-out;
+        }
+
+      }
+    }
+
+    &.list-open {
+      .row {
+        background-color: #FF0000;
+        color: #FFFFFF;
+      }
+      div.choose-card-title-icon mat-icon {
+        transform: rotate(-180deg);
+      }
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-list-item-block {
+  ul.list-group {
+    li.list-group-item {
+      background: linear-gradient(#262626, #121212);
+      border: 0px;
+      font-size: 16px;
+      line-height: 24px;
+
+      &:first-child {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
+
+      &:last-child {
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+
+      p.list-heading {
+        font-size: 18px;
+        line-height: 27px;
+        font-weight: 700;
+        color: #FF0000;
+      }
+      p:last-child {
+        margin-bottom: 0px;
+      }
+    }
+  }
+
+  .cta-button {
+    color: #FF0000;
+    font-weight: 600;
+    border: 1.5px solid #FF0000;
+    border-radius: 50px;
+    height: 60px;
+    width: 100%;
+    max-width: 300px;
+    background-color: transparent;
+    font-size: 18px;
+    line-height: 24px;
+  }
+}

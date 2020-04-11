@@ -1,0 +1,87 @@
+<!-- <app-home-header-sm></app-home-header-sm> -->
+<div class="home-landing-block-sm">
+  <div class="dark-overlay"></div>
+  <div class="menu-back-overlay-2"></div>
+  <div class="inner-box w3-animate-opacity" style="bottom: Calc(5vw + 60px);">
+    <p class="header-text-1">
+      The application that is taking music industry <strong>BY STORM</strong>
+    </p>
+    <p class="header-text-2">
+      You finally have a platform that allows all independent walks of the music industry to be <strong>YOUR OWN MANAGER</strong>
+    </p>
+    <p class="my-0">
+      <button mat-ripple class="register-for-free">Register for free</button>
+      <button mat-ripple class="know-more">Know more</button>
+    </p>
+  </div>
+</div>
+<div class="w-100">
+<section class="choose-account-section py-5">
+  <div class="pb-5">
+    <p class="choose-heading">
+      Choose your flavor
+    </p>
+    <p class="choose-sub-heading">
+      Choose below to learn more about how we can icrease your revenue
+    </p>
+  </div>
+  <div class="choose-account-cards">
+    <div class="w-100 mb-3">
+      <app-choose-account-card [data-button]="{link: 'Venue', path: '/register'}" [data-bg-img]="chooseAccountObj.venue.bgImg" [data-title]="chooseAccountObj.venue.title" [data-list]="chooseAccountObj.venue.list"></app-choose-account-card>
+    </div>
+    <div class="w-100 mb-3">
+      <app-choose-account-card [data-button]="{link: 'Artist', path: '/register'}" [data-bg-img]="chooseAccountObj.artist.bgImg" [data-title]="chooseAccountObj.artist.title" [data-list]="chooseAccountObj.artist.list"></app-choose-account-card>
+    </div>
+    <div class="w-100 mb-3">
+      <app-choose-account-card [data-button]="{link: 'Studio', path: '/register'}" [data-bg-img]="chooseAccountObj.studio.bgImg" [data-title]="chooseAccountObj.studio.title" [data-list]="chooseAccountObj.studio.list"></app-choose-account-card>
+    </div>
+  </div>
+</section>
+<section class="p-4" id="app-stats-counter">
+  <div class="stats-overlay"></div>
+  <div class="row">
+    <div class="col-6">
+      <div class="stats bbr">
+        <span class="stats-count">1200+</span>
+        <span class="stats-title">Artists</span>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="stats bbr">
+        <span class="stats-count">150+</span>
+        <span class="stats-title">Studios</span>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="stats">
+        <span class="stats-count">200+</span>
+        <span class="stats-title">Venues</span>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="stats">
+        <span class="stats-count">2000+</span>
+        <span class="stats-title">Bookings</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="testimonials-sm py-5">
+  <div class="pb-4">
+    <p class="testimonials-heading">
+      What people say <span class="d-inline-block">about us</span>
+    </p>
+    <p class="testimonials-sub-heading">
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book
+    </p>
+  </div>
+  <div class="testimonial-carousel">
+      <owl-carousel-o [options]="customOptions" #testimonialCarousel id="owl-car">
+        <ng-container>
+          <ng-template carouselSlide  *ngFor="let teetimonial of testimonials">
+            <app-testimonial-card [data-testimonial]="teetimonial"></app-testimonial-card>
+          </ng-template>
+        </ng-container>
+      </owl-carousel-o>
+  </div>
+</section>

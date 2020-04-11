@@ -1,0 +1,54 @@
+<section class="container-fluid px-0">
+  <div class="row align-items-center mx-0">
+    <div class="col user-avatar">
+      <img class="c-pointer" routerLink="/user/{{userData.uid}}" src="{{userData.photoURL | avatarImg}}" alt="" *ngIf="userData">
+    </div>
+    <div class="col user-data lh-1">
+      <div class="user-name" [ngClass]="userData ? 'clip-data':''">
+        <span class="vas-placeholder place-holder-blk" *ngIf="!userData">
+        </span>
+        <a class="no-style" routerLink="/user/{{userData.uniqueKey}}" *ngIf="userData">
+          <span class="c-pointer">
+            {{(userData.businessName ||userData.name.userName) | titlecase}}<span class="text-muted must" *ngIf="userData.uniqueKey.length <= 20"> • @{{userData.uniqueKey}}</span>
+          </span>
+        </a>
+      </div>
+      <div class="user-type mt-1" [ngClass]="userData ? 'clip-data':''">
+        <span class="vas-placeholder place-holder-blk" *ngIf="!userData">
+        </span>
+        <p class="text-muted" *ngIf="userData">
+          <small class="mr-2" *ngIf="userData.ratingData && userData.ratingData.rating !== 0">{{userData.ratingData.rating}}<span class="material-icons text-gold">star</span></small>
+          <small>{{userData.userType | titlecase}}</small>
+          <small class="ml-1" *ngIf="userData.add1">
+            <span *ngIf="userData.userType == 'artist'">from </span>
+            <span *ngIf="userData.userType !== 'artist'">in </span>
+            {{userData.add1.city | titlecase}}, {{userData.add1.state | uppercase}}.
+          </small>
+        </p>
+      </div>
+    </div>
+    <div class="col user-action lh-1">
+      <div *ngIf="!userData">
+        <span class="vas-placeholder place-holder-blk action-btn"></span>
+      </div>
+      <div *ngIf="userData && userData.uid !== authUser.uid">
+        <div class="col user-actions" *ngIf="isFollowing; then unfollowButton else followButton">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #followButton>
+  <button mat-flat-button color="warn" (click)="follow()">
+    <mat-icon class="follow-button-icon">person_add</mat-icon> Follow</button>
+</ng-template>
+<ng-template #unfollowButton>
+  <button mat-flat-button color="warn" [matMenuTriggerFor]="followMenu">
+    <mat-icon class="follow-button-icon">how_to_reg</mat-icon> Following</button>
+</ng-template>
+<mat-menu #followMenu="matMenu" [class]="'unfollow-menu mini-menu'">
+  <button mat-menu-item class="unfollow-button" (click)="unFollow()">
+    <mat-icon>person_add_disabled</mat-icon> Unfollow
+  </button>
+</mat-menu>

@@ -1,0 +1,61 @@
+$placeholder-bg-color: #444;
+
+.container-fluid {
+  &:hover {
+    .text-muted:not(.must) {
+      color: #fff !important;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+}
+
+.user-avatar {
+  max-width: 45px;
+  width: 45px;
+  height: 45px;
+  padding-right: 0px;
+  padding-left: 0px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: $placeholder-bg-color;
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+
+.user-name {
+  >span.place-holder-blk {
+    height: 22px;
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+.user-type {
+  >span.place-holder-blk {
+    height: 12px;
+    width: 50%;
+    max-width: 120px;
+  }
+
+  .material-icons {
+    font-size: inherit;
+    vertical-align: -2px;
+  }
+}
+
+
+.place-holder-blk.action-btn {
+  height: 36px;
+  width: 92px;
+}
+
+.user-action {
+  max-width: 120px;
+  padding-right: 0px;
+  padding-left: 0px;
+  text-align: right;
+}

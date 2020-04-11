@@ -1,0 +1,66 @@
+.contact-remove-button {
+  vertical-align: -24px;
+}
+
+.sound-cloud-icon {
+  max-width: 50px;
+  img {
+    width: 45px;
+    height: auto;
+  }
+}
+
+button.business-owner {
+  display: block;
+  margin-bottom: 0.75rem;
+  width: 100%;
+  border-radius: 6px;
+  padding: 1.5rem 1rem;
+  background-color: transparent;
+  border: 1.5px solid #999999;
+  transition: all 0.3s  cubic-bezier(.25, .8, .25, 1);
+
+  &.business-owner-add {
+    border: 2px dashed #999999;
+  }
+
+  &.selected-bo {
+    background-color: #FFFFFF;
+    border-color: #FFF;
+    color: #242424;
+    font-weight: bold;
+  }
+}
+
+.error-list {
+  ul {
+    margin-bottom: 1rem;
+
+    li {
+      line-height: 1.35;
+      font-size: 14px;
+    }
+  }
+}
+
+.mat-form-field-invalid#unique-id-field {
+  min-height: 115px;
+}
+
+@media screen and (max-width: 992px) {
+  // .panel-header-icon {
+  //   padding-right: 0px;
+  // }
+}
+
+// button {
+//   display: block;
+//   width: 100%;
+//   border-radius: 6px;
+//   border: 2px dashed #999999;
+//   padding: 1.5rem 1rem;
+//   background-color: transparent;
+// }
+
+
+

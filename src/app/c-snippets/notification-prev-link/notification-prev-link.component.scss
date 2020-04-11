@@ -1,0 +1,22 @@
+.col.notification-icon {
+  max-width: 52px;
+  min-width: 52px;
+  height: 42px;
+
+  div {
+    width: 42px;
+    height: 42px;
+    background-color: rgba(255, 255, 255, 0.125);
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 9px;
+    mat-icon {
+      font-size: 24px;
+    }
+  }
+}
+
+.notification-text {
+  font-size: 14px;
+  line-height: 1.35;
+}

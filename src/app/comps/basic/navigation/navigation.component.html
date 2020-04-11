@@ -1,0 +1,39 @@
+<div class="container-fluid navi-bar">
+  <div class="row align-items-center justify-content-between">
+    <div class="col brand">
+      <a routerLink="/" class="home-link">
+      <img src="/assets/img/logo-with-quote.svg" alt="" class="brand-logo"></a>
+    </div>
+    <div class="col nav-content text-right">
+      <div class="top-navbar d-flex">
+        <ul class="top-nav d-lg-inline-block ml-auto">
+          <li class="top-nav-item">
+            <a mat-button routerLink="/my_account" routerLinkActive="active" class="navi-link">
+             <!-- <mat-icon>person_outline</mat-icon> -->
+             <span class="d-none d-md-inline">My account</span>
+            </a>
+          </li>
+          <li class="top-nav-item" *ngIf="isAuthenticated">
+            <a mat-button href="javascript:void(0)" class="navi-link" (click)="logout()">
+              <!-- <mat-icon>power_settings_new</mat-icon> -->
+              <span class="d-none d-md-inline">Logout</span>
+            </a>
+          </li>
+        </ul>
+        <button mat-icon-button class="menu-button ml-auto" [matMenuTriggerFor]="mainMenu" color="warn">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #mainMenu="matMenu" [overlapTrigger]="false" [class]="'navigation-bar-menu'">
+          <button mat-menu-item routerLink="/my_account">
+            <mat-icon>person_outline</mat-icon>
+            <span>My account</span>
+          </button>
+          <button mat-menu-item *ngIf="isAuthenticated" (click)="logout()">
+            <mat-icon>power_settings_new</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+</div>

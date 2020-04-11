@@ -1,0 +1,25 @@
+<div class="w-100 comment-block pt-2">
+  <div class="row">
+    <div class="col-12">
+      <div class="row align-items-center">
+        <div class="col commentor-avatar-block">
+          <img src="{{userDp | avatarImg}}" alt="">
+        </div>
+        <div class="col pl-0">
+          <p class="my-0 comment-meta">
+            <a class="no-style on-hover-underline" routerLink="/user/{{userKey}}">
+              <span class="text-white user-name">{{(businessName || userName) | titlecase}}</span>
+              <span class="text-muted" *ngIf="userKey"> @{{userKey | lowercase}}</span>
+            </a>
+            <span class="text-muted"> • <span class="d-inline-block">{{comment.cTime | fromNow}}</span></span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col comment-box " style="padding-left: 62px; padding-top: 12px;">
+      <div class="w-100 bottom-border pb-3">
+        <p class="mb-0">{{comment.cText}}</p>
+      </div>
+    </div>
+  </div>
+</div>

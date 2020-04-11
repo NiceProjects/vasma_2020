@@ -1,0 +1,138 @@
+<div class="w-100">
+  <div class="card bg-black-2 p-3">
+    <div *ngIf="!booking && !isError">
+      Fetching booking details. Please wait...
+    </div>
+    <div *ngIf="isError">
+      <span>
+        Something went wrong. Unable to fetch booking details. Booking id: {{trId}}
+      </span>
+    </div>
+    <div *ngIf="booking && !isError">
+      <div class="w-100">
+        <div class="form-row" *ngIf="booking.bId">
+          <div class="col-12 col-md-6 booking-action-state my-2 my-md-0  order-1 order-md-2">
+            <span class="badge badge-pill" [ngClass]="getActionClass(booking.bookingST)" *ngIf="inBoundBooking">{{booking.bookingST | bookingStatus:'inbound'}}</span>
+            <span class="badge badge-pill" [ngClass]="getActionClass(booking.bookingST)" *ngIf="outBoundBooking">{{booking.bookingST | bookingStatus:'outbound'}}</span>
+          </div>
+          <div class="col-12 col-md-6 order-2 order-md-1">
+            <span class="text-muted">Booking referrence id: <span class="text-white"><b> {{booking.bId | uppercase}}</b></span></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-12 col-md-6">
+            <h5>
+              <span [innerHTML]="booking.bookingData.serviceTitle"></span>
+            </h5>
+            <h6 *ngIf="inBoundBooking && payeeData">
+              <small class="text-muted">From</small> {{payeeData.name.userName | titlecase}}
+            </h6>
+            <h6 *ngIf="outBoundBooking">
+              <small class="text-muted">At</small> {{booking.bookingData.serviceOwner}}
+            </h6>
+            <p class="my-0">
+              {{booking.bookingData.bookingQty}} {{booking.bookingData.bookingUnits}}(s)
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <p class="my-0">
+              Booking date: {{booking.bookingData.bookingDates[0] | date:'d MMM, y'}}
+              <span *ngIf="booking.bookingData.bookingDates.length > 1">
+                <br>
+                To: {{booking.bookingData.bookingDates[booking.bookingData.bookingDates.length - 1] | date:'d MMM, y'}}
+              </span>
+            </p>
+          </div>
+          <div class="col-12 col-sm-6" *ngIf="booking.bookingData.bookingDates.length == 1 && booking.bookingData.bookingTime">
+            Booking time: {{booking.bookingData.bookingTime[0].st | date:'h:mm a'}} - {{booking.bookingData.bookingTime[0].et | date:'h:mm a'}}
+          </div>
+        </div>
+        <div class="w-100 pt-2">
+          <div class="mb-0">
+            <button mat-flat-button color="primary" class="mr-2" style="min-width: 110px" (click)="toggleMoreDetails()">{{toggleMore ? 'Less':'More'}} details</button>
+            <div class="d-inline-block" *ngIf="inBoundBooking && ['cancel-acpt-by-sp', 'completed'].indexOf(booking.bookingST) < 0">
+              <div class="dropdown booking-actions">
+                <button mat-flat-button color="warn" class="w-100"
+                  type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <div class="form-row my-0 align-items-center">
+                    <div class="col p-0 text-left">
+                      Actions
+                    </div>
+                    <div class="col p-0 text-right lh-1">
+                      <mat-icon>expand_more</mat-icon>
+                    </div>
+                  </div>
+                </button>
+                <div class="dropdown-menu mini-menu">
+                  <button mat-ripple class="mat-menu-item" (click)="AcceptBooking()" *ngIf="['review-by-sp', 'reject-by-sp'].indexOf(booking.bookingST) >= 0">Accept</button>
+                  <button mat-ripple class="mat-menu-item" (click)="CancelBooking()" *ngIf="['review-by-sp', 'confirm-by-sp'].indexOf(booking.bookingST) >= 0">Cancel & Refund</button>
+                  <button mat-ripple class="mat-menu-item" (click)="acceptCancellationByPY()" *ngIf="['cancel-by-py'].indexOf(booking.bookingST) >= 0">Accept cancellation</button>
+                  <button mat-ripple class="mat-menu-item" (click)="completeThisBooking()" *ngIf="['review-by-sp', 'confirm-by-sp'].indexOf(booking.bookingST) >= 0">Complete booking</button>
+                  <!-- <button mat-ripple class="mat-menu-item">Modify request</button> -->
+                </div>
+              </div>
+            </div>
+            <button mat-flat-button color="warn" *ngIf="outBoundBooking && ['cancel-acpt-by-sp', 'cancel-by-py', 'completed'].indexOf(booking.bookingST) < 0" (click)="CancelBooking()">Cancel booking</button>
+          </div>
+        </div>
+        <div class="w-100 pt-4" *ngIf="toggleMore">
+          <div class="row">
+            <div class="col-12 d-block d-md-none">
+              <mat-divider class="mb-3"></mat-divider>
+            </div>
+            <div class="col-md-4 col-12">
+              <ul class="booking-timeline mb-0" *ngIf="bookingStateMessages">
+                <li class="timeline-item" *ngFor="let item of bookingStateMessages">
+                  <span class="log-message-time">{{item.time | date:'dd MMM, y h:mm a'}}</span>
+                  <span class="log-message-text">{{item.msg}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="col-12 d-block d-md-none">
+              <mat-divider class="my-3"></mat-divider>
+            </div>
+            <div class="col-md-8 col-12">
+              <div class="w-100" *ngIf="outBoundBooking">
+                <h6 class="fw-400">
+                  <span>Payment reciept </span>
+                </h6>
+                <div class="w-100">
+                  <app-payee-reciept [data-reciept]="booking.bookingData.reciept" [data-reciept-msg]="'Total'"></app-payee-reciept>
+                </div>
+              </div>
+              <div class="w-100" *ngIf="inBoundBooking">
+                <p class="fw-400">
+                  <span>Payment reciept </span>
+                  <span class="badge badge-pill badge-warning" *ngIf="!booking.psSt">
+                    <!-- <span class="material-icons">info</span> -->
+                    Pending
+                  </span>
+                  <span class="badge badge-md badge-pill badge-success" *ngIf="booking.psSt">
+                    <!-- <span class="material-icons">done</span> -->
+                    Setteled
+                  </span>
+                </p>
+                <div class="w-100">
+                  <app-payment-settlement-reciept [data-payment-reciept]="booking.bookingData.reciept"></app-payment-settlement-reciept>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 d-block">
+              <mat-divider class="my-3"></mat-divider>
+            </div>
+            <div class="col-12">
+              <button mat-flat-button color="primary" class="mr-2" (click)="openBookingChat()">
+                <span class="material-icons mr-1">chat</span>Chat here
+              </button>
+              <button mat-flat-button color="primary" class="mr-2">
+                <span class="material-icons mr-1">info</span>Raise dispute
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

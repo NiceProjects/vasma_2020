@@ -1,0 +1,40 @@
+section {
+  position: relative;
+}
+
+.mat-tab-link {
+  color: #FFF;
+  min-width: unset;
+  // height: 40px;
+  // border-radius: 30px;
+  padding: 0px 20px;
+}
+
+.cust-mat-nav {
+  border-bottom: 0px !important;
+}
+
+.mat-tab-link:hover {
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.025);
+}
+
+.mat-tab-label-active {
+  color: #FFF;
+  opacity: 1;
+}
+
+.inner-nav-bar-tab {
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  background-color: #202020;
+}
+
+@media screen and (max-width: 500px) {
+  // .main-content {
+  //   // margin: auto -15px;
+  // }
+}
+
+

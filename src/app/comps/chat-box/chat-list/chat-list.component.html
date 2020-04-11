@@ -1,0 +1,7 @@
+<div class="w-100">
+  <div class="chat-list-item-snippet" mat-ripple (click)="selectThisChat(cli.clUid)" *ngFor="let cli of userChatList">
+    <div class="w-100">
+      <app-chat-list-item [data-chat-id]="cli.clUid"></app-chat-list-item>
+    </div>
+  </div>
+</div>

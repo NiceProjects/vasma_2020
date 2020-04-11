@@ -1,0 +1,39 @@
+<section class="container-fluid p-2">
+  <div class="row align-items-center">
+    <div class="col avatar-box">
+      <img src="{{NO.avatar | avatarImg}}" alt="">
+    </div>
+    <div class="col data-box pl-0">
+      <div *ngIf="isComment && !NO.nError">
+        <p class="my-0" *ngIf="commentObject">
+          <span *ngIf="NO.refUserName">
+            <a class="no-style on-hover-underline text-underlined" routerLink="/user/{{NO.refUserName}}"><span class="text-white">{{(NO.refBName || NO.refDispName) | titlecase}}</span></a>
+          </span>
+          <span *ngIf="!NO.refUserName">
+              {{(NO.refBName || NO.refDispName) | titlecase}}
+          </span>
+          <span class="text-muted"> has commented as " </span>
+          <span class="text-white">{{commentObject.cText}}</span>
+          <span class="text-muted"> " on your profile.</span>
+        </p>
+        <span class="d-block lh-1 text-muted">
+          <small>{{nc.nTime | fromNow}}</small>
+        </span>
+      </div>
+      <div *ngIf="isProspect && !NO.nError">
+        <p class="my-0">
+          <span *ngIf="NO.refUserName">
+            <a class="no-style on-hover-underline text-underlined" routerLink="/user/{{NO.refUserName}}"><span class="text-white">{{(NO.refBName || NO.refDispName) | titlecase}}</span></a>
+          </span>
+          <span *ngIf="!NO.refUserName">
+            {{(NO.refBName || NO.refDispName) | titlecase}}
+          </span>
+          <span> is now following you.</span>
+        </p>
+        <span class="d-block lh-1 text-muted">
+          <small>{{nc.nTime | fromNow}}</small>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

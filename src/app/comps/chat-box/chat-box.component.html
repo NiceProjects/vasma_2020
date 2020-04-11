@@ -1,0 +1,25 @@
+<div class="chat-box" *ngIf="chatBoxState">
+  <div class="chat-box-toggler-block">
+    <div class="large-screen-toggler w3-animate-bottom" mat-ripple *ngIf="!chatBoxState.showChatBox" (click)="toggleConversations()">
+      <span class="chat-box-toggler d-inline-block">
+        <span class="material-icons mr-3">chat</span>Conversations
+      </span>
+    </div>
+    <!-- <div class="small-screen-toggler" mat-ripple *ngIf="!chatBoxState.showChatBox || chatBoxState.chatMinimize" (click)="openChatBox()">
+      <span class="d-inline-block">
+        <span class="material-icons">chat</span>
+      </span>
+    </div> -->
+  </div>
+  <div class="chat-box-block w3-animate-bottom" [ngClass]="chatBoxState.chatMinimize ? 'minimize':''" *ngIf="chatBoxState.showChatBox">
+    <div class="chat-header-div">
+      <app-chat-box-header></app-chat-box-header>
+    </div>
+    <div class="chat-list" *ngIf="!chatBoxState.selChatList" (swipe)="swipe($event, 'chatList')">
+      <app-chat-list></app-chat-list>
+    </div>
+    <div class="chat-pannel" *ngIf="chatBoxState.selChatList">
+      <app-chat-pannel></app-chat-pannel>
+    </div>
+  </div>
+</div>

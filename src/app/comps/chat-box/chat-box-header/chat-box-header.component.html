@@ -1,0 +1,28 @@
+<div class="w-100 chat-header-block">
+  <div class="mx-0 row align-items-center">
+    <div class="col back-icon chat-action-button" *ngIf="chatBoxState.selChatList && !chatBoxState.chatMinimize">
+      <button class="" mat-icon-button color="primary" (click)="goToChatList()">
+        <span class="material-icons">keyboard_backspace</span>
+      </button>
+    </div>
+    <div class="col chat-desc">
+      <!-- <h6 class="my-0">{{chatWindowHeader}}</h6> -->
+      <h6 class="my-0" *ngIf="!selectedChat || selectedChat === 'err'">{{chatWindowHeader}}</h6>
+      <div class="lh-1" *ngIf="selectedChat">
+        <h6 class="my-0" *ngIf="selectedChat.cType == 'booking'">{{selectedChat.subj}}</h6>
+      </div>
+    </div>
+    <div class="col chat-notification chat-action-button"></div>
+    <div class="col chat-minimise chat-action-button" (click)="toggleMinimize()">
+      <button class="" mat-icon-button color="primary">
+        <span class="material-icons" *ngIf="!chatBoxState.chatMinimize">remove</span>
+        <span class="material-icons" *ngIf="chatBoxState.chatMinimize">keyboard_arrow_up</span>
+      </button>
+    </div>
+    <div class="col chat-close chat-action-button">
+      <button class="" mat-icon-button color="primary" (click)="toggleChatWindow()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+  </div>
+</div>

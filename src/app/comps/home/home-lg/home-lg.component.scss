@@ -1,0 +1,248 @@
+.home-main {
+  // background-color: #191d28;
+  display: block;
+}
+
+*:not(i) {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-radius: 0px;
+}
+
+h1, h3 {
+  line-height: 1.45;
+}
+
+@media screen and (max-width: 1600px) {
+
+}
+
+.home-hero-links {
+  button {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+  }
+}
+
+.cta-register {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 17px !important;
+  font-weight: 400 !important;
+  border-color: #F00;
+  color: #F00;
+  height: 60px;
+  min-width: 250px;
+
+  &:hover {
+    color: #FFF;
+    background-color: #F00;
+  }
+}
+
+.hero-heading {
+  font-weight: 700;
+  font-size: 30px;
+  color: #fff;
+  span {color: #f00; display: inline-block; text-transform: uppercase}
+  text-align: left;
+}
+
+.hero-heading-2 {
+  font-weight: 400;
+  font-size: 22px;
+  color: #fff;
+  span {font-weight: 600; color: #f00; display: inline-block; text-transform: uppercase}
+}
+
+// .custom-container {
+  // max-width: 1366px !important;
+  // width: 100%;
+// }
+
+.landing-portion {
+  // min-height: 100vh;
+  // height: 100vh;
+  // max-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -60px;
+  background-image: url('/assets/img/backgrounds/home/black-background-dark-entertainment-894156.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  .landing-page-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0px;
+    background-color: rgba(0,0,0, 0.8);
+  }
+}
+
+.min-100vh { min-height: 100vh }
+.max-100vh { max-height: 100vh }
+.h-100vh { height: 100vh }
+.w-100vw { width: 100vw }
+.max-969 { max-height: 969px}
+
+.vas-btn {
+  height: 50px;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+  font-family: "Roboto", sans-serif;
+  border-radius: 6px;
+  color: #121212;
+  background-color: transparent;
+  min-width: 100px;
+  border: 1.5px solid #d2d2d2;
+  padding: 0px 24px;
+  cursor: pointer;
+
+  &.solid {
+    background-color: #f2f2f2;
+    color: #121212;
+
+    &.danger {
+      background-color: #f00;
+      color: #fff;
+      border-color: #f00;
+    }
+  }
+  &.outline {
+    background-color: transparent;
+    color: #f2f2f2;
+
+    &.danger {
+      border-color: #F00;
+      &:not(.text-white) {
+        color: #F00;
+      }
+
+      &.text-white {color: #F00;}
+
+      &:hover {
+        background-color: #F00;
+        color: #FFF;
+      }
+    }
+
+    &:hover {
+      background-color: #f2f2f2;
+      color: #121212;
+    }
+  }
+}
+
+.choose-account-types {
+  background-color: #000;
+  h3 {
+    color: #FF0000;
+  }
+
+  ul {
+    list-style: none;
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+    height: 60px;
+    user-select: none;
+
+    li {
+      display: inline-block;
+      height: 60px;
+      line-height: 60px;
+      padding: 0px 36px;
+      cursor: pointer;
+      color: #FFF;
+      font-size: 22px;
+      text-transform: uppercase;
+      &.active {
+        color: #FFF;
+        background-color: #f00;
+      }
+    }
+  }
+}
+
+.usertype-feature-detail-box {
+  border-top: 1.5px solid #F00;
+}
+
+.special-feature-card {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+  // border: 1px solid #242424;
+  // padding: 20px;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+  user-select: none;
+
+  &:hover {
+    .card-icon {
+      color: #F00;
+    }
+  }
+  .card-icon {
+    i {
+      font-size: 60px !important;
+      &::before {
+        font-size: inherit !important;
+        margin-left: 0px !important;
+      }
+    }
+  }
+  .card-heading {
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFF;
+    text-transform: uppercase;
+    margin-bottom: 0rem;
+  }
+  .card-description {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #999;
+    // b { color: #F00 }
+  }
+}
+
+.app-stats  {
+  background-image: url('/assets/img/backgrounds/home/adult-apple-black-and-white-2330137.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  position: relative;
+
+  .stats-overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(0,0,0, 0.5);
+  }
+
+  h2 {
+    color: #F00;
+  }
+}
+
+
+// CSS for carousel
+.carousel-section {
+  position: relative;
+  padding: 0px 20px;
+}
+
+.testimonial-nav-buttons {
+  button {
+    width: 50px;
+    height: 50px;
+  }
+}

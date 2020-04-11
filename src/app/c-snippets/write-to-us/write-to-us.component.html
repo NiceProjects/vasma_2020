@@ -1,0 +1,23 @@
+<div class="w-100 d-block wtu-form-block">
+  <form (ngSubmit)="onSubmit(wtu)" #wtu="ngForm" class="wtu-form">
+    <div class="form-row">
+      <div class="col-12 col-md-6 form-group">
+        <input type="text" class="form-control" placeholder="First name" name="wtuFn" ngModel>
+      </div>
+      <div class="col-12 col-md-6 form-group">
+        <input type="text" class="form-control" placeholder="Last name" name="wtuLn" ngModel>
+      </div>
+      <div class="col-12 form-group">
+        <input type="email" email class="form-control" placeholder="Email" name="wtuEmail" ngModel>
+      </div>
+      <div class="col-12 form-group">
+        <textarea id="wtu-message" rows="3" class="form-control" placeholder="Please write your message here." name="wtuMessage" ngModel>
+          Please write your message here.
+        </textarea>
+      </div>
+      <div class="col-12 form-group">
+        <button mat-flat-button color="warn" class="wtu-submit px-5 py-2" id="wtu-submit">Send</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,101 @@
+<!-- <div class="card bg-black-2 px-0" mat-ripple [routerLink]="eventId" *ngIf="eventData"> -->
+<div class="card bg-black-2 px-0" mat-ripple (click)="showThisEvent()" *ngIf="eventData">
+  <div class="event-banner-img" [ngStyle]="{'background-image': 'url(' + eventData.eventBanneImg.filePath +')'}">
+  </div>
+  <div class="event-details p-3 p-md-4">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <p class="">
+          <i class="material-icons mr-2">today</i> {{eventData.eventStartTS | date:'M/d/yyyy, h:mm a'}}
+        </p>
+      </div>
+      <div class="col-12 clip-data">
+        <h6 class="">
+          {{eventData.title}}
+        </h6>
+      </div>
+      <div class="col-12">
+        <p class="mb-0">{{eventData.sDesc}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="for-event-fullview" *ngIf="eventFullView && eventData">
+  <button mat-icon-button class="full-view-close-button" (click)="closeThisEvent()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="full-view-content">
+    <div class="container">
+      <mat-toolbar class="px-1" [ngClass]="topScroll >= 80 ? 'shaded':''">
+        <button mat-icon-button class="mr-1"  (click)="closeThisEvent()">
+          <mat-icon>keyboard_backspace</mat-icon>
+        </button>
+        <span class="event-title text-truncate" *ngIf="topScroll >= 80">{{eventData.title}}</span>
+      </mat-toolbar>
+      <div class="display-content py-0 py-lg-5" (scroll)="onWindowScroll(eventData.eventId)" [id]="eventData.eventId">
+        <div class="card p-0">
+          <div class="event-banner-img-block w-100">
+            <img class="w-100" [src]="eventData.eventBanneImg.filePath" [alt]="eventData.title">
+          </div>
+          <div class="main-item-block p-3 p-md-4">
+            <div class="row align-items-start">
+              <div class="col-12 mb-4 mb-md-0">
+                <h4 class="mt-0">{{eventData.title}}</h4>
+              </div>
+              <div class="col-12 col-md-8 col-lg-9 mb-4 mb-md-0">
+                <div class="event-time-blocks w-100 mt-3">
+                  <!-- <div class=""></div> -->
+                  <div class="event-time-block" [ngClass]="isOneDayEvent(eventData.eventStartTS, eventData.eventEndTS) ? 'same-day':'another-day'">
+                    <span class="date-month">
+                      {{eventData.eventStartTS | date:'d MMM'}}
+                      <span *ngIf="!isSameYear(eventData.eventStartTS, eventData.eventEndTS)">
+                        ,  {{eventData.eventStartTS | date:'yy'}}
+                      </span>
+                    </span>
+                    <span class="time">
+                      <span>{{eventData.eventStartTS | date:'hh:mm a'}}</span>
+                      <span *ngIf="isOneDayEvent(eventData.eventStartTS, eventData.eventEndTS)">
+                        &nbsp;<small class="text-muted" style="vertical-align: middle">TO</small>&nbsp;{{eventData.eventEndTS | date:'hh:mm a'}}
+                      </span>
+                    </span>
+                  </div>
+                  <div class="d-none d-md-inline-block event-time-block-separator mx-0 my-3 mx-md-3 my-md-0" *ngIf="!isOneDayEvent(eventData.eventStartTS, eventData.eventEndTS)"></div>
+                  <div class="event-time-block" *ngIf="!isOneDayEvent(eventData.eventStartTS, eventData.eventEndTS)"  [ngClass]="isOneDayEvent(eventData.eventStartTS, eventData.eventEndTS) ? 'same-day':'another-day'">
+                    <span class="date-month">
+                      {{eventData.eventEndTS | date:'d MMM'}}
+                      <span *ngIf="!isSameYear(eventData.eventStartTS, eventData.eventEndTS)">
+                        ,  {{eventData.eventStartTS | date:'yy'}}
+                      </span>
+                    </span>
+                    <span class="time">
+                      <span>{{eventData.eventEndTS | date:'hh:mm a'}}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-4 col-lg-3 mt-3" *ngIf="!authUser">
+                <button mat-flat-button color="warn" class="event-register-button" (click)="loginAndRegister()">Register</button>
+              </div>
+              <div class="col-12 col-md-4 col-lg-3 mt-3" *ngIf="eventRegDetails !== undefined && authUser && !enablePayment">
+                <div *ngIf="eventRegDetails == null; then registerButton else cancelRegister"></div>
+              </div>
+              <ng-template #registerButton>
+                <button mat-flat-button color="primary" class="event-register-button" (click)="onRegister()" *ngIf="eventRegDetails == null">
+                  {{registeringToEvent ? 'Registering...':'Register'}}
+                </button>
+              </ng-template>
+              <ng-template #cancelRegister>
+                <button mat-flat-button color="warn" class="event-register-button" (click)="onCancelRegistration()" *ngIf="eventRegDetails">Cancel registration</button>
+              </ng-template>
+              <div class="col-12 col-md-4 col-lg-3 mt-3" *ngIf="enablePayment && paymentAmt && !eventRegDetails">
+                <app-paypal-payment [data-amount]="paymentAmt" [data-purchase-desc]="paymentDesc" (paymentResponse)="onPaymentResponse($event)"></app-paypal-payment>
+              </div>
+            </div>
+          </div>
+          <div class="event-full-description-block quill-output-box p-3 p-md-4" [innerHTML]="eventData.fDesc"></div>
+          <!-- <div class="event-full-description-block quill-output-box p-3 p-md-4" [innerHTML]="eventData.fDesc"></div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

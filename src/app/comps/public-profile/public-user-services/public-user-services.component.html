@@ -1,0 +1,51 @@
+<section>
+  <div class="w-100">
+  <h2 class="fw-900">Services offered</h2>
+  </div>
+</section>
+<section *ngIf="!selService">
+  <div class="row mt-4">
+    <div class="col-12" *ngIf="isLoading">
+      <div class="w-100 card bg-black-2 p-4">
+        <mat-spinner class="mx-auto" [diameter]="60" [strokeWidth]="3" [mode]="'indeterminate'" [color]="'primary'"></mat-spinner>
+      </div>
+    </div>
+    <div class="col-12" *ngIf="!isLoading && !services && !errLoadingList">
+      <div class="w-100 card bg-black-2 p-4">
+        <p class="my-0 text-center">
+          We are not offering any services right now. Please visit this page later.
+        </p>
+      </div>
+    </div>
+    <div class="col-12" *ngIf="!isLoading && services && !errLoadingList">
+      <div class="row">
+        <div class="col-12 col-lg-6 mb-3" *ngFor="let service of services; let i = index">
+          <app-service-list-card-public [data-service]="service" (onSelect)="selThisService($event)"></app-service-list-card-public>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section *ngIf="selService">
+  <div class="row mt-4">
+    <div class="col-12" *ngIf="(!isLoading && !selService) || errLoadingServ">
+      <div class="w-100 card bg-black-2 p-4">
+        <p class="my-0 text-center">
+          Something went wrong. Unable to fetch services. Please check services page <a routerLink="../">here</a>
+        </p>
+      </div>
+    </div>
+    <div class="col-12" *ngIf="isLoading">
+      <div class="w-100 card bg-black-2 p-4">
+        <mat-spinner class="mx-auto" [diameter]="60" [strokeWidth]="3" [mode]="'indeterminate'" [color]="'primary'"></mat-spinner>
+      </div>
+    </div>
+    <div class="col-12">
+      <app-service-card-public-large [data-service]="selService"></app-service-card-public-large>
+    </div>
+    <div class="col-12 text-center mt-4">
+      <button mat-flat-button color="primary" (click)="selThisService(null)">Back to services list</button>
+    </div>
+    <!-- <div>{{selService.publish}}</div> -->
+  </div>
+</section>

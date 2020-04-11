@@ -1,0 +1,90 @@
+.calendar-box {
+  user-select: none;
+  -webkit-user-select: none;
+  width: 249px;
+  background-color: #333;
+  padding: 10px 9px;
+  font-size: 15px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.month-year-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 300;
+
+  div {
+    display: inline-block;
+
+    &.year-month button {
+      font-size: 15px;
+    }
+  }
+}
+
+.calendar-body {
+  font-size: 15px;
+}
+
+.date-box {
+  display: inline-block;
+  .date {
+    display: flex;
+    width: 33px;
+    height: 33px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.week-day-box  {
+  display: inline-block;
+  .week-day-title {
+    display: flex;
+    width: 33px;
+    height: 33px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.date-pick-button {
+  width: 33px;
+  height: 33px;
+  background: transparent;
+  border: 0px;
+  // border: 1.25px solid transparent;
+  // outline: 1px solid transparent;
+  font-size: 15px;
+  // border-radius: 50%;
+  color: #FFF;
+
+  &.out-of-month {
+    color: #555;
+  }
+
+  &.today {
+    // background-color: #555;
+    outline: solid 1px #fff;
+    outline-offset: -1px;
+  }
+
+  &.dt-selected {
+    background: #599ee7;
+    color: #fff !important;
+
+    &.start-end-date {
+      background: #0663c7;
+    }
+  }
+
+  &.business-closing:not(.dt-selected) {
+    background: transparent;
+    color: #F00;
+  }
+
+  &:disabled {
+    color: #555;
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "add1" : {
+    "city" : "Irving",
+    "line1" : "Princeton towers",
+    "line2" : "Karmanghat X Roads",
+    "state" : "TX",
+    "zip" : "50079"
+  },
+  "SBH": {
+    "_tmp-jdhdjvjhdvbjhdbhdj": {
+      "specialDate": 1565807400000,
+      "bhData": {
+        "OP": true,
+        "FD": false,
+        "OH": [{
+          "eT" : 810,
+          "sT" : 540
+        }]
+      }
+    },
+    "_tmp-kcsdnsdvjdsbjbdjj": {
+      "specialDate": 1565461800000,
+      "bhData": {
+        "OP": true,
+        "FD": false,
+        "OH": [{
+          "eT" : 810,
+          "sT" : 540
+        }]
+      }
+    }
+  },
+  "bHours" : {
+    "friday" : {
+      "FD" : true,
+      "OP" : true
+    },
+    "monday" : {
+      "FD" : false,
+      "OH" : [ {
+        "eT" : 810,
+        "sT" : 540
+      } ],
+      "OP" : true
+    },
+    "saturday" : {
+      "FD" : false,
+      "OH" : [ {
+        "eT" : 810,
+        "sT" : 540
+      } ],
+      "OP" : true
+    },
+    "sunday" : {
+      "FD" : false,
+      "OP" : false
+    },
+    "thursday" : {
+      "FD" : true,
+      "OP" : true
+    },
+    "tuesday" : {
+      "FD" : true,
+      "OP" : true
+    },
+    "wednusday" : {
+      "FD" : true,
+      "OP" : true
+    }
+  },
+  "businessInfo" : {
+    "prelGenres" : [ "hip hop", "reggae", "electronic" ],
+    "type" : [ "bar/lounge", "nightclub" ]
+  },
+  "businessName" : "The Quixotic World Magical Event Space",
+  "email" : "harindra36@gmail.com",
+  "name" : {
+    "fName" : "Harindra",
+    "lName" : "Narayan",
+    "userName" : "Harindra Narayan"
+  },
+  "photoURL" : "https://lh4.googleusercontent.com/-xB9DJqeLhEc/AAAAAAAAAAI/AAAAAAAAAsQ/caQx3DCW0dA/photo.jpg",
+  "ratingData" : {
+    "count" : 0,
+    "rating" : 0
+  },
+  "uid" : "HrtU841DV2cPAzsfYWsv63ZcxNk2",
+  "uniqueKey" : "the_quixotic_world",
+  "userOnHold" : false,
+  "userType" : "venue"
+}

@@ -1,0 +1,11 @@
+@media screen and (max-width: 991.98px) {
+  .event-time-blocks {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .event-time-block.another-day {
+    max-width: Calc(50vw - 15px);
+    font-size: 15px;
+  }
+}

@@ -1,0 +1,94 @@
+@media screen and (min-width: 500px) and (max-width: 1599px){
+  .auth-box {
+    max-width: 350px;
+    padding: 0px;
+  }
+}
+
+@media screen and (min-width: 1600px){
+  .auth-box {
+    max-width: 400px;
+    padding: 0px;
+  }
+}
+
+.social-login-button {
+  div.social-link {
+    display: block;
+    margin-bottom: 0.8rem;
+    // font-size: 15px;
+    font-weight: 400;
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+
+    .row {
+      align-items: center
+    }
+    .social-icon {
+      padding-right: 0px;
+      max-width: 50px;
+
+      img {
+        width: 36px;
+      }
+    }
+  }
+
+  div.g-plus {
+    color: #858585;
+    background-color: #FFFFFF;
+  }
+  div.twitter {
+    color: #FFFFFF;
+    background-color: #1DA1F2;
+  }
+  div.facebook {
+    color: #FFFFFF;
+    background-color: #3B5999;
+  }
+}
+
+.auth-input {
+  color: #999;
+  background-color: #333333;
+  border: 0px;
+  border-radius: 4px;
+  padding: 1.2rem 1.6rem;
+  width: 100%;
+  font-weight: 400;
+  height: 50px;
+}
+
+.auth-input:focus {
+  color: #FFFFFF;
+}
+
+.text-divider{margin: 2em 0; line-height: 0; text-align: center;}
+.text-divider span{background-color: #1a1a1b; padding: 1em;}
+.text-divider:before{ content: " "; display: block; height: 1px; background-color: #999999}
+
+.auth-action-buttons {
+  .col:first-child {
+    padding-right: 0.5rem;
+  }
+  .col:last-child {
+    padding-left: 0.5rem;
+  }
+
+  button {
+    height: 50px;
+    font-weight: 400;
+  }
+}
+
+// .reset-link {
+//   text-decoration: none;
+//   color: #999999;
+// }
+
+// .reset-link:hover {
+//   color: #ffffff;
+// }

@@ -1,0 +1,56 @@
+<div class="bottom-nav-section">
+  <div class="bottom-nav-block">
+    <div class="bottom-nav" [ngClass]="bottomMode ? 'show':'hide'">
+      <div class="row mx-0">
+        <div class="col text-center px-0">
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" mat-ripple class="bottom-nav-link">
+            <span class="menu-icon-span">
+              <mat-icon>home</mat-icon>
+            </span>
+            <!-- <span class="menu-text-span">Home</span> -->
+          </a>
+        </div>
+        <div class="col text-center px-0">
+          <a routerLink="/my_account/bookings" mat-ripple class="bottom-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >
+            <span class="menu-icon-span">
+              <mat-icon>receipt</mat-icon>
+            </span>
+            <!-- <span class="menu-text-span">Home</span> -->
+          </a>
+        </div>
+        <div class="col text-center px-0">
+          <a routerLink="/my_account/dashboard" mat-ripple class="bottom-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >
+            <span class="menu-icon-span">
+              <mat-icon>person</mat-icon>
+            </span>
+            <!-- <span class="menu-text-span">Home</span> -->
+          </a>
+        </div>
+        <div class="col text-center px-0">
+          <a routerLink="/my_account/notifications" mat-ripple class="bottom-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >
+            <span class="menu-icon-span">
+              <mat-icon>notification_important</mat-icon>
+            </span>
+            <!-- <span class="menu-text-span">Home</span> -->
+          </a>
+        </div>
+        <div class="col text-center px-0">
+          <a href="javascript:void(0)" mat-ripple class="bottom-nav-link" (click)="sideNavToggle(true)">
+            <span class="menu-icon-span">
+              <mat-icon>sort</mat-icon>
+            </span>
+            <!-- <span class="menu-text-span">Home</span> -->
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="side-nav-block">
+    <div class="bottom-side-nav" [ngClass]="sideNavOPen ? 'show':''">
+      <div class="bottom-side-nav-overlay w3-animate-opacity" (swipe)="swipeToClose($event)"></div>
+      <div class="bottom-side-nav-bar" [ngClass]="sideNavOPen ? 'open':''">
+        <app-sideblock (onClose)="sideNavToggle(false)"></app-sideblock>
+      </div>
+    </div>
+  </div>
+</div>

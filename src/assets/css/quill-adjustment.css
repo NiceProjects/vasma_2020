@@ -1,0 +1,34 @@
+.ql-container.ql-snow {
+  height: auto;
+  min-height: 250px;
+  color: #000;
+  background-color: #fff;
+  font-size: 15px;
+  font-family: 'Roboto',Arial, sans-sarif;
+}
+
+.ql-toolbar.ql-snow {
+  background-color: #fff;
+  /* overflow-x: auto !important;
+  display: flex; */
+}
+
+.ql-toolbar.ql-snow::-webkit-scrollbar {
+  /* display: none; */
+}
+
+.ql-snow .ql-formats {
+  /* display: inline-flex; */
+}
+
+.ql-snow .ql-formats:last-child {
+  /* padding-right: 15px; */
+}
+
+.quill-outlet {
+  color: #333;
+}
+
+.quill-outlet p {
+  margin: 0px !important;
+}

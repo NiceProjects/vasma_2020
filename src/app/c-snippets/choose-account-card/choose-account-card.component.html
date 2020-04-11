@@ -1,0 +1,38 @@
+<div class="w-100">
+  <div class="choose-card" [id]="button.link + '-card'">
+    <a href="{{'#' + button.link + '-card'}}">
+      <div class="choose-card-img" mat-ripple [ngStyle]="{'background-image': 'url(' + bgImg + ')'}" (click)="toggleCardList()"></div>
+    </a>
+    <a [href]="'#' + button.link + '-card'">
+      <div class="choose-card-title-block" [ngClass]="listOpen ? 'list-open':''">
+        <div class="row mx-0 align-items-center">
+          <div class="col-12" mat-ripple (click)="toggleCardList()">
+            <div class="row align-items-center">
+              <div class="col choose-card-title">
+                {{title | uppercase}}
+              </div>
+              <div class="col choose-card-title-icon" [ngClass]="listOpen ? 'list-open':''">
+                <mat-icon>arrow_drop_down</mat-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <div class="card-list-item-block py-3" *ngIf="listOpen">
+      <ul class="list-group">
+        <li class="list-group-item text-center" *ngFor="let list of lists">
+          <p class="mb-2 list-heading">{{list.heading}}</p>
+          <div [innerHTML]="list.data"></div>
+        </li>
+      </ul>
+      <div class="w-100 text-center pt-3">
+        <button class="cta-button">
+          Register as {{button.link | titlecase}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  pageScroll [pageScrollOffset]="70" [pageScrollDuration]="300" -->

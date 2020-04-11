@@ -1,0 +1,25 @@
+.spinner-box {
+  display: inline-block;
+  position: relative;
+
+  .spinner {
+    // position: absolute;
+    display: inline-block;
+    top: 0;
+
+
+    > * {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .spinner-value {
+      .perc {
+        font-size: 0.75em;
+      }
+    }
+  }
+}
+
